@@ -1,0 +1,940 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>CoSMoMVPA &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=279e0f84" />
+    <script src="_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="CoSMoMVPA philosophy" href="philosophy.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="philosophy.html" title="CoSMoMVPA philosophy"
+             accesskey="N">next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">CoSMoMVPA</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CoSMoMVPA</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <figure class="align-default">
+<img alt="_images/cosmomvpa_banner.png" src="_images/cosmomvpa_banner.png" />
+</figure>
+<p>A multi-modal, multi-variate pattern analysis (MVPA) toolbox in Matlab / GNU Octave for cognitive neuroscientists.</p>
+<section id="cosmomvpa">
+<h1>CoSMoMVPA<a class="headerlink" href="#cosmomvpa" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>State-of-the art, yet simple to use MVPA implementations.</p></li>
+<li><p>Runs on the Matlab and GNU Octave platform, on MS Windows, OSX, and GNU/Linux.</p></li>
+<li><p>Handles fMRI volumetric, fMRI surface-based, and MEEG data through a uniform data structure.</p></li>
+<li><p>Support for a wide range of data formats.</p></li>
+<li><p>Searchlights in the volume, on the surface, over sensors, time bins, and frequency bands.</p></li>
+<li><p>Multiple-comparison correction using Threshold-Free Cluster Enhancement Monte Carlo simulations.</p></li>
+<li><p>Extensive documentation, including a variety of runnable scripts and implementation exercises (with solutions).</p></li>
+<li><p>Is Free/Open Source Software (MIT License), see <a class="reference external" href="http://github.com/CoSMoMVPA/CoSMoMVPA">http://github.com/CoSMoMVPA/CoSMoMVPA</a>.</p></li>
+</ul>
+<div class="toctree-wrapper compound">
+</div>
+<a class="reference external image-reference" href="contents_demo.html"><img alt="_images/icon_demos.png" src="_images/icon_demos.png" />
+</a>
+<a class="reference external image-reference" href="philosophy.html"><img alt="_images/icon_philosophy.png" src="_images/icon_philosophy.png" />
+</a>
+<a class="reference external image-reference" href="get_started.html"><img alt="_images/icon_get_started.png" src="_images/icon_get_started.png" />
+</a>
+<a class="reference external image-reference" href="download.html"><img alt="_images/icon_download.png" src="_images/icon_download.png" />
+</a>
+<a class="reference external image-reference" href="matindex.html"><img alt="_images/icon_modules.png" src="_images/icon_modules.png" />
+</a>
+<a class="reference external image-reference" href="documentation.html"><img alt="_images/icon_documentation.png" src="_images/icon_documentation.png" />
+</a>
+<a class="reference external image-reference" href="nmsm2019.html"><img alt="_images/icon_exercises.png" src="_images/icon_exercises.png" />
+</a>
+<a class="reference external image-reference" href="tips.html"><img alt="_images/icon_tips.png" src="_images/icon_tips.png" />
+</a>
+<a class="reference external image-reference" href="faq.html"><img alt="_images/icon_faq.png" src="_images/icon_faq.png" />
+</a>
+<a class="reference external image-reference" href="contact.html"><img alt="_images/icon_contact.png" src="_images/icon_contact.png" />
+</a>
+<a class="reference external image-reference" href="contribute.html"><img alt="_images/icon_develop.png" src="_images/icon_develop.png" />
+</a>
+<a class="reference external image-reference" href="thanks.html"><img alt="_images/icon_thanks.png" src="_images/icon_thanks.png" />
+</a>
+</section>
+<section id="news">
+<h1>News<a class="headerlink" href="#news" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>CoSMoMVPA was presented at <a class="reference internal" href="nmsm2019.html#nmsm2019"><span class="std std-ref">NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</span></a>, 22–26 July 2019. Thanks to the organizers and attendees!</p></li>
+<li><p>our CoSMoMVPA manuscript has been published (<span id="id1">[<a class="reference internal" href="references.html#id24" title="Oosterhof, N. N., Connolly, A. C., and Haxby, J. V. CoSMoMVPA: multi-modal multivariate pattern analysis of neuroimaging data in Matlab / GNU Octave. Frontiers in Neuroinformatics, 2016. doi:10.3389/fninf.2016.00027.">OCH16</a>]</span>): Oosterhof, N. N., Connolly, A. C., and Haxby, J. V. (2016). CoSMoMVPA: multi-modal multivariate pattern analysis of neuroimaging data in Matlab / GNU Octave. Frontiers in Neuroinformatics, :doi: 10.3389/fninf.2016.00027.</p></li>
+</ul>
+<section id="analysis-gallery">
+<h2>Analysis gallery<a class="headerlink" href="#analysis-gallery" title="Link to this heading">¶</a></h2>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference external" href="matlab/demo_fmri_rois.html"><img alt="gallery_demo_fmri_rois_8" src="_images/demo_fmri_rois_08.png" style="width: 336.0px; height: 252.0px;" /></a></p>
+<p><a class="reference internal" href="matlab/demo_fmri_rois.html#demo-fmri-rois"><span class="std std-ref">fMRI ROI classification analysis</span></a></p>
+</td>
+<td><p><a class="reference external" href="matlab/run_splithalf_correlations.html"><img alt="gallery_run_splithalf_correlations_5" src="_images/run_splithalf_correlations_05.png" style="width: 336.0px; height: 252.0px;" /></a></p>
+<p><a class="reference internal" href="matlab/run_splithalf_correlations.html#run-splithalf-correlations"><span class="std std-ref">fMRI ROI split-half correlations</span></a></p>
+</td>
+<td><p><a class="reference external" href="matlab/demo_fmri_correlation_searchlight.html"><img alt="gallery_demo_fmri_correlation_searchlight_1" src="_images/demo_fmri_correlation_searchlight_01.png" style="width: 336.0px; height: 252.0px;" /></a></p>
+<p><a class="reference internal" href="matlab/demo_fmri_correlation_searchlight.html#demo-fmri-correlation-searchlight"><span class="std std-ref">fMRI split-half correlations searchlight</span></a></p>
+</td>
+<td><p><a class="reference external" href="matlab/demo_surface_searchlight_lda.html"><img alt="gallery_demo_surface_searchlight_lda_1" src="_images/demo_surface_searchlight_lda_01.png" style="width: 336.0px; height: 252.0px;" /></a></p>
+<p><a class="reference internal" href="matlab/demo_surface_searchlight_lda.html#demo-surface-searchlight-lda"><span class="std std-ref">Surface-based classification searchlight</span></a></p>
+</td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="matlab/demo_fmri_searchlight_rsm.html"><img alt="gallery_demo_fmri_searchlight_rsm_2" src="_images/demo_fmri_searchlight_rsm_02.png" style="width: 336.0px; height: 252.0px;" /></a></p>
+<p><a class="reference internal" href="matlab/demo_fmri_searchlight_rsm.html#demo-fmri-searchlight-rsm"><span class="std std-ref">Representational similarity analysis searchlight</span></a></p>
+</td>
+<td><p><a class="reference external" href="matlab/demo_fmri_searchlight_naive_bayes.html"><img alt="gallery_demo_fmri_searchlight_naive_bayes_1" src="_images/demo_fmri_searchlight_naive_bayes_01.png" style="width: 336.0px; height: 252.0px;" /></a></p>
+<p><a class="reference internal" href="matlab/demo_fmri_searchlight_naive_bayes.html#demo-fmri-searchlight-naive-bayes"><span class="std std-ref">Fast Naive Bayes searchlight</span></a></p>
+</td>
+<td><p><a class="reference external" href="matlab/demo_fmri_distatis.html"><img alt="gallery_demo_fmri_distatis_1" src="_images/demo_fmri_distatis_01.png" style="width: 336.0px; height: 252.0px;" /></a></p>
+<p><a class="reference internal" href="matlab/demo_fmri_distatis.html#demo-fmri-distatis"><span class="std std-ref">DISTATIS</span></a></p>
+</td>
+<td><p><a class="reference external" href="matlab/demo_surface_tfce.html"><img alt="gallery_demo_surface_tfce_2" src="_images/demo_surface_tfce_02.png" style="width: 336.0px; height: 252.0px;" /></a></p>
+<p><a class="reference internal" href="matlab/demo_surface_tfce.html#demo-surface-tfce"><span class="std std-ref">Threshold-Free Cluster Enhancement</span></a></p>
+</td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="matlab/demo_meeg_timeseries_classification.html"><img alt="gallery_demo_meeg_timeseries_classification_1" src="_images/demo_meeg_timeseries_classification_01.png" style="width: 336.0px; height: 252.0px;" /></a></p>
+<p><a class="reference internal" href="matlab/demo_meeg_timeseries_classification.html#demo-meeg-timeseries-classification"><span class="std std-ref">MEEG timeseries classification</span></a></p>
+</td>
+<td><p><a class="reference external" href="matlab/demo_meeg_timelock_searchlight.html"><img alt="gallery_demo_meeg_timelock_searchlight_1" src="_images/demo_meeg_timelock_searchlight_01.png" style="width: 336.0px; height: 252.0px;" /></a></p>
+<p><a class="reference internal" href="matlab/demo_meeg_timelock_searchlight.html#demo-meeg-timelock-searchlight"><span class="std std-ref">MEEG time-locked searchlight</span></a></p>
+</td>
+<td><p><a class="reference external" href="matlab/demo_meeg_timefreq_searchlight.html"><img alt="gallery_demo_meeg_timefreq_searchlight_1" src="_images/demo_meeg_timefreq_searchlight_01.png" style="width: 336.0px; height: 252.0px;" /></a></p>
+<p><a class="reference internal" href="matlab/demo_meeg_timefreq_searchlight.html#demo-meeg-timefreq-searchlight"><span class="std std-ref">MEEG time-frequency searchlight</span></a></p>
+</td>
+<td><p><a class="reference external" href="matlab/demo_meeg_timeseries_generalization.html"><img alt="gallery_demo_meeg_timeseries_generalization_1" src="_images/demo_meeg_timeseries_generalization_01.png" style="width: 336.0px; height: 252.0px;" /></a></p>
+<p><a class="reference internal" href="matlab/demo_meeg_timeseries_generalization.html#demo-meeg-timeseries-generalization"><span class="std std-ref">MEEG time generalization</span></a></p>
+</td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="matlab/demo_meeg_timeseries_generalization.html"><img alt="gallery_demo_meeg_timeseries_generalization_3" src="_images/demo_meeg_timeseries_generalization_03.png" style="width: 336.0px; height: 252.0px;" /></a></p>
+<p><a class="reference internal" href="matlab/demo_meeg_timeseries_generalization.html#demo-meeg-timeseries-generalization"><span class="std std-ref">MEEG time generalization searchlight</span></a></p>
+</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="changes-since-last-month">
+<h2>Changes since last month<a class="headerlink" href="#changes-since-last-month" title="Link to this heading">¶</a></h2>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#summary" id="id4">Summary</a></p></li>
+<li><p><a class="reference internal" href="#major-changes" id="id5">Major changes</a></p></li>
+<li><p><a class="reference internal" href="#changes-that-break-existing-functionality" id="id6">Changes that break existing functionality</a></p></li>
+<li><p><a class="reference internal" href="#bug-fixes" id="id7">Bug fixes</a></p></li>
+<li><p><a class="reference internal" href="#all-changes" id="id8">All changes</a></p></li>
+</ul>
+</nav>
+<section id="summary">
+<h3><a class="toc-backref" href="#id4" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="p">[</span><span class="n">BIG</span><span class="p">]</span>    <span class="mi">1</span> <span class="n">major</span> <span class="n">changes</span>
+ <span class="p">[</span><span class="n">BLD</span><span class="p">]</span>    <span class="mi">1</span> <span class="n">changes</span> <span class="ow">in</span> <span class="n">build</span> <span class="n">system</span>
+ <span class="p">[</span><span class="n">CLN</span><span class="p">]</span>    <span class="mi">5</span> <span class="n">clean</span><span class="o">-</span><span class="n">ups</span>
+ <span class="p">[</span><span class="n">DOC</span><span class="p">]</span>    <span class="mi">1</span> <span class="n">code</span> <span class="n">documentation</span> <span class="n">changes</span>
+ <span class="p">[</span><span class="n">ENH</span><span class="p">]</span>    <span class="mi">1</span> <span class="n">enhancements</span>
+<span class="p">[</span><span class="n">OCTV</span><span class="p">]</span>    <span class="mi">2</span> <span class="n">Octave</span><span class="o">-</span><span class="n">compatibility</span> <span class="n">improvements</span>
+  <span class="p">[</span><span class="n">RF</span><span class="p">]</span>    <span class="mi">1</span> <span class="n">refactorings</span>
+</pre></div>
+</div>
+</section>
+<section id="major-changes">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Major changes</a><a class="headerlink" href="#major-changes" title="Link to this heading">¶</a></h3>
+<pre class="literal-block">commit <a class="reference external" href="https://github.com/CoSMoMVPA/CoSMoMVPA/commit/8c328fba3b5f7e8d2b58abd962059a0501b8f1f9">8c328fba3b5f7e8d2b58abd962059a0501b8f1f9</a>
+Author: Nikolaas N. Oosterhof &lt;<a class="reference external" href="mailto:n&#46;n&#46;oosterhof&#37;&#52;&#48;gmail&#46;com">n<span>&#46;</span>n<span>&#46;</span>oosterhof<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;
+Date:   Sat Sep 13 14:49:19 2025 +0200
+
+    BIG+CLN: code reformatting using MISS_HIT
+
+ <a class="reference internal" href="matlab/cosmo_align.html#cosmo-align"><span class="std std-ref">mvpa/cosmo_align.m</span></a>                                |  152 +-
+ <a class="reference internal" href="matlab/cosmo_anova_feature_selector.html#cosmo-anova-feature-selector"><span class="std std-ref">mvpa/cosmo_anova_feature_selector.m</span></a>               |   84 +-
+ <a class="reference internal" href="matlab/cosmo_average_samples.html#cosmo-average-samples"><span class="std std-ref">mvpa/cosmo_average_samples.m</span></a>                      |  449 ++---
+ <a class="reference internal" href="matlab/cosmo_balance_dataset.html#cosmo-balance-dataset"><span class="std std-ref">mvpa/cosmo_balance_dataset.m</span></a>                      |  150 +-
+ <a class="reference internal" href="matlab/cosmo_balance_partitions.html#cosmo-balance-partitions"><span class="std std-ref">mvpa/cosmo_balance_partitions.m</span></a>                   |  418 ++--
+ <a class="reference internal" href="matlab/cosmo_cartprod.html#cosmo-cartprod"><span class="std std-ref">mvpa/cosmo_cartprod.m</span></a>                             |  220 +-
+ <a class="reference internal" href="matlab/cosmo_check_dataset.html#cosmo-check-dataset"><span class="std std-ref">mvpa/cosmo_check_dataset.m</span></a>                        |  509 +++--
+ <a class="reference internal" href="matlab/cosmo_check_external.html#cosmo-check-external"><span class="std std-ref">mvpa/cosmo_check_external.m</span></a>                       | 1017 +++++-----
+ <a class="reference internal" href="matlab/cosmo_check_neighborhood.html#cosmo-check-neighborhood"><span class="std std-ref">mvpa/cosmo_check_neighborhood.m</span></a>                   |  381 ++--
+ <a class="reference internal" href="matlab/cosmo_check_partitions.html#cosmo-check-partitions"><span class="std std-ref">mvpa/cosmo_check_partitions.m</span></a>                     |  367 ++--
+ <a class="reference internal" href="matlab/cosmo_chunkize.html#cosmo-chunkize"><span class="std std-ref">mvpa/cosmo_chunkize.m</span></a>                             |  346 ++--
+ <a class="reference internal" href="matlab/cosmo_classify_knn.html#cosmo-classify-knn"><span class="std std-ref">mvpa/cosmo_classify_knn.m</span></a>                         |  149 +-
+ <a class="reference internal" href="matlab/cosmo_classify_lda.html#cosmo-classify-lda"><span class="std std-ref">mvpa/cosmo_classify_lda.m</span></a>                         |  306 +--
+ <a class="reference internal" href="matlab/cosmo_classify_libsvm.html#cosmo-classify-libsvm"><span class="std std-ref">mvpa/cosmo_classify_libsvm.m</span></a>                      |  227 +--
+ <a class="reference internal" href="matlab/cosmo_classify_matlabcsvm.html#cosmo-classify-matlabcsvm"><span class="std std-ref">mvpa/cosmo_classify_matlabcsvm.m</span></a>                  |  164 +-
+ <a class="reference internal" href="matlab/cosmo_classify_matlabsvm.html#cosmo-classify-matlabsvm"><span class="std std-ref">mvpa/cosmo_classify_matlabsvm.m</span></a>                   |  123 +-
+ <a class="reference internal" href="matlab/cosmo_classify_matlabsvm_2class.html#cosmo-classify-matlabsvm-2class"><span class="std std-ref">mvpa/cosmo_classify_matlabsvm_2class.m</span></a>            |  226 +--
+ <a class="reference internal" href="matlab/cosmo_classify_meta_feature_selection.html#cosmo-classify-meta-feature-selection"><span class="std std-ref">mvpa/cosmo_classify_meta_feature_selection.m</span></a>      |  117 +-
+ <a class="reference internal" href="matlab/cosmo_classify_naive_bayes.html#cosmo-classify-naive-bayes"><span class="std std-ref">mvpa/cosmo_classify_naive_bayes.m</span></a>                 |  167 +-
+ <a class="reference internal" href="matlab/cosmo_classify_nn.html#cosmo-classify-nn"><span class="std std-ref">mvpa/cosmo_classify_nn.m</span></a>                          |   88 +-
+ <a class="reference internal" href="matlab/cosmo_classify_svm.html#cosmo-classify-svm"><span class="std std-ref">mvpa/cosmo_classify_svm.m</span></a>                         |  166 +-
+ <a class="reference internal" href="matlab/cosmo_cluster_neighborhood.html#cosmo-cluster-neighborhood"><span class="std std-ref">mvpa/cosmo_cluster_neighborhood.m</span></a>                 |  638 +++---
+ <a class="reference internal" href="matlab/cosmo_clusterize.html#cosmo-clusterize"><span class="std std-ref">mvpa/cosmo_clusterize.m</span></a>                           |  236 ++-
+ <a class="reference internal" href="matlab/cosmo_config.html#cosmo-config"><span class="std std-ref">mvpa/cosmo_config.m</span></a>                               |  361 ++--
+ <a class="reference internal" href="matlab/cosmo_confusion_matrix.html#cosmo-confusion-matrix"><span class="std std-ref">mvpa/cosmo_confusion_matrix.m</span></a>                     |  216 +-
+ <a class="reference internal" href="matlab/cosmo_convert_neighborhood.html#cosmo-convert-neighborhood"><span class="std std-ref">mvpa/cosmo_convert_neighborhood.m</span></a>                 |  238 ++-
+ <a class="reference internal" href="matlab/cosmo_corr.html#cosmo-corr"><span class="std std-ref">mvpa/cosmo_corr.m</span></a>                                 |  135 +-
+ <a class="reference internal" href="matlab/cosmo_correlation_measure.html#cosmo-correlation-measure"><span class="std std-ref">mvpa/cosmo_correlation_measure.m</span></a>                  |  800 ++++----
+ <a class="reference internal" href="matlab/cosmo_cross_neighborhood.html#cosmo-cross-neighborhood"><span class="std std-ref">mvpa/cosmo_cross_neighborhood.m</span></a>                   |  340 ++--
+ <a class="reference internal" href="matlab/cosmo_crossvalidate.html#cosmo-crossvalidate"><span class="std std-ref">mvpa/cosmo_crossvalidate.m</span></a>                        |  396 ++--
+ <a class="reference internal" href="matlab/cosmo_crossvalidation_measure.html#cosmo-crossvalidation-measure"><span class="std std-ref">mvpa/cosmo_crossvalidation_measure.m</span></a>              |  604 +++---
+ <a class="reference internal" href="matlab/cosmo_dataset_slice_fa.html#cosmo-dataset-slice-fa"><span class="std std-ref">mvpa/cosmo_dataset_slice_fa.m</span></a>                     |   62 +-
+ <a class="reference internal" href="matlab/cosmo_dataset_slice_sa.html#cosmo-dataset-slice-sa"><span class="std std-ref">mvpa/cosmo_dataset_slice_sa.m</span></a>                     |   64 +-
+ <a class="reference internal" href="matlab/cosmo_dim_find.html#cosmo-dim-find"><span class="std std-ref">mvpa/cosmo_dim_find.m</span></a>                             |  238 ++-
+ <a class="reference internal" href="matlab/cosmo_dim_generalization_measure.html#cosmo-dim-generalization-measure"><span class="std std-ref">mvpa/cosmo_dim_generalization_measure.m</span></a>           |  666 +++---
+ <a class="reference internal" href="matlab/cosmo_dim_insert.html#cosmo-dim-insert"><span class="std std-ref">mvpa/cosmo_dim_insert.m</span></a>                           |  236 ++-
+ <a class="reference internal" href="matlab/cosmo_dim_match.html#cosmo-dim-match"><span class="std std-ref">mvpa/cosmo_dim_match.m</span></a>                            |  344 ++--
+ <a class="reference internal" href="matlab/cosmo_dim_prune.html#cosmo-dim-prune"><span class="std std-ref">mvpa/cosmo_dim_prune.m</span></a>                            |  301 ++-
+ <a class="reference internal" href="matlab/cosmo_dim_remove.html#cosmo-dim-remove"><span class="std std-ref">mvpa/cosmo_dim_remove.m</span></a>                           |  165 +-
+ <a class="reference internal" href="matlab/cosmo_dim_rename.html#cosmo-dim-rename"><span class="std std-ref">mvpa/cosmo_dim_rename.m</span></a>                           |  135 +-
+ <a class="reference internal" href="matlab/cosmo_dim_slice.html#cosmo-dim-slice"><span class="std std-ref">mvpa/cosmo_dim_slice.m</span></a>                            |   82 +-
+ <a class="reference internal" href="matlab/cosmo_dim_transpose.html#cosmo-dim-transpose"><span class="std std-ref">mvpa/cosmo_dim_transpose.m</span></a>                        |  289 ++-
+ <a class="reference internal" href="matlab/cosmo_dir.html#cosmo-dir"><span class="std std-ref">mvpa/cosmo_dir.m</span></a>                                  |  230 ++-
+ <a class="reference internal" href="matlab/cosmo_disp.html#cosmo-disp"><span class="std std-ref">mvpa/cosmo_disp.m</span></a>                                 |  840 ++++----
+ <a class="reference internal" href="matlab/cosmo_dissimilarity_matrix_measure.html#cosmo-dissimilarity-matrix-measure"><span class="std std-ref">mvpa/cosmo_dissimilarity_matrix_measure.m</span></a>         |  535 +++--
+ <a class="reference internal" href="matlab/cosmo_distatis.html#cosmo-distatis"><span class="std std-ref">mvpa/cosmo_distatis.m</span></a>                             |  638 +++---
+ <a class="reference internal" href="matlab/cosmo_find_local_extrema.html#cosmo-find-local-extrema"><span class="std std-ref">mvpa/cosmo_find_local_extrema.m</span></a>                   |  312 ++-
+ <a class="reference internal" href="matlab/cosmo_flatten.html#cosmo-flatten"><span class="std std-ref">mvpa/cosmo_flatten.m</span></a>                              |  386 ++--
+ <a class="reference internal" href="matlab/cosmo_fmri_convert_xform.html#cosmo-fmri-convert-xform"><span class="std std-ref">mvpa/cosmo_fmri_convert_xform.m</span></a>                   |  304 ++-
+ <a class="reference internal" href="matlab/cosmo_fmri_dataset.html#cosmo-fmri-dataset"><span class="std std-ref">mvpa/cosmo_fmri_dataset.m</span></a>                         | 2227 ++++++++++-----------
+ <a class="reference internal" href="matlab/cosmo_fmri_deoblique.html#cosmo-fmri-deoblique"><span class="std std-ref">mvpa/cosmo_fmri_deoblique.m</span></a>                       |  145 +-
+ <a class="reference internal" href="matlab/cosmo_fmri_orientation.html#cosmo-fmri-orientation"><span class="std std-ref">mvpa/cosmo_fmri_orientation.m</span></a>                     |  155 +-
+ <a class="reference internal" href="matlab/cosmo_fmri_reorient.html#cosmo-fmri-reorient"><span class="std std-ref">mvpa/cosmo_fmri_reorient.m</span></a>                        |  281 ++-
+ <a class="reference internal" href="matlab/cosmo_fx.html#cosmo-fx"><span class="std std-ref">mvpa/cosmo_fx.m</span></a>                                   |  172 +-
+ <a class="reference internal" href="matlab/cosmo_independent_samples_partitioner.html#cosmo-independent-samples-partitioner"><span class="std std-ref">mvpa/cosmo_independent_samples_partitioner.m</span></a>      |  644 +++---
+ <a class="reference internal" href="matlab/cosmo_index_unique.html#cosmo-index-unique"><span class="std std-ref">mvpa/cosmo_index_unique.m</span></a>                         |  266 ++-
+ <a class="reference internal" href="matlab/cosmo_interval_neighborhood.html#cosmo-interval-neighborhood"><span class="std std-ref">mvpa/cosmo_interval_neighborhood.m</span></a>                |  245 ++-
+ <a class="reference internal" href="matlab/cosmo_isequaln.html#cosmo-isequaln"><span class="std std-ref">mvpa/cosmo_isequaln.m</span></a>                             |   96 +-
+ <a class="reference internal" href="matlab/cosmo_isfield.html#cosmo-isfield"><span class="std std-ref">mvpa/cosmo_isfield.m</span></a>                              |  175 +-
+ <a class="reference internal" href="matlab/cosmo_make_temp_filename.html#cosmo-make-temp-filename"><span class="std std-ref">mvpa/cosmo_make_temp_filename.m</span></a>                   |  144 +-
+ <a class="reference internal" href="matlab/cosmo_map2fmri.html#cosmo-map2fmri"><span class="std std-ref">mvpa/cosmo_map2fmri.m</span></a>                             |  781 ++++----
+ <a class="reference internal" href="matlab/cosmo_map2meeg.html#cosmo-map2meeg"><span class="std std-ref">mvpa/cosmo_map2meeg.m</span></a>                             |  613 +++---
+ <a class="reference internal" href="matlab/cosmo_map2surface.html#cosmo-map2surface"><span class="std std-ref">mvpa/cosmo_map2surface.m</span></a>                          |  413 ++--
+ <a class="reference internal" href="matlab/cosmo_map_pca.html#cosmo-map-pca"><span class="std std-ref">mvpa/cosmo_map_pca.m</span></a>                              |  238 ++-
+ <a class="reference internal" href="matlab/cosmo_mask_dim_intersect.html#cosmo-mask-dim-intersect"><span class="std std-ref">mvpa/cosmo_mask_dim_intersect.m</span></a>                   |  244 ++-
+ <a class="reference internal" href="matlab/cosmo_match.html#cosmo-match"><span class="std std-ref">mvpa/cosmo_match.m</span></a>                                |  191 +-
+ <a class="reference internal" href="matlab/cosmo_measure_clusters.html#cosmo-measure-clusters"><span class="std std-ref">mvpa/cosmo_measure_clusters.m</span></a>                     |  419 ++--
+ <a class="reference internal" href="matlab/cosmo_meeg_baseline_correct.html#cosmo-meeg-baseline-correct"><span class="std std-ref">mvpa/cosmo_meeg_baseline_correct.m</span></a>                |  243 ++-
+ <a class="reference internal" href="matlab/cosmo_meeg_chan_neighborhood.html#cosmo-meeg-chan-neighborhood"><span class="std std-ref">mvpa/cosmo_meeg_chan_neighborhood.m</span></a>               |  542 +++--
+ <a class="reference internal" href="matlab/cosmo_meeg_chan_neighbors.html#cosmo-meeg-chan-neighbors"><span class="std std-ref">mvpa/cosmo_meeg_chan_neighbors.m</span></a>                  |  876 ++++----
+ <a class="reference internal" href="matlab/cosmo_meeg_chantype.html#cosmo-meeg-chantype"><span class="std std-ref">mvpa/cosmo_meeg_chantype.m</span></a>                        |  249 ++-
+ <a class="reference internal" href="matlab/cosmo_meeg_dataset.html#cosmo-meeg-dataset"><span class="std std-ref">mvpa/cosmo_meeg_dataset.m</span></a>                         | 1217 ++++++-----
+ <a class="reference internal" href="matlab/cosmo_meeg_find_layout.html#cosmo-meeg-find-layout"><span class="std std-ref">mvpa/cosmo_meeg_find_layout.m</span></a>                     |  386 ++--
+ <a class="reference internal" href="matlab/cosmo_meeg_layout_collection.html#cosmo-meeg-layout-collection"><span class="std std-ref">mvpa/cosmo_meeg_layout_collection.m</span></a>               |  340 ++--
+ <a class="reference internal" href="matlab/cosmo_meeg_read_layout.html#cosmo-meeg-read-layout"><span class="std std-ref">mvpa/cosmo_meeg_read_layout.m</span></a>                     |  149 +-
+ <a class="reference internal" href="matlab/cosmo_meeg_senstype2layout_mapping.html#cosmo-meeg-senstype2layout-mapping"><span class="std std-ref">mvpa/cosmo_meeg_senstype2layout_mapping.m</span></a>         |  406 ++--
+ <a class="reference internal" href="matlab/cosmo_meeg_senstype_collection.html#cosmo-meeg-senstype-collection"><span class="std std-ref">mvpa/cosmo_meeg_senstype_collection.m</span></a>             |  849 ++++----
+ <a class="reference internal" href="matlab/cosmo_meta_feature_selection_classifier.html#cosmo-meta-feature-selection-classifier"><span class="std std-ref">mvpa/cosmo_meta_feature_selection_classifier.m</span></a>    |   62 +-
+ <a class="reference internal" href="matlab/cosmo_montecarlo_cluster_stat.html#cosmo-montecarlo-cluster-stat"><span class="std std-ref">mvpa/cosmo_montecarlo_cluster_stat.m</span></a>              | 1155 ++++++-----
+ <a class="reference internal" href="matlab/cosmo_montecarlo_phase_stat.html#cosmo-montecarlo-phase-stat"><span class="std std-ref">mvpa/cosmo_montecarlo_phase_stat.m</span></a>                |  436 ++--
+ <a class="reference internal" href="matlab/cosmo_naive_bayes_classifier_searchlight.html#cosmo-naive-bayes-classifier-searchlight"><span class="std std-ref">mvpa/cosmo_naive_bayes_classifier_searchlight.m</span></a>   |  487 +++--
+ <a class="reference internal" href="matlab/cosmo_nchoosek_partitioner.html#cosmo-nchoosek-partitioner"><span class="std std-ref">mvpa/cosmo_nchoosek_partitioner.m</span></a>                 |  962 +++++----
+ <a class="reference internal" href="matlab/cosmo_neighborhood_split.html#cosmo-neighborhood-split"><span class="std std-ref">mvpa/cosmo_neighborhood_split.m</span></a>                   |  469 +++--
+ <a class="reference internal" href="matlab/cosmo_nfold_partitioner.html#cosmo-nfold-partitioner"><span class="std std-ref">mvpa/cosmo_nfold_partitioner.m</span></a>                    |  181 +-
+ <a class="reference internal" href="matlab/cosmo_normalize.html#cosmo-normalize"><span class="std std-ref">mvpa/cosmo_normalize.m</span></a>                            |  436 ++--
+ <a class="reference internal" href="matlab/cosmo_norminv.html#cosmo-norminv"><span class="std std-ref">mvpa/cosmo_norminv.m</span></a>                              |   58 +-
+ <a class="reference internal" href="matlab/cosmo_notify_test_skipped.html#cosmo-notify-test-skipped"><span class="std std-ref">mvpa/cosmo_notify_test_skipped.m</span></a>                  |  132 +-
+ <a class="reference internal" href="matlab/cosmo_oddeven_partitioner.html#cosmo-oddeven-partitioner"><span class="std std-ref">mvpa/cosmo_oddeven_partitioner.m</span></a>                  |  213 +-
+ <a class="reference internal" href="matlab/cosmo_overlap.html#cosmo-overlap"><span class="std std-ref">mvpa/cosmo_overlap.m</span></a>                              |  221 +-
+ <a class="reference internal" href="matlab/cosmo_parallel_get_nproc_available.html#cosmo-parallel-get-nproc-available"><span class="std std-ref">mvpa/cosmo_parallel_get_nproc_available.m</span></a>         |  264 ++-
+ <a class="reference internal" href="matlab/cosmo_parcellfun.html#cosmo-parcellfun"><span class="std std-ref">mvpa/cosmo_parcellfun.m</span></a>                           |  158 +-
+ <a class="reference internal" href="matlab/cosmo_pca.html#cosmo-pca"><span class="std std-ref">mvpa/cosmo_pca.m</span></a>                                  |  210 +-
+ <a class="reference internal" href="matlab/cosmo_pdist.html#cosmo-pdist"><span class="std std-ref">mvpa/cosmo_pdist.m</span></a>                                |  144 +-
+ <a class="reference internal" href="matlab/cosmo_phase_itc.html#cosmo-phase-itc"><span class="std std-ref">mvpa/cosmo_phase_itc.m</span></a>                            |  210 +-
+ <a class="reference internal" href="matlab/cosmo_phase_stat.html#cosmo-phase-stat"><span class="std std-ref">mvpa/cosmo_phase_stat.m</span></a>                           |  170 +-
+ <a class="reference internal" href="matlab/cosmo_plot_slices.html#cosmo-plot-slices"><span class="std std-ref">mvpa/cosmo_plot_slices.m</span></a>                          |  208 +-
+ <a class="reference internal" href="matlab/cosmo_publish_run_scripts.html#cosmo-publish-run-scripts"><span class="std std-ref">mvpa/cosmo_publish_run_scripts.m</span></a>                  |  401 ++--
+ <a class="reference internal" href="matlab/cosmo_rand.html#cosmo-rand"><span class="std std-ref">mvpa/cosmo_rand.m</span></a>                                 |  249 ++-
+ <a class="reference internal" href="matlab/cosmo_randomize_targets.html#cosmo-randomize-targets"><span class="std std-ref">mvpa/cosmo_randomize_targets.m</span></a>                    |  205 +-
+ <a class="reference internal" href="matlab/cosmo_randperm.html#cosmo-randperm"><span class="std std-ref">mvpa/cosmo_randperm.m</span></a>                             |  119 +-
+ <a class="reference internal" href="matlab/cosmo_remove_useless_data.html#cosmo-remove-useless-data"><span class="std std-ref">mvpa/cosmo_remove_useless_data.m</span></a>                  |  223 +--
+ <a class="reference internal" href="matlab/cosmo_run_tests.html#cosmo-run-tests"><span class="std std-ref">mvpa/cosmo_run_tests.m</span></a>                            |  277 ++-
+ <a class="reference internal" href="matlab/cosmo_sample_unique.html#cosmo-sample-unique"><span class="std std-ref">mvpa/cosmo_sample_unique.m</span></a>                        |  143 +-
+ <a class="reference internal" href="matlab/cosmo_searchlight.html#cosmo-searchlight"><span class="std std-ref">mvpa/cosmo_searchlight.m</span></a>                          |  544 +++--
+ <a class="reference internal" href="matlab/cosmo_set_path.html#cosmo-set-path"><span class="std std-ref">mvpa/cosmo_set_path.m</span></a>                             |   79 +-
+ <a class="reference internal" href="matlab/cosmo_show_progress.html#cosmo-show-progress"><span class="std std-ref">mvpa/cosmo_show_progress.m</span></a>                        |  170 +-
+ <a class="reference internal" href="matlab/cosmo_singleton_neighborhood.html#cosmo-singleton-neighborhood"><span class="std std-ref">mvpa/cosmo_singleton_neighborhood.m</span></a>               |  176 +-
+ <a class="reference internal" href="matlab/cosmo_skip_test_if_no_external.html#cosmo-skip-test-if-no-external"><span class="std std-ref">mvpa/cosmo_skip_test_if_no_external.m</span></a>             |   96 +-
+ <a class="reference internal" href="matlab/cosmo_slice.html#cosmo-slice"><span class="std std-ref">mvpa/cosmo_slice.m</span></a>                                |  506 ++---
+ <a class="reference internal" href="matlab/cosmo_sphere_offsets.html#cosmo-sphere-offsets"><span class="std std-ref">mvpa/cosmo_sphere_offsets.m</span></a>                       |  128 +-
+ <a class="reference internal" href="matlab/cosmo_spherical_neighborhood.html#cosmo-spherical-neighborhood"><span class="std std-ref">mvpa/cosmo_spherical_neighborhood.m</span></a>               |  796 ++++----
+ <a class="reference internal" href="matlab/cosmo_split.html#cosmo-split"><span class="std std-ref">mvpa/cosmo_split.m</span></a>                                |  276 ++-
+ <a class="reference internal" href="matlab/cosmo_squareform.html#cosmo-squareform"><span class="std std-ref">mvpa/cosmo_squareform.m</span></a>                           |  133 +-
+ <a class="reference internal" href="matlab/cosmo_stack.html#cosmo-stack"><span class="std std-ref">mvpa/cosmo_stack.m</span></a>                                |  486 +++--
+ <a class="reference internal" href="matlab/cosmo_stat.html#cosmo-stat"><span class="std std-ref">mvpa/cosmo_stat.m</span></a>                                 | 1045 +++++-----
+ <a class="reference internal" href="matlab/cosmo_statcode.html#cosmo-statcode"><span class="std std-ref">mvpa/cosmo_statcode.m</span></a>                             |  514 +++--
+ <a class="reference internal" href="matlab/cosmo_strjoin.html#cosmo-strjoin"><span class="std std-ref">mvpa/cosmo_strjoin.m</span></a>                              |  131 +-
+ <a class="reference internal" href="matlab/cosmo_strsplit.html#cosmo-strsplit"><span class="std std-ref">mvpa/cosmo_strsplit.m</span></a>                             |  202 +-
+ <a class="reference internal" href="matlab/cosmo_structjoin.html#cosmo-structjoin"><span class="std std-ref">mvpa/cosmo_structjoin.m</span></a>                           |  226 ++-
+ <a class="reference internal" href="matlab/cosmo_surface_dataset.html#cosmo-surface-dataset"><span class="std std-ref">mvpa/cosmo_surface_dataset.m</span></a>                      |  628 +++---
+ <a class="reference internal" href="matlab/cosmo_surficial_neighborhood.html#cosmo-surficial-neighborhood"><span class="std std-ref">mvpa/cosmo_surficial_neighborhood.m</span></a>               |  905 ++++-----
+ <a class="reference internal" href="matlab/cosmo_synthetic_dataset.html#cosmo-synthetic-dataset"><span class="std std-ref">mvpa/cosmo_synthetic_dataset.m</span></a>                    |  986 +++++----
+ <a class="reference internal" href="matlab/cosmo_tail.html#cosmo-tail"><span class="std std-ref">mvpa/cosmo_tail.m</span></a>                                 |  157 +-
+ <a class="reference internal" href="matlab/cosmo_target_dsm_corr_measure.html#cosmo-target-dsm-corr-measure"><span class="std std-ref">mvpa/cosmo_target_dsm_corr_measure.m</span></a>              |  615 +++---
+ <a class="reference internal" href="matlab/cosmo_tiedrank.html#cosmo-tiedrank"><span class="std std-ref">mvpa/cosmo_tiedrank.m</span></a>                             |  211 +-
+ <a class="reference internal" href="matlab/cosmo_type.html#cosmo-type"><span class="std std-ref">mvpa/cosmo_type.m</span></a>                                 |   30 +-
+ <a class="reference internal" href="matlab/cosmo_unflatten.html#cosmo-unflatten"><span class="std std-ref">mvpa/cosmo_unflatten.m</span></a>                            |  363 ++--
+ <a class="reference internal" href="matlab/cosmo_vol_coordinates.html#cosmo-vol-coordinates"><span class="std std-ref">mvpa/cosmo_vol_coordinates.m</span></a>                      |  188 +-
+ <a class="reference internal" href="matlab/cosmo_vol_grid_convert.html#cosmo-vol-grid-convert"><span class="std std-ref">mvpa/cosmo_vol_grid_convert.m</span></a>                     |  330 ++-
+ <a class="reference internal" href="matlab/cosmo_warning.html#cosmo-warning"><span class="std std-ref">mvpa/cosmo_warning.m</span></a>                              |  191 +-
+ <a class="reference internal" href="matlab/cosmo_winner_indices.html#cosmo-winner-indices"><span class="std std-ref">mvpa/cosmo_winner_indices.m</span></a>                       |  169 +-
+ <a class="reference internal" href="matlab/cosmo_wtf.html#cosmo-wtf"><span class="std std-ref">mvpa/cosmo_wtf.m</span></a>                                  |  310 ++-
+ <a class="reference internal" href="matlab/test_align.html#test-align"><span class="std std-ref">tests/test_align.m</span></a>                                |  127 +-
+ <a class="reference internal" href="matlab/test_anova_feature_selector.html#test-anova-feature-selector"><span class="std std-ref">tests/test_anova_feature_selector.m</span></a>               |   38 +-
+ <a class="reference internal" href="matlab/test_average_samples.html#test-average-samples"><span class="std std-ref">tests/test_average_samples.m</span></a>                      |  501 +++--
+ <a class="reference internal" href="matlab/test_balance_dataset.html#test-balance-dataset"><span class="std std-ref">tests/test_balance_dataset.m</span></a>                      |  121 +-
+ <a class="reference internal" href="matlab/test_balance_partitions.html#test-balance-partitions"><span class="std std-ref">tests/test_balance_partitions.m</span></a>                   |  392 ++--
+ <a class="reference internal" href="matlab/test_cartprod.html#test-cartprod"><span class="std std-ref">tests/test_cartprod.m</span></a>                             |   62 +-
+ <a class="reference internal" href="matlab/test_check_dataset.html#test-check-dataset"><span class="std std-ref">tests/test_check_dataset.m</span></a>                        |  160 +-
+ <a class="reference internal" href="matlab/test_check_external.html#test-check-external"><span class="std std-ref">tests/test_check_external.m</span></a>                       |   88 +-
+ <a class="reference internal" href="matlab/test_check_neighborhood.html#test-check-neighborhood"><span class="std std-ref">tests/test_check_neighborhood.m</span></a>                   |  225 +--
+ <a class="reference internal" href="matlab/test_check_partitions.html#test-check-partitions"><span class="std std-ref">tests/test_check_partitions.m</span></a>                     |  173 +-
+ <a class="reference internal" href="matlab/test_chunkize.html#test-chunkize"><span class="std std-ref">tests/test_chunkize.m</span></a>                             |  289 ++-
+ <a class="reference internal" href="matlab/test_classify.html#test-classify"><span class="std std-ref">tests/test_classify.m</span></a>                             |  590 +++---
+ <a class="reference internal" href="matlab/test_cluster_neighborhood.html#test-cluster-neighborhood"><span class="std std-ref">tests/test_cluster_neighborhood.m</span></a>                 |  653 +++---
+ <a class="reference internal" href="matlab/test_clusterize.html#test-clusterize"><span class="std std-ref">tests/test_clusterize.m</span></a>                           |   61 +-
+ <a class="reference internal" href="matlab/test_config.html#test-config"><span class="std std-ref">tests/test_config.m</span></a>                               |  148 +-
+ <a class="reference internal" href="matlab/test_confusion_matrix.html#test-confusion-matrix"><span class="std std-ref">tests/test_confusion_matrix.m</span></a>                     |   91 +-
+ <a class="reference internal" href="matlab/test_convert_neighborhood.html#test-convert-neighborhood"><span class="std std-ref">tests/test_convert_neighborhood.m</span></a>                 |  113 +-
+ <a class="reference internal" href="matlab/test_corr.html#test-corr"><span class="std std-ref">tests/test_corr.m</span></a>                                 |  116 +-
+ <a class="reference internal" href="matlab/test_correlation_measure.html#test-correlation-measure"><span class="std std-ref">tests/test_correlation_measure.m</span></a>                  |  328 ++-
+ <a class="reference internal" href="matlab/test_cosmo_dataset_operations.html#test-cosmo-dataset-operations"><span class="std std-ref">tests/test_cosmo_dataset_operations.m</span></a>             |   89 +-
+ <a class="reference internal" href="matlab/test_cosmo_fmri_dataset.html#test-cosmo-fmri-dataset"><span class="std std-ref">tests/test_cosmo_fmri_dataset.m</span></a>                   |  179 +-
+ <a class="reference internal" href="matlab/test_cosmo_notify_test_skipped.html#test-cosmo-notify-test-skipped"><span class="std std-ref">tests/test_cosmo_notify_test_skipped.m</span></a>            |   82 +-
+ <a class="reference internal" href="matlab/test_cosmo_skip_test_if_no_external.html#test-cosmo-skip-test-if-no-external"><span class="std std-ref">tests/test_cosmo_skip_test_if_no_external.m</span></a>       |   37 +-
+ <a class="reference internal" href="matlab/test_cross_neighborhood.html#test-cross-neighborhood"><span class="std std-ref">tests/test_cross_neighborhood.m</span></a>                   |  355 ++--
+ <a class="reference internal" href="matlab/test_crossvalidate.html#test-crossvalidate"><span class="std std-ref">tests/test_crossvalidate.m</span></a>                        |   79 +-
+ <a class="reference internal" href="matlab/test_crossvalidation_measure.html#test-crossvalidation-measure"><span class="std std-ref">tests/test_crossvalidation_measure.m</span></a>              |  579 +++---
+ <a class="reference internal" href="matlab/test_dim_find.html#test-dim-find"><span class="std std-ref">tests/test_dim_find.m</span></a>                             |  104 +-
+ <a class="reference internal" href="matlab/test_dim_generalization_measure.html#test-dim-generalization-measure"><span class="std std-ref">tests/test_dim_generalization_measure.m</span></a>           |  382 ++--
+ <a class="reference internal" href="matlab/test_dim_insert.html#test-dim-insert"><span class="std std-ref">tests/test_dim_insert.m</span></a>                           |  157 +-
+ <a class="reference internal" href="matlab/test_dim_match.html#test-dim-match"><span class="std std-ref">tests/test_dim_match.m</span></a>                            |  209 +-
+ <a class="reference internal" href="matlab/test_dim_prune.html#test-dim-prune"><span class="std std-ref">tests/test_dim_prune.m</span></a>                            |  223 +--
+ <a class="reference internal" href="matlab/test_dim_remove.html#test-dim-remove"><span class="std std-ref">tests/test_dim_remove.m</span></a>                           |   91 +-
+ <a class="reference internal" href="matlab/test_dim_rename.html#test-dim-rename"><span class="std std-ref">tests/test_dim_rename.m</span></a>                           |   44 +-
+ <a class="reference internal" href="matlab/test_dim_slice.html#test-dim-slice"><span class="std std-ref">tests/test_dim_slice.m</span></a>                            |   51 +-
+ <a class="reference internal" href="matlab/test_dim_transpose.html#test-dim-transpose"><span class="std std-ref">tests/test_dim_transpose.m</span></a>                        |  168 +-
+ <a class="reference internal" href="matlab/test_dir.html#test-dir"><span class="std std-ref">tests/test_dir.m</span></a>                                  |  143 +-
+ <a class="reference internal" href="matlab/test_disp.html#test-disp"><span class="std std-ref">tests/test_disp.m</span></a>                                 |  427 ++--
+ <a class="reference internal" href="matlab/test_dissimilarity_matrix_measure.html#test-dissimilarity-matrix-measure"><span class="std std-ref">tests/test_dissimilarity_matrix_measure.m</span></a>         |  116 +-
+ <a class="reference internal" href="matlab/test_distatis.html#test-distatis"><span class="std std-ref">tests/test_distatis.m</span></a>                             |  281 ++-
+ <a class="reference internal" href="matlab/test_external_neuroelf.html#test-external-neuroelf"><span class="std std-ref">tests/test_external_neuroelf.m</span></a>                    |   90 +-
+ <a class="reference internal" href="matlab/test_external_surfing.html#test-external-surfing"><span class="std std-ref">tests/test_external_surfing.m</span></a>                     |  236 ++-
+ <a class="reference internal" href="matlab/test_find_local_extrema.html#test-find-local-extrema"><span class="std std-ref">tests/test_find_local_extrema.m</span></a>                   |   90 +-
+ <a class="reference internal" href="matlab/test_flatten.html#test-flatten"><span class="std std-ref">tests/test_flatten.m</span></a>                              |  160 +-
+ <a class="reference internal" href="matlab/test_fmri_convert_xform.html#test-fmri-convert-xform"><span class="std std-ref">tests/test_fmri_convert_xform.m</span></a>                   |   92 +-
+ <a class="reference internal" href="matlab/test_fmri_dataset.html#test-fmri-dataset"><span class="std std-ref">tests/test_fmri_dataset.m</span></a>                         |  722 ++++---
+ <a class="reference internal" href="matlab/test_fmri_deoblique.html#test-fmri-deoblique"><span class="std std-ref">tests/test_fmri_deoblique.m</span></a>                       |   39 +-
+ <a class="reference internal" href="matlab/test_fmri_io.html#test-fmri-io"><span class="std std-ref">tests/test_fmri_io.m</span></a>                              |  699 ++++---
+ <a class="reference internal" href="matlab/test_fmri_orientation.html#test-fmri-orientation"><span class="std std-ref">tests/test_fmri_orientation.m</span></a>                     |  255 ++-
+ <a class="reference internal" href="matlab/test_fx.html#test-fx"><span class="std std-ref">tests/test_fx.m</span></a>                                   |  140 +-
+ <a class="reference internal" href="matlab/test_independent_samples_partitioner.html#test-independent-samples-partitioner"><span class="std std-ref">tests/test_independent_samples_partitioner.m</span></a>      |  455 ++---
+ <a class="reference internal" href="matlab/test_index_unique.html#test-index-unique"><span class="std std-ref">tests/test_index_unique.m</span></a>                         |  209 +-
+ <a class="reference internal" href="matlab/test_interval_neighborhood.html#test-interval-neighborhood"><span class="std std-ref">tests/test_interval_neighborhood.m</span></a>                |  185 +-
+ <a class="reference internal" href="matlab/test_isequaln.html#test-isequaln"><span class="std std-ref">tests/test_isequaln.m</span></a>                             |  105 +-
+ <a class="reference internal" href="matlab/test_isfield.html#test-isfield"><span class="std std-ref">tests/test_isfield.m</span></a>                              |   84 +-
+ <a class="reference internal" href="matlab/test_map_pca.html#test-map-pca"><span class="std std-ref">tests/test_map_pca.m</span></a>                              |  338 ++--
+ <a class="reference internal" href="matlab/test_mask_dim_intersect.html#test-mask-dim-intersect"><span class="std std-ref">tests/test_mask_dim_intersect.m</span></a>                   |  208 +-
+ <a class="reference internal" href="matlab/test_match.html#test-match"><span class="std std-ref">tests/test_match.m</span></a>                                |  123 +-
+ <a class="reference internal" href="matlab/test_measure_clusters.html#test-measure-clusters"><span class="std std-ref">tests/test_measure_clusters.m</span></a>                     |  164 +-
+ <a class="reference internal" href="matlab/test_meeg_baseline_correct.html#test-meeg-baseline-correct"><span class="std std-ref">tests/test_meeg_baseline_correct.m</span></a>                |  282 ++-
+ <a class="reference internal" href="matlab/test_meeg_chan_neighborhood.html#test-meeg-chan-neighborhood"><span class="std std-ref">tests/test_meeg_chan_neighborhood.m</span></a>               |  160 +-
+ <a class="reference internal" href="matlab/test_meeg_chan_neighbors.html#test-meeg-chan-neighbors"><span class="std std-ref">tests/test_meeg_chan_neighbors.m</span></a>                  |  765 ++++---
+ <a class="reference internal" href="matlab/test_meeg_chantype.html#test-meeg-chantype"><span class="std std-ref">tests/test_meeg_chantype.m</span></a>                        |  188 +-
+ <a class="reference internal" href="matlab/test_meeg_find_layout.html#test-meeg-find-layout"><span class="std std-ref">tests/test_meeg_find_layout.m</span></a>                     |  436 ++--
+ <a class="reference internal" href="matlab/test_meeg_io.html#test-meeg-io"><span class="std std-ref">tests/test_meeg_io.m</span></a>                              |  901 ++++-----
+ <a class="reference internal" href="matlab/test_meeg_layout_collection.html#test-meeg-layout-collection"><span class="std std-ref">tests/test_meeg_layout_collection.m</span></a>               |  257 ++-
+ <a class="reference internal" href="matlab/test_meeg_read_layout.html#test-meeg-read-layout"><span class="std std-ref">tests/test_meeg_read_layout.m</span></a>                     |  169 +-
+ <a class="reference internal" href="matlab/test_meeg_senstype_collection.html#test-meeg-senstype-collection"><span class="std std-ref">tests/test_meeg_senstype_collection.m</span></a>             |  345 ++--
+ <a class="reference internal" href="matlab/test_meeg_source.html#test-meeg-source"><span class="std std-ref">tests/test_meeg_source.m</span></a>                          |  360 ++--
+ <a class="reference internal" href="matlab/test_montecarlo_cluster_stat.html#test-montecarlo-cluster-stat"><span class="std std-ref">tests/test_montecarlo_cluster_stat.m</span></a>              |  909 ++++-----
+ <a class="reference internal" href="matlab/test_montecarlo_cluster_stat_distribution.html#test-montecarlo-cluster-stat-distribution"><span class="std std-ref">tests/test_montecarlo_cluster_stat_distribution.m</span></a> |  150 +-
+ <a class="reference internal" href="matlab/test_montecarlo_phase_stat.html#test-montecarlo-phase-stat"><span class="std std-ref">tests/test_montecarlo_phase_stat.m</span></a>                |  399 ++--
+ <a class="reference internal" href="matlab/test_naive_bayes_classifier_searchlight.html#test-naive-bayes-classifier-searchlight"><span class="std std-ref">tests/test_naive_bayes_classifier_searchlight.m</span></a>   |  251 ++-
+ <a class="reference internal" href="matlab/test_neighborhood_split.html#test-neighborhood-split"><span class="std std-ref">tests/test_neighborhood_split.m</span></a>                   |  138 +-
+ <a class="reference internal" href="matlab/test_normalize.html#test-normalize"><span class="std std-ref">tests/test_normalize.m</span></a>                            |  317 ++-
+ <a class="reference internal" href="matlab/test_norminv.html#test-norminv"><span class="std std-ref">tests/test_norminv.m</span></a>                              |   56 +-
+ <a class="reference internal" href="matlab/test_oddeven_partitioner.html#test-oddeven-partitioner"><span class="std std-ref">tests/test_oddeven_partitioner.m</span></a>                  |  128 +-
+ <a class="reference internal" href="matlab/test_parallel_get_nproc_available.html#test-parallel-get-nproc-available"><span class="std std-ref">tests/test_parallel_get_nproc_available.m</span></a>         |  212 +-
+ <a class="reference internal" href="matlab/test_parcellfun.html#test-parcellfun"><span class="std std-ref">tests/test_parcellfun.m</span></a>                           |  160 +-
+ <a class="reference internal" href="matlab/test_partitions.html#test-partitions"><span class="std std-ref">tests/test_partitions.m</span></a>                           |  258 ++-
+ <a class="reference internal" href="matlab/test_pca.html#test-pca"><span class="std std-ref">tests/test_pca.m</span></a>                                  |  260 ++-
+ <a class="reference internal" href="matlab/test_pdist.html#test-pdist"><span class="std std-ref">tests/test_pdist.m</span></a>                                |   41 +-
+ <a class="reference internal" href="matlab/test_phase_itc.html#test-phase-itc"><span class="std std-ref">tests/test_phase_itc.m</span></a>                            |  170 +-
+ <a class="reference internal" href="matlab/test_phase_stat.html#test-phase-stat"><span class="std std-ref">tests/test_phase_stat.m</span></a>                           |  278 ++-
+ <a class="reference internal" href="matlab/test_plot_slices.html#test-plot-slices"><span class="std std-ref">tests/test_plot_slices.m</span></a>                          |   33 +-
+ <a class="reference internal" href="matlab/test_publish_run_scripts.html#test-publish-run-scripts"><span class="std std-ref">tests/test_publish_run_scripts.m</span></a>                  |  163 +-
+ <a class="reference internal" href="matlab/test_rand.html#test-rand"><span class="std std-ref">tests/test_rand.m</span></a>                                 |  101 +-
+ <a class="reference internal" href="matlab/test_randomize_targets.html#test-randomize-targets"><span class="std std-ref">tests/test_randomize_targets.m</span></a>                    |   62 +-
+ <a class="reference internal" href="matlab/test_randperm.html#test-randperm"><span class="std std-ref">tests/test_randperm.m</span></a>                             |  156 +-
+ <a class="reference internal" href="matlab/test_remove_useless_data.html#test-remove-useless-data"><span class="std std-ref">tests/test_remove_useless_data.m</span></a>                  |  138 +-
+ <a class="reference internal" href="matlab/test_run_tests.html#test-run-tests"><span class="std std-ref">tests/test_run_tests.m</span></a>                            |  169 +-
+ <a class="reference internal" href="matlab/test_sample_unique.html#test-sample-unique"><span class="std std-ref">tests/test_sample_unique.m</span></a>                        |  148 +-
+ <a class="reference internal" href="matlab/test_searchlight.html#test-searchlight"><span class="std std-ref">tests/test_searchlight.m</span></a>                          |  215 +-
+ <a class="reference internal" href="matlab/test_show_progress.html#test-show-progress"><span class="std std-ref">tests/test_show_progress.m</span></a>                        |   94 +-
+ <a class="reference internal" href="matlab/test_singleton_neighborhood.html#test-singleton-neighborhood"><span class="std std-ref">tests/test_singleton_neighborhood.m</span></a>               |   87 +-
+ <a class="reference internal" href="matlab/test_slice.html#test-slice"><span class="std std-ref">tests/test_slice.m</span></a>                                |  251 ++-
+ <a class="reference internal" href="matlab/test_spherical_neighborhood.html#test-spherical-neighborhood"><span class="std std-ref">tests/test_spherical_neighborhood.m</span></a>               |  644 +++---
+ <a class="reference internal" href="matlab/test_split.html#test-split"><span class="std std-ref">tests/test_split.m</span></a>                                |   91 +-
+ <a class="reference internal" href="matlab/test_squareform.html#test-squareform"><span class="std std-ref">tests/test_squareform.m</span></a>                           |  149 +-
+ <a class="reference internal" href="matlab/test_stack.html#test-stack"><span class="std std-ref">tests/test_stack.m</span></a>                                |  158 +-
+ <a class="reference internal" href="matlab/test_stat.html#test-stat"><span class="std std-ref">tests/test_stat.m</span></a>                                 |  729 ++++---
+ <a class="reference internal" href="matlab/test_statcode.html#test-statcode"><span class="std std-ref">tests/test_statcode.m</span></a>                             |  207 +-
+ <a class="reference internal" href="matlab/test_strjoin.html#test-strjoin"><span class="std std-ref">tests/test_strjoin.m</span></a>                              |   41 +-
+ <a class="reference internal" href="matlab/test_strsplit.html#test-strsplit"><span class="std std-ref">tests/test_strsplit.m</span></a>                             |   76 +-
+ <a class="reference internal" href="matlab/test_structjoin.html#test-structjoin"><span class="std std-ref">tests/test_structjoin.m</span></a>                           |  101 +-
+ <a class="reference internal" href="matlab/test_surface_io.html#test-surface-io"><span class="std std-ref">tests/test_surface_io.m</span></a>                           |  389 ++--
+ <a class="reference internal" href="matlab/test_surficial_io_gifti.html#test-surficial-io-gifti"><span class="std std-ref">tests/test_surficial_io_gifti.m</span></a>                   |  320 ++-
+ <a class="reference internal" href="matlab/test_surficial_io_niml_dset.html#test-surficial-io-niml-dset"><span class="std std-ref">tests/test_surficial_io_niml_dset.m</span></a>               |  291 ++-
+ <a class="reference internal" href="matlab/test_surficial_neighborhood.html#test-surficial-neighborhood"><span class="std std-ref">tests/test_surficial_neighborhood.m</span></a>               |  818 ++++----
+ <a class="reference internal" href="matlab/test_synthetic_dataset.html#test-synthetic-dataset"><span class="std std-ref">tests/test_synthetic_dataset.m</span></a>                    |   93 +-
+ <a class="reference internal" href="matlab/test_tail.html#test-tail"><span class="std std-ref">tests/test_tail.m</span></a>                                 |  135 +-
+ <a class="reference internal" href="matlab/test_target_dsm_corr_measure.html#test-target-dsm-corr-measure"><span class="std std-ref">tests/test_target_dsm_corr_measure.m</span></a>              |  570 +++---
+ <a class="reference internal" href="matlab/test_tiedrank.html#test-tiedrank"><span class="std std-ref">tests/test_tiedrank.m</span></a>                             |  218 +-
+ <a class="reference internal" href="matlab/test_type.html#test-type"><span class="std std-ref">tests/test_type.m</span></a>                                 |   49 +-
+ <a class="reference internal" href="matlab/test_vol_coordinates.html#test-vol-coordinates"><span class="std std-ref">tests/test_vol_coordinates.m</span></a>                      |  248 ++-
+ <a class="reference internal" href="matlab/test_vol_grid_convert.html#test-vol-grid-convert"><span class="std std-ref">tests/test_vol_grid_convert.m</span></a>                     |   99 +-
+ <a class="reference internal" href="matlab/test_warning.html#test-warning"><span class="std std-ref">tests/test_warning.m</span></a>                              |   33 +-
+ <a class="reference internal" href="matlab/test_wtf.html#test-wtf"><span class="std std-ref">tests/test_wtf.m</span></a>                                  |  105 +-
+ 249 files changed, 36041 insertions(+), 37903 deletions(-)</pre>
+</section>
+<section id="changes-that-break-existing-functionality">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Changes that break existing functionality</a><a class="headerlink" href="#changes-that-break-existing-functionality" title="Link to this heading">¶</a></h3>
+</section>
+<section id="bug-fixes">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Bug fixes</a><a class="headerlink" href="#bug-fixes" title="Link to this heading">¶</a></h3>
+</section>
+<section id="all-changes">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">All changes</a><a class="headerlink" href="#all-changes" title="Link to this heading">¶</a></h3>
+<pre class="literal-block">commit <a class="reference external" href="https://github.com/CoSMoMVPA/CoSMoMVPA/commit/227184fb93d0b026e01a5a76c11c5040517d25d0">227184fb93d0b026e01a5a76c11c5040517d25d0</a>
+Author: Nikolaas N. Oosterhof &lt;<a class="reference external" href="mailto:n&#46;n&#46;oosterhof&#37;&#52;&#48;gmail&#46;com">n<span>&#46;</span>n<span>&#46;</span>oosterhof<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;
+Date:   Sat Sep 13 17:48:00 2025 +0200
+
+    CLN: remove unused code
+
+ doc/tools/matlab2rst.py | 3 ---
+ 1 file changed, 3 deletions(-)
+
+commit <a class="reference external" href="https://github.com/CoSMoMVPA/CoSMoMVPA/commit/b3ce0b96588c8e02c8a86a305a5a58fefc375b9e">b3ce0b96588c8e02c8a86a305a5a58fefc375b9e</a>
+Author: Nikolaas N. Oosterhof &lt;<a class="reference external" href="mailto:n&#46;n&#46;oosterhof&#37;&#52;&#48;googlemail&#46;com">n<span>&#46;</span>n<span>&#46;</span>oosterhof<span>&#64;</span>googlemail<span>&#46;</span>com</a>&gt;
+Date:   Sat Sep 13 17:44:53 2025 +0200
+
+    DOC+BLD: update sphinx build configuration (#214)          * DOC:
+        update files to build with recent sphinx-build          * NF:
+        include codespell configuration          ---------
+        Co-authored-by: Nikolaas N. Oosterhof
+        &lt;<a class="reference external" href="mailto:n&#46;n&#46;oosterhof&#37;&#52;&#48;gmail&#46;com">n<span>&#46;</span>n<span>&#46;</span>oosterhof<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;
+
+ .codespellrc                               |  3 +++
+ doc/source/conf.py                         | 11 +++++++----
+ doc/source/download.rst                    |  2 --
+ doc/source/ex_classify_double_dipping.rst  |  2 +-
+ doc/source/ex_classify_lda.rst             |  2 +-
+ doc/source/ex_classify_naive_bayes.rst     |  2 +-
+ doc/source/ex_dataset_basics.rst           |  8 ++++----
+ doc/source/ex_measures.rst                 |  4 ++--
+ doc/source/ex_meeg_searchlight.rst         |  4 ++--
+ doc/source/ex_meeg_time_generalization.rst |  2 +-
+ doc/source/ex_multiple_comparisons.rst     |  4 ++--
+ doc/source/ex_neighborhood.rst             |  2 +-
+ doc/source/ex_nfold_crossvalidation.rst    |  2 +-
+ doc/source/ex_rsa_tutorial.rst             |  4 ++--
+ doc/source/ex_rsa_visualization.rst        |  2 +-
+ doc/source/ex_searchlight_measure.rst      |  4 ++--
+ doc/source/ex_sphere_offsets.rst           |  2 +-
+ doc/source/ex_splithalf_correlations.rst   |  4 ++--
+ doc/source/ex_surface_searchlight.rst      |  2 +-
+ doc/source/ex_write_classify_nn.rst        |  2 +-
+ doc/source/faq.rst                         |  2 +-
+ doc/source/labman2017_intro.rst            |  2 +-
+ doc/source/news.rst                        |  2 +-
+ doc/source/nmsm2019_intro.rst              |  2 +-
+ doc/source/prni2016_intro.rst              |  2 +-
+ doc/tools/matlab2rst.py                    |  9 ++++++---
+ 26 files changed, 47 insertions(+), 40 deletions(-)
+
+commit <a class="reference external" href="https://github.com/CoSMoMVPA/CoSMoMVPA/commit/7d5a45c3a3902875b34ac2a0236a09e2be41d7f9">7d5a45c3a3902875b34ac2a0236a09e2be41d7f9</a>
+Merge: 74ed3185 bfe0035d
+Author: Nikolaas N. Oosterhof &lt;<a class="reference external" href="mailto:n&#46;n&#46;oosterhof&#37;&#52;&#48;googlemail&#46;com">n<span>&#46;</span>n<span>&#46;</span>oosterhof<span>&#64;</span>googlemail<span>&#46;</span>com</a>&gt;
+Date:   Sat Sep 13 15:12:55 2025 +0200
+
+    CLN: cleanup / typo's fixed using MISS_HIT and codespell
+        CLN: cleanup / typo's fixed using MISS_HIT and codespell
+
+commit <a class="reference external" href="https://github.com/CoSMoMVPA/CoSMoMVPA/commit/bfe0035de299a53fe962b13afd739a891ebb810c">bfe0035de299a53fe962b13afd739a891ebb810c</a>
+Author: Nikolaas N. Oosterhof &lt;<a class="reference external" href="mailto:n&#46;n&#46;oosterhof&#37;&#52;&#48;gmail&#46;com">n<span>&#46;</span>n<span>&#46;</span>oosterhof<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;
+Date:   Sat Sep 13 15:06:07 2025 +0200
+
+    CLN: fix typos using codespell
+
+ <a class="reference internal" href="matlab/cosmo_align.html#cosmo-align"><span class="std std-ref">mvpa/cosmo_align.m</span></a>                                |  2 +-
+ <a class="reference internal" href="matlab/cosmo_average_samples.html#cosmo-average-samples"><span class="std std-ref">mvpa/cosmo_average_samples.m</span></a>                      |  2 +-
+ <a class="reference internal" href="matlab/cosmo_balance_partitions.html#cosmo-balance-partitions"><span class="std std-ref">mvpa/cosmo_balance_partitions.m</span></a>                   | 10 +++++-----
+ <a class="reference internal" href="matlab/cosmo_check_external.html#cosmo-check-external"><span class="std std-ref">mvpa/cosmo_check_external.m</span></a>                       |  4 ++--
+ <a class="reference internal" href="matlab/cosmo_chunkize.html#cosmo-chunkize"><span class="std std-ref">mvpa/cosmo_chunkize.m</span></a>                             |  2 +-
+ <a class="reference internal" href="matlab/cosmo_classify_naive_bayes.html#cosmo-classify-naive-bayes"><span class="std std-ref">mvpa/cosmo_classify_naive_bayes.m</span></a>                 |  2 +-
+ <a class="reference internal" href="matlab/cosmo_classify_nn.html#cosmo-classify-nn"><span class="std std-ref">mvpa/cosmo_classify_nn.m</span></a>                          |  2 +-
+ <a class="reference internal" href="matlab/cosmo_classify_svm.html#cosmo-classify-svm"><span class="std std-ref">mvpa/cosmo_classify_svm.m</span></a>                         |  6 +++---
+ <a class="reference internal" href="matlab/cosmo_cluster_neighborhood.html#cosmo-cluster-neighborhood"><span class="std std-ref">mvpa/cosmo_cluster_neighborhood.m</span></a>                 |  2 +-
+ <a class="reference internal" href="matlab/cosmo_clusterize.html#cosmo-clusterize"><span class="std std-ref">mvpa/cosmo_clusterize.m</span></a>                           |  4 ++--
+ <a class="reference internal" href="matlab/cosmo_config.html#cosmo-config"><span class="std std-ref">mvpa/cosmo_config.m</span></a>                               |  6 +++---
+ <a class="reference internal" href="matlab/cosmo_cross_neighborhood.html#cosmo-cross-neighborhood"><span class="std std-ref">mvpa/cosmo_cross_neighborhood.m</span></a>                   |  2 +-
+ <a class="reference internal" href="matlab/cosmo_crossvalidation_measure.html#cosmo-crossvalidation-measure"><span class="std std-ref">mvpa/cosmo_crossvalidation_measure.m</span></a>              |  4 ++--
+ <a class="reference internal" href="matlab/cosmo_dim_generalization_measure.html#cosmo-dim-generalization-measure"><span class="std std-ref">mvpa/cosmo_dim_generalization_measure.m</span></a>           |  2 +-
+ <a class="reference internal" href="matlab/cosmo_dir.html#cosmo-dir"><span class="std std-ref">mvpa/cosmo_dir.m</span></a>                                  |  4 ++--
+ <a class="reference internal" href="matlab/cosmo_disp.html#cosmo-disp"><span class="std std-ref">mvpa/cosmo_disp.m</span></a>                                 |  2 +-
+ <a class="reference internal" href="matlab/cosmo_find_local_extrema.html#cosmo-find-local-extrema"><span class="std std-ref">mvpa/cosmo_find_local_extrema.m</span></a>                   |  2 +-
+ <a class="reference internal" href="matlab/cosmo_fmri_convert_xform.html#cosmo-fmri-convert-xform"><span class="std std-ref">mvpa/cosmo_fmri_convert_xform.m</span></a>                   |  4 ++--
+ <a class="reference internal" href="matlab/cosmo_fmri_dataset.html#cosmo-fmri-dataset"><span class="std std-ref">mvpa/cosmo_fmri_dataset.m</span></a>                         |  6 +++---
+ <a class="reference internal" href="matlab/cosmo_fx.html#cosmo-fx"><span class="std std-ref">mvpa/cosmo_fx.m</span></a>                                   |  2 +-
+ <a class="reference internal" href="matlab/cosmo_independent_samples_partitioner.html#cosmo-independent-samples-partitioner"><span class="std std-ref">mvpa/cosmo_independent_samples_partitioner.m</span></a>      |  2 +-
+ <a class="reference internal" href="matlab/cosmo_map2fmri.html#cosmo-map2fmri"><span class="std std-ref">mvpa/cosmo_map2fmri.m</span></a>                             |  6 +++---
+ <a class="reference internal" href="matlab/cosmo_map2meeg.html#cosmo-map2meeg"><span class="std std-ref">mvpa/cosmo_map2meeg.m</span></a>                             |  4 ++--
+ <a class="reference internal" href="matlab/cosmo_map_pca.html#cosmo-map-pca"><span class="std std-ref">mvpa/cosmo_map_pca.m</span></a>                              |  6 +++---
+ <a class="reference internal" href="matlab/cosmo_mask_dim_intersect.html#cosmo-mask-dim-intersect"><span class="std std-ref">mvpa/cosmo_mask_dim_intersect.m</span></a>                   |  2 +-
+ <a class="reference internal" href="matlab/cosmo_match.html#cosmo-match"><span class="std std-ref">mvpa/cosmo_match.m</span></a>                                |  2 +-
+ <a class="reference internal" href="matlab/cosmo_measure_clusters.html#cosmo-measure-clusters"><span class="std std-ref">mvpa/cosmo_measure_clusters.m</span></a>                     |  4 ++--
+ <a class="reference internal" href="matlab/cosmo_meeg_chan_neighbors.html#cosmo-meeg-chan-neighbors"><span class="std std-ref">mvpa/cosmo_meeg_chan_neighbors.m</span></a>                  |  2 +-
+ <a class="reference internal" href="matlab/cosmo_meeg_dataset.html#cosmo-meeg-dataset"><span class="std std-ref">mvpa/cosmo_meeg_dataset.m</span></a>                         |  4 ++--
+ <a class="reference internal" href="matlab/cosmo_meeg_senstype_collection.html#cosmo-meeg-senstype-collection"><span class="std std-ref">mvpa/cosmo_meeg_senstype_collection.m</span></a>             |  4 ++--
+ <a class="reference internal" href="matlab/cosmo_montecarlo_cluster_stat.html#cosmo-montecarlo-cluster-stat"><span class="std std-ref">mvpa/cosmo_montecarlo_cluster_stat.m</span></a>              | 12 ++++++------
+ <a class="reference internal" href="matlab/cosmo_montecarlo_phase_stat.html#cosmo-montecarlo-phase-stat"><span class="std std-ref">mvpa/cosmo_montecarlo_phase_stat.m</span></a>                |  4 ++--
+ <a class="reference internal" href="matlab/cosmo_nchoosek_partitioner.html#cosmo-nchoosek-partitioner"><span class="std std-ref">mvpa/cosmo_nchoosek_partitioner.m</span></a>                 |  4 ++--
+ <a class="reference internal" href="matlab/cosmo_normalize.html#cosmo-normalize"><span class="std std-ref">mvpa/cosmo_normalize.m</span></a>                            |  2 +-
+ <a class="reference internal" href="matlab/cosmo_overlap.html#cosmo-overlap"><span class="std std-ref">mvpa/cosmo_overlap.m</span></a>                              |  2 +-
+ <a class="reference internal" href="matlab/cosmo_pca.html#cosmo-pca"><span class="std std-ref">mvpa/cosmo_pca.m</span></a>                                  |  2 +-
+ <a class="reference internal" href="matlab/cosmo_phase_itc.html#cosmo-phase-itc"><span class="std std-ref">mvpa/cosmo_phase_itc.m</span></a>                            |  6 +++---
+ <a class="reference internal" href="matlab/cosmo_plot_slices.html#cosmo-plot-slices"><span class="std std-ref">mvpa/cosmo_plot_slices.m</span></a>                          |  6 +++---
+ <a class="reference internal" href="matlab/cosmo_publish_run_scripts.html#cosmo-publish-run-scripts"><span class="std std-ref">mvpa/cosmo_publish_run_scripts.m</span></a>                  |  2 +-
+ <a class="reference internal" href="matlab/cosmo_randperm.html#cosmo-randperm"><span class="std std-ref">mvpa/cosmo_randperm.m</span></a>                             |  2 +-
+ <a class="reference internal" href="matlab/cosmo_sample_unique.html#cosmo-sample-unique"><span class="std std-ref">mvpa/cosmo_sample_unique.m</span></a>                        |  2 +-
+ <a class="reference internal" href="matlab/cosmo_searchlight.html#cosmo-searchlight"><span class="std std-ref">mvpa/cosmo_searchlight.m</span></a>                          |  4 ++--
+ <a class="reference internal" href="matlab/cosmo_sphere_offsets.html#cosmo-sphere-offsets"><span class="std std-ref">mvpa/cosmo_sphere_offsets.m</span></a>                       |  2 +-
+ <a class="reference internal" href="matlab/cosmo_spherical_neighborhood.html#cosmo-spherical-neighborhood"><span class="std std-ref">mvpa/cosmo_spherical_neighborhood.m</span></a>               |  2 +-
+ <a class="reference internal" href="matlab/cosmo_stack.html#cosmo-stack"><span class="std std-ref">mvpa/cosmo_stack.m</span></a>                                |  2 +-
+ <a class="reference internal" href="matlab/cosmo_stat.html#cosmo-stat"><span class="std std-ref">mvpa/cosmo_stat.m</span></a>                                 | 10 +++++-----
+ <a class="reference internal" href="matlab/cosmo_strjoin.html#cosmo-strjoin"><span class="std std-ref">mvpa/cosmo_strjoin.m</span></a>                              |  4 ++--
+ <a class="reference internal" href="matlab/cosmo_strsplit.html#cosmo-strsplit"><span class="std std-ref">mvpa/cosmo_strsplit.m</span></a>                             | 10 +++++-----
+ <a class="reference internal" href="matlab/cosmo_surface_dataset.html#cosmo-surface-dataset"><span class="std std-ref">mvpa/cosmo_surface_dataset.m</span></a>                      |  2 +-
+ <a class="reference internal" href="matlab/cosmo_target_dsm_corr_measure.html#cosmo-target-dsm-corr-measure"><span class="std std-ref">mvpa/cosmo_target_dsm_corr_measure.m</span></a>              |  4 ++--
+ <a class="reference internal" href="matlab/cosmo_winner_indices.html#cosmo-winner-indices"><span class="std std-ref">mvpa/cosmo_winner_indices.m</span></a>                       |  2 +-
+ <a class="reference internal" href="matlab/test_config.html#test-config"><span class="std std-ref">tests/test_config.m</span></a>                               |  2 +-
+ <a class="reference internal" href="matlab/test_cosmo_notify_test_skipped.html#test-cosmo-notify-test-skipped"><span class="std std-ref">tests/test_cosmo_notify_test_skipped.m</span></a>            |  2 +-
+ <a class="reference internal" href="matlab/test_crossvalidation_measure.html#test-crossvalidation-measure"><span class="std std-ref">tests/test_crossvalidation_measure.m</span></a>              |  2 +-
+ <a class="reference internal" href="matlab/test_fmri_convert_xform.html#test-fmri-convert-xform"><span class="std std-ref">tests/test_fmri_convert_xform.m</span></a>                   |  2 +-
+ <a class="reference internal" href="matlab/test_independent_samples_partitioner.html#test-independent-samples-partitioner"><span class="std std-ref">tests/test_independent_samples_partitioner.m</span></a>      |  4 ++--
+ <a class="reference internal" href="matlab/test_montecarlo_cluster_stat_distribution.html#test-montecarlo-cluster-stat-distribution"><span class="std std-ref">tests/test_montecarlo_cluster_stat_distribution.m</span></a> |  2 +-
+ <a class="reference internal" href="matlab/test_montecarlo_phase_stat.html#test-montecarlo-phase-stat"><span class="std std-ref">tests/test_montecarlo_phase_stat.m</span></a>                |  2 +-
+ <a class="reference internal" href="matlab/test_randomize_targets.html#test-randomize-targets"><span class="std std-ref">tests/test_randomize_targets.m</span></a>                    |  2 +-
+ <a class="reference internal" href="matlab/test_show_progress.html#test-show-progress"><span class="std std-ref">tests/test_show_progress.m</span></a>                        |  2 +-
+ <a class="reference internal" href="matlab/test_slice.html#test-slice"><span class="std std-ref">tests/test_slice.m</span></a>                                |  2 +-
+ 61 files changed, 107 insertions(+), 107 deletions(-)
+
+commit <a class="reference external" href="https://github.com/CoSMoMVPA/CoSMoMVPA/commit/8c328fba3b5f7e8d2b58abd962059a0501b8f1f9">8c328fba3b5f7e8d2b58abd962059a0501b8f1f9</a>
+Author: Nikolaas N. Oosterhof &lt;<a class="reference external" href="mailto:n&#46;n&#46;oosterhof&#37;&#52;&#48;gmail&#46;com">n<span>&#46;</span>n<span>&#46;</span>oosterhof<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;
+Date:   Sat Sep 13 14:49:19 2025 +0200
+
+    BIG+CLN: code reformatting using MISS_HIT
+
+ <a class="reference internal" href="matlab/cosmo_align.html#cosmo-align"><span class="std std-ref">mvpa/cosmo_align.m</span></a>                                |  152 +-
+ <a class="reference internal" href="matlab/cosmo_anova_feature_selector.html#cosmo-anova-feature-selector"><span class="std std-ref">mvpa/cosmo_anova_feature_selector.m</span></a>               |   84 +-
+ <a class="reference internal" href="matlab/cosmo_average_samples.html#cosmo-average-samples"><span class="std std-ref">mvpa/cosmo_average_samples.m</span></a>                      |  449 ++---
+ <a class="reference internal" href="matlab/cosmo_balance_dataset.html#cosmo-balance-dataset"><span class="std std-ref">mvpa/cosmo_balance_dataset.m</span></a>                      |  150 +-
+ <a class="reference internal" href="matlab/cosmo_balance_partitions.html#cosmo-balance-partitions"><span class="std std-ref">mvpa/cosmo_balance_partitions.m</span></a>                   |  418 ++--
+ <a class="reference internal" href="matlab/cosmo_cartprod.html#cosmo-cartprod"><span class="std std-ref">mvpa/cosmo_cartprod.m</span></a>                             |  220 +-
+ <a class="reference internal" href="matlab/cosmo_check_dataset.html#cosmo-check-dataset"><span class="std std-ref">mvpa/cosmo_check_dataset.m</span></a>                        |  509 +++--
+ <a class="reference internal" href="matlab/cosmo_check_external.html#cosmo-check-external"><span class="std std-ref">mvpa/cosmo_check_external.m</span></a>                       | 1017 +++++-----
+ <a class="reference internal" href="matlab/cosmo_check_neighborhood.html#cosmo-check-neighborhood"><span class="std std-ref">mvpa/cosmo_check_neighborhood.m</span></a>                   |  381 ++--
+ <a class="reference internal" href="matlab/cosmo_check_partitions.html#cosmo-check-partitions"><span class="std std-ref">mvpa/cosmo_check_partitions.m</span></a>                     |  367 ++--
+ <a class="reference internal" href="matlab/cosmo_chunkize.html#cosmo-chunkize"><span class="std std-ref">mvpa/cosmo_chunkize.m</span></a>                             |  346 ++--
+ <a class="reference internal" href="matlab/cosmo_classify_knn.html#cosmo-classify-knn"><span class="std std-ref">mvpa/cosmo_classify_knn.m</span></a>                         |  149 +-
+ <a class="reference internal" href="matlab/cosmo_classify_lda.html#cosmo-classify-lda"><span class="std std-ref">mvpa/cosmo_classify_lda.m</span></a>                         |  306 +--
+ <a class="reference internal" href="matlab/cosmo_classify_libsvm.html#cosmo-classify-libsvm"><span class="std std-ref">mvpa/cosmo_classify_libsvm.m</span></a>                      |  227 +--
+ <a class="reference internal" href="matlab/cosmo_classify_matlabcsvm.html#cosmo-classify-matlabcsvm"><span class="std std-ref">mvpa/cosmo_classify_matlabcsvm.m</span></a>                  |  164 +-
+ <a class="reference internal" href="matlab/cosmo_classify_matlabsvm.html#cosmo-classify-matlabsvm"><span class="std std-ref">mvpa/cosmo_classify_matlabsvm.m</span></a>                   |  123 +-
+ <a class="reference internal" href="matlab/cosmo_classify_matlabsvm_2class.html#cosmo-classify-matlabsvm-2class"><span class="std std-ref">mvpa/cosmo_classify_matlabsvm_2class.m</span></a>            |  226 +--
+ <a class="reference internal" href="matlab/cosmo_classify_meta_feature_selection.html#cosmo-classify-meta-feature-selection"><span class="std std-ref">mvpa/cosmo_classify_meta_feature_selection.m</span></a>      |  117 +-
+ <a class="reference internal" href="matlab/cosmo_classify_naive_bayes.html#cosmo-classify-naive-bayes"><span class="std std-ref">mvpa/cosmo_classify_naive_bayes.m</span></a>                 |  167 +-
+ <a class="reference internal" href="matlab/cosmo_classify_nn.html#cosmo-classify-nn"><span class="std std-ref">mvpa/cosmo_classify_nn.m</span></a>                          |   88 +-
+ <a class="reference internal" href="matlab/cosmo_classify_svm.html#cosmo-classify-svm"><span class="std std-ref">mvpa/cosmo_classify_svm.m</span></a>                         |  166 +-
+ <a class="reference internal" href="matlab/cosmo_cluster_neighborhood.html#cosmo-cluster-neighborhood"><span class="std std-ref">mvpa/cosmo_cluster_neighborhood.m</span></a>                 |  638 +++---
+ <a class="reference internal" href="matlab/cosmo_clusterize.html#cosmo-clusterize"><span class="std std-ref">mvpa/cosmo_clusterize.m</span></a>                           |  236 ++-
+ <a class="reference internal" href="matlab/cosmo_config.html#cosmo-config"><span class="std std-ref">mvpa/cosmo_config.m</span></a>                               |  361 ++--
+ <a class="reference internal" href="matlab/cosmo_confusion_matrix.html#cosmo-confusion-matrix"><span class="std std-ref">mvpa/cosmo_confusion_matrix.m</span></a>                     |  216 +-
+ <a class="reference internal" href="matlab/cosmo_convert_neighborhood.html#cosmo-convert-neighborhood"><span class="std std-ref">mvpa/cosmo_convert_neighborhood.m</span></a>                 |  238 ++-
+ <a class="reference internal" href="matlab/cosmo_corr.html#cosmo-corr"><span class="std std-ref">mvpa/cosmo_corr.m</span></a>                                 |  135 +-
+ <a class="reference internal" href="matlab/cosmo_correlation_measure.html#cosmo-correlation-measure"><span class="std std-ref">mvpa/cosmo_correlation_measure.m</span></a>                  |  800 ++++----
+ <a class="reference internal" href="matlab/cosmo_cross_neighborhood.html#cosmo-cross-neighborhood"><span class="std std-ref">mvpa/cosmo_cross_neighborhood.m</span></a>                   |  340 ++--
+ <a class="reference internal" href="matlab/cosmo_crossvalidate.html#cosmo-crossvalidate"><span class="std std-ref">mvpa/cosmo_crossvalidate.m</span></a>                        |  396 ++--
+ <a class="reference internal" href="matlab/cosmo_crossvalidation_measure.html#cosmo-crossvalidation-measure"><span class="std std-ref">mvpa/cosmo_crossvalidation_measure.m</span></a>              |  604 +++---
+ <a class="reference internal" href="matlab/cosmo_dataset_slice_fa.html#cosmo-dataset-slice-fa"><span class="std std-ref">mvpa/cosmo_dataset_slice_fa.m</span></a>                     |   62 +-
+ <a class="reference internal" href="matlab/cosmo_dataset_slice_sa.html#cosmo-dataset-slice-sa"><span class="std std-ref">mvpa/cosmo_dataset_slice_sa.m</span></a>                     |   64 +-
+ <a class="reference internal" href="matlab/cosmo_dim_find.html#cosmo-dim-find"><span class="std std-ref">mvpa/cosmo_dim_find.m</span></a>                             |  238 ++-
+ <a class="reference internal" href="matlab/cosmo_dim_generalization_measure.html#cosmo-dim-generalization-measure"><span class="std std-ref">mvpa/cosmo_dim_generalization_measure.m</span></a>           |  666 +++---
+ <a class="reference internal" href="matlab/cosmo_dim_insert.html#cosmo-dim-insert"><span class="std std-ref">mvpa/cosmo_dim_insert.m</span></a>                           |  236 ++-
+ <a class="reference internal" href="matlab/cosmo_dim_match.html#cosmo-dim-match"><span class="std std-ref">mvpa/cosmo_dim_match.m</span></a>                            |  344 ++--
+ <a class="reference internal" href="matlab/cosmo_dim_prune.html#cosmo-dim-prune"><span class="std std-ref">mvpa/cosmo_dim_prune.m</span></a>                            |  301 ++-
+ <a class="reference internal" href="matlab/cosmo_dim_remove.html#cosmo-dim-remove"><span class="std std-ref">mvpa/cosmo_dim_remove.m</span></a>                           |  165 +-
+ <a class="reference internal" href="matlab/cosmo_dim_rename.html#cosmo-dim-rename"><span class="std std-ref">mvpa/cosmo_dim_rename.m</span></a>                           |  135 +-
+ <a class="reference internal" href="matlab/cosmo_dim_slice.html#cosmo-dim-slice"><span class="std std-ref">mvpa/cosmo_dim_slice.m</span></a>                            |   82 +-
+ <a class="reference internal" href="matlab/cosmo_dim_transpose.html#cosmo-dim-transpose"><span class="std std-ref">mvpa/cosmo_dim_transpose.m</span></a>                        |  289 ++-
+ <a class="reference internal" href="matlab/cosmo_dir.html#cosmo-dir"><span class="std std-ref">mvpa/cosmo_dir.m</span></a>                                  |  230 ++-
+ <a class="reference internal" href="matlab/cosmo_disp.html#cosmo-disp"><span class="std std-ref">mvpa/cosmo_disp.m</span></a>                                 |  840 ++++----
+ <a class="reference internal" href="matlab/cosmo_dissimilarity_matrix_measure.html#cosmo-dissimilarity-matrix-measure"><span class="std std-ref">mvpa/cosmo_dissimilarity_matrix_measure.m</span></a>         |  535 +++--
+ <a class="reference internal" href="matlab/cosmo_distatis.html#cosmo-distatis"><span class="std std-ref">mvpa/cosmo_distatis.m</span></a>                             |  638 +++---
+ <a class="reference internal" href="matlab/cosmo_find_local_extrema.html#cosmo-find-local-extrema"><span class="std std-ref">mvpa/cosmo_find_local_extrema.m</span></a>                   |  312 ++-
+ <a class="reference internal" href="matlab/cosmo_flatten.html#cosmo-flatten"><span class="std std-ref">mvpa/cosmo_flatten.m</span></a>                              |  386 ++--
+ <a class="reference internal" href="matlab/cosmo_fmri_convert_xform.html#cosmo-fmri-convert-xform"><span class="std std-ref">mvpa/cosmo_fmri_convert_xform.m</span></a>                   |  304 ++-
+ <a class="reference internal" href="matlab/cosmo_fmri_dataset.html#cosmo-fmri-dataset"><span class="std std-ref">mvpa/cosmo_fmri_dataset.m</span></a>                         | 2227 ++++++++++-----------
+ <a class="reference internal" href="matlab/cosmo_fmri_deoblique.html#cosmo-fmri-deoblique"><span class="std std-ref">mvpa/cosmo_fmri_deoblique.m</span></a>                       |  145 +-
+ <a class="reference internal" href="matlab/cosmo_fmri_orientation.html#cosmo-fmri-orientation"><span class="std std-ref">mvpa/cosmo_fmri_orientation.m</span></a>                     |  155 +-
+ <a class="reference internal" href="matlab/cosmo_fmri_reorient.html#cosmo-fmri-reorient"><span class="std std-ref">mvpa/cosmo_fmri_reorient.m</span></a>                        |  281 ++-
+ <a class="reference internal" href="matlab/cosmo_fx.html#cosmo-fx"><span class="std std-ref">mvpa/cosmo_fx.m</span></a>                                   |  172 +-
+ <a class="reference internal" href="matlab/cosmo_independent_samples_partitioner.html#cosmo-independent-samples-partitioner"><span class="std std-ref">mvpa/cosmo_independent_samples_partitioner.m</span></a>      |  644 +++---
+ <a class="reference internal" href="matlab/cosmo_index_unique.html#cosmo-index-unique"><span class="std std-ref">mvpa/cosmo_index_unique.m</span></a>                         |  266 ++-
+ <a class="reference internal" href="matlab/cosmo_interval_neighborhood.html#cosmo-interval-neighborhood"><span class="std std-ref">mvpa/cosmo_interval_neighborhood.m</span></a>                |  245 ++-
+ <a class="reference internal" href="matlab/cosmo_isequaln.html#cosmo-isequaln"><span class="std std-ref">mvpa/cosmo_isequaln.m</span></a>                             |   96 +-
+ <a class="reference internal" href="matlab/cosmo_isfield.html#cosmo-isfield"><span class="std std-ref">mvpa/cosmo_isfield.m</span></a>                              |  175 +-
+ <a class="reference internal" href="matlab/cosmo_make_temp_filename.html#cosmo-make-temp-filename"><span class="std std-ref">mvpa/cosmo_make_temp_filename.m</span></a>                   |  144 +-
+ <a class="reference internal" href="matlab/cosmo_map2fmri.html#cosmo-map2fmri"><span class="std std-ref">mvpa/cosmo_map2fmri.m</span></a>                             |  781 ++++----
+ <a class="reference internal" href="matlab/cosmo_map2meeg.html#cosmo-map2meeg"><span class="std std-ref">mvpa/cosmo_map2meeg.m</span></a>                             |  613 +++---
+ <a class="reference internal" href="matlab/cosmo_map2surface.html#cosmo-map2surface"><span class="std std-ref">mvpa/cosmo_map2surface.m</span></a>                          |  413 ++--
+ <a class="reference internal" href="matlab/cosmo_map_pca.html#cosmo-map-pca"><span class="std std-ref">mvpa/cosmo_map_pca.m</span></a>                              |  238 ++-
+ <a class="reference internal" href="matlab/cosmo_mask_dim_intersect.html#cosmo-mask-dim-intersect"><span class="std std-ref">mvpa/cosmo_mask_dim_intersect.m</span></a>                   |  244 ++-
+ <a class="reference internal" href="matlab/cosmo_match.html#cosmo-match"><span class="std std-ref">mvpa/cosmo_match.m</span></a>                                |  191 +-
+ <a class="reference internal" href="matlab/cosmo_measure_clusters.html#cosmo-measure-clusters"><span class="std std-ref">mvpa/cosmo_measure_clusters.m</span></a>                     |  419 ++--
+ <a class="reference internal" href="matlab/cosmo_meeg_baseline_correct.html#cosmo-meeg-baseline-correct"><span class="std std-ref">mvpa/cosmo_meeg_baseline_correct.m</span></a>                |  243 ++-
+ <a class="reference internal" href="matlab/cosmo_meeg_chan_neighborhood.html#cosmo-meeg-chan-neighborhood"><span class="std std-ref">mvpa/cosmo_meeg_chan_neighborhood.m</span></a>               |  542 +++--
+ <a class="reference internal" href="matlab/cosmo_meeg_chan_neighbors.html#cosmo-meeg-chan-neighbors"><span class="std std-ref">mvpa/cosmo_meeg_chan_neighbors.m</span></a>                  |  876 ++++----
+ <a class="reference internal" href="matlab/cosmo_meeg_chantype.html#cosmo-meeg-chantype"><span class="std std-ref">mvpa/cosmo_meeg_chantype.m</span></a>                        |  249 ++-
+ <a class="reference internal" href="matlab/cosmo_meeg_dataset.html#cosmo-meeg-dataset"><span class="std std-ref">mvpa/cosmo_meeg_dataset.m</span></a>                         | 1217 ++++++-----
+ <a class="reference internal" href="matlab/cosmo_meeg_find_layout.html#cosmo-meeg-find-layout"><span class="std std-ref">mvpa/cosmo_meeg_find_layout.m</span></a>                     |  386 ++--
+ <a class="reference internal" href="matlab/cosmo_meeg_layout_collection.html#cosmo-meeg-layout-collection"><span class="std std-ref">mvpa/cosmo_meeg_layout_collection.m</span></a>               |  340 ++--
+ <a class="reference internal" href="matlab/cosmo_meeg_read_layout.html#cosmo-meeg-read-layout"><span class="std std-ref">mvpa/cosmo_meeg_read_layout.m</span></a>                     |  149 +-
+ <a class="reference internal" href="matlab/cosmo_meeg_senstype2layout_mapping.html#cosmo-meeg-senstype2layout-mapping"><span class="std std-ref">mvpa/cosmo_meeg_senstype2layout_mapping.m</span></a>         |  406 ++--
+ <a class="reference internal" href="matlab/cosmo_meeg_senstype_collection.html#cosmo-meeg-senstype-collection"><span class="std std-ref">mvpa/cosmo_meeg_senstype_collection.m</span></a>             |  849 ++++----
+ <a class="reference internal" href="matlab/cosmo_meta_feature_selection_classifier.html#cosmo-meta-feature-selection-classifier"><span class="std std-ref">mvpa/cosmo_meta_feature_selection_classifier.m</span></a>    |   62 +-
+ <a class="reference internal" href="matlab/cosmo_montecarlo_cluster_stat.html#cosmo-montecarlo-cluster-stat"><span class="std std-ref">mvpa/cosmo_montecarlo_cluster_stat.m</span></a>              | 1155 ++++++-----
+ <a class="reference internal" href="matlab/cosmo_montecarlo_phase_stat.html#cosmo-montecarlo-phase-stat"><span class="std std-ref">mvpa/cosmo_montecarlo_phase_stat.m</span></a>                |  436 ++--
+ <a class="reference internal" href="matlab/cosmo_naive_bayes_classifier_searchlight.html#cosmo-naive-bayes-classifier-searchlight"><span class="std std-ref">mvpa/cosmo_naive_bayes_classifier_searchlight.m</span></a>   |  487 +++--
+ <a class="reference internal" href="matlab/cosmo_nchoosek_partitioner.html#cosmo-nchoosek-partitioner"><span class="std std-ref">mvpa/cosmo_nchoosek_partitioner.m</span></a>                 |  962 +++++----
+ <a class="reference internal" href="matlab/cosmo_neighborhood_split.html#cosmo-neighborhood-split"><span class="std std-ref">mvpa/cosmo_neighborhood_split.m</span></a>                   |  469 +++--
+ <a class="reference internal" href="matlab/cosmo_nfold_partitioner.html#cosmo-nfold-partitioner"><span class="std std-ref">mvpa/cosmo_nfold_partitioner.m</span></a>                    |  181 +-
+ <a class="reference internal" href="matlab/cosmo_normalize.html#cosmo-normalize"><span class="std std-ref">mvpa/cosmo_normalize.m</span></a>                            |  436 ++--
+ <a class="reference internal" href="matlab/cosmo_norminv.html#cosmo-norminv"><span class="std std-ref">mvpa/cosmo_norminv.m</span></a>                              |   58 +-
+ <a class="reference internal" href="matlab/cosmo_notify_test_skipped.html#cosmo-notify-test-skipped"><span class="std std-ref">mvpa/cosmo_notify_test_skipped.m</span></a>                  |  132 +-
+ <a class="reference internal" href="matlab/cosmo_oddeven_partitioner.html#cosmo-oddeven-partitioner"><span class="std std-ref">mvpa/cosmo_oddeven_partitioner.m</span></a>                  |  213 +-
+ <a class="reference internal" href="matlab/cosmo_overlap.html#cosmo-overlap"><span class="std std-ref">mvpa/cosmo_overlap.m</span></a>                              |  221 +-
+ <a class="reference internal" href="matlab/cosmo_parallel_get_nproc_available.html#cosmo-parallel-get-nproc-available"><span class="std std-ref">mvpa/cosmo_parallel_get_nproc_available.m</span></a>         |  264 ++-
+ <a class="reference internal" href="matlab/cosmo_parcellfun.html#cosmo-parcellfun"><span class="std std-ref">mvpa/cosmo_parcellfun.m</span></a>                           |  158 +-
+ <a class="reference internal" href="matlab/cosmo_pca.html#cosmo-pca"><span class="std std-ref">mvpa/cosmo_pca.m</span></a>                                  |  210 +-
+ <a class="reference internal" href="matlab/cosmo_pdist.html#cosmo-pdist"><span class="std std-ref">mvpa/cosmo_pdist.m</span></a>                                |  144 +-
+ <a class="reference internal" href="matlab/cosmo_phase_itc.html#cosmo-phase-itc"><span class="std std-ref">mvpa/cosmo_phase_itc.m</span></a>                            |  210 +-
+ <a class="reference internal" href="matlab/cosmo_phase_stat.html#cosmo-phase-stat"><span class="std std-ref">mvpa/cosmo_phase_stat.m</span></a>                           |  170 +-
+ <a class="reference internal" href="matlab/cosmo_plot_slices.html#cosmo-plot-slices"><span class="std std-ref">mvpa/cosmo_plot_slices.m</span></a>                          |  208 +-
+ <a class="reference internal" href="matlab/cosmo_publish_run_scripts.html#cosmo-publish-run-scripts"><span class="std std-ref">mvpa/cosmo_publish_run_scripts.m</span></a>                  |  401 ++--
+ <a class="reference internal" href="matlab/cosmo_rand.html#cosmo-rand"><span class="std std-ref">mvpa/cosmo_rand.m</span></a>                                 |  249 ++-
+ <a class="reference internal" href="matlab/cosmo_randomize_targets.html#cosmo-randomize-targets"><span class="std std-ref">mvpa/cosmo_randomize_targets.m</span></a>                    |  205 +-
+ <a class="reference internal" href="matlab/cosmo_randperm.html#cosmo-randperm"><span class="std std-ref">mvpa/cosmo_randperm.m</span></a>                             |  119 +-
+ <a class="reference internal" href="matlab/cosmo_remove_useless_data.html#cosmo-remove-useless-data"><span class="std std-ref">mvpa/cosmo_remove_useless_data.m</span></a>                  |  223 +--
+ <a class="reference internal" href="matlab/cosmo_run_tests.html#cosmo-run-tests"><span class="std std-ref">mvpa/cosmo_run_tests.m</span></a>                            |  277 ++-
+ <a class="reference internal" href="matlab/cosmo_sample_unique.html#cosmo-sample-unique"><span class="std std-ref">mvpa/cosmo_sample_unique.m</span></a>                        |  143 +-
+ <a class="reference internal" href="matlab/cosmo_searchlight.html#cosmo-searchlight"><span class="std std-ref">mvpa/cosmo_searchlight.m</span></a>                          |  544 +++--
+ <a class="reference internal" href="matlab/cosmo_set_path.html#cosmo-set-path"><span class="std std-ref">mvpa/cosmo_set_path.m</span></a>                             |   79 +-
+ <a class="reference internal" href="matlab/cosmo_show_progress.html#cosmo-show-progress"><span class="std std-ref">mvpa/cosmo_show_progress.m</span></a>                        |  170 +-
+ <a class="reference internal" href="matlab/cosmo_singleton_neighborhood.html#cosmo-singleton-neighborhood"><span class="std std-ref">mvpa/cosmo_singleton_neighborhood.m</span></a>               |  176 +-
+ <a class="reference internal" href="matlab/cosmo_skip_test_if_no_external.html#cosmo-skip-test-if-no-external"><span class="std std-ref">mvpa/cosmo_skip_test_if_no_external.m</span></a>             |   96 +-
+ <a class="reference internal" href="matlab/cosmo_slice.html#cosmo-slice"><span class="std std-ref">mvpa/cosmo_slice.m</span></a>                                |  506 ++---
+ <a class="reference internal" href="matlab/cosmo_sphere_offsets.html#cosmo-sphere-offsets"><span class="std std-ref">mvpa/cosmo_sphere_offsets.m</span></a>                       |  128 +-
+ <a class="reference internal" href="matlab/cosmo_spherical_neighborhood.html#cosmo-spherical-neighborhood"><span class="std std-ref">mvpa/cosmo_spherical_neighborhood.m</span></a>               |  796 ++++----
+ <a class="reference internal" href="matlab/cosmo_split.html#cosmo-split"><span class="std std-ref">mvpa/cosmo_split.m</span></a>                                |  276 ++-
+ <a class="reference internal" href="matlab/cosmo_squareform.html#cosmo-squareform"><span class="std std-ref">mvpa/cosmo_squareform.m</span></a>                           |  133 +-
+ <a class="reference internal" href="matlab/cosmo_stack.html#cosmo-stack"><span class="std std-ref">mvpa/cosmo_stack.m</span></a>                                |  486 +++--
+ <a class="reference internal" href="matlab/cosmo_stat.html#cosmo-stat"><span class="std std-ref">mvpa/cosmo_stat.m</span></a>                                 | 1045 +++++-----
+ <a class="reference internal" href="matlab/cosmo_statcode.html#cosmo-statcode"><span class="std std-ref">mvpa/cosmo_statcode.m</span></a>                             |  514 +++--
+ <a class="reference internal" href="matlab/cosmo_strjoin.html#cosmo-strjoin"><span class="std std-ref">mvpa/cosmo_strjoin.m</span></a>                              |  131 +-
+ <a class="reference internal" href="matlab/cosmo_strsplit.html#cosmo-strsplit"><span class="std std-ref">mvpa/cosmo_strsplit.m</span></a>                             |  202 +-
+ <a class="reference internal" href="matlab/cosmo_structjoin.html#cosmo-structjoin"><span class="std std-ref">mvpa/cosmo_structjoin.m</span></a>                           |  226 ++-
+ <a class="reference internal" href="matlab/cosmo_surface_dataset.html#cosmo-surface-dataset"><span class="std std-ref">mvpa/cosmo_surface_dataset.m</span></a>                      |  628 +++---
+ <a class="reference internal" href="matlab/cosmo_surficial_neighborhood.html#cosmo-surficial-neighborhood"><span class="std std-ref">mvpa/cosmo_surficial_neighborhood.m</span></a>               |  905 ++++-----
+ <a class="reference internal" href="matlab/cosmo_synthetic_dataset.html#cosmo-synthetic-dataset"><span class="std std-ref">mvpa/cosmo_synthetic_dataset.m</span></a>                    |  986 +++++----
+ <a class="reference internal" href="matlab/cosmo_tail.html#cosmo-tail"><span class="std std-ref">mvpa/cosmo_tail.m</span></a>                                 |  157 +-
+ <a class="reference internal" href="matlab/cosmo_target_dsm_corr_measure.html#cosmo-target-dsm-corr-measure"><span class="std std-ref">mvpa/cosmo_target_dsm_corr_measure.m</span></a>              |  615 +++---
+ <a class="reference internal" href="matlab/cosmo_tiedrank.html#cosmo-tiedrank"><span class="std std-ref">mvpa/cosmo_tiedrank.m</span></a>                             |  211 +-
+ <a class="reference internal" href="matlab/cosmo_type.html#cosmo-type"><span class="std std-ref">mvpa/cosmo_type.m</span></a>                                 |   30 +-
+ <a class="reference internal" href="matlab/cosmo_unflatten.html#cosmo-unflatten"><span class="std std-ref">mvpa/cosmo_unflatten.m</span></a>                            |  363 ++--
+ <a class="reference internal" href="matlab/cosmo_vol_coordinates.html#cosmo-vol-coordinates"><span class="std std-ref">mvpa/cosmo_vol_coordinates.m</span></a>                      |  188 +-
+ <a class="reference internal" href="matlab/cosmo_vol_grid_convert.html#cosmo-vol-grid-convert"><span class="std std-ref">mvpa/cosmo_vol_grid_convert.m</span></a>                     |  330 ++-
+ <a class="reference internal" href="matlab/cosmo_warning.html#cosmo-warning"><span class="std std-ref">mvpa/cosmo_warning.m</span></a>                              |  191 +-
+ <a class="reference internal" href="matlab/cosmo_winner_indices.html#cosmo-winner-indices"><span class="std std-ref">mvpa/cosmo_winner_indices.m</span></a>                       |  169 +-
+ <a class="reference internal" href="matlab/cosmo_wtf.html#cosmo-wtf"><span class="std std-ref">mvpa/cosmo_wtf.m</span></a>                                  |  310 ++-
+ <a class="reference internal" href="matlab/test_align.html#test-align"><span class="std std-ref">tests/test_align.m</span></a>                                |  127 +-
+ <a class="reference internal" href="matlab/test_anova_feature_selector.html#test-anova-feature-selector"><span class="std std-ref">tests/test_anova_feature_selector.m</span></a>               |   38 +-
+ <a class="reference internal" href="matlab/test_average_samples.html#test-average-samples"><span class="std std-ref">tests/test_average_samples.m</span></a>                      |  501 +++--
+ <a class="reference internal" href="matlab/test_balance_dataset.html#test-balance-dataset"><span class="std std-ref">tests/test_balance_dataset.m</span></a>                      |  121 +-
+ <a class="reference internal" href="matlab/test_balance_partitions.html#test-balance-partitions"><span class="std std-ref">tests/test_balance_partitions.m</span></a>                   |  392 ++--
+ <a class="reference internal" href="matlab/test_cartprod.html#test-cartprod"><span class="std std-ref">tests/test_cartprod.m</span></a>                             |   62 +-
+ <a class="reference internal" href="matlab/test_check_dataset.html#test-check-dataset"><span class="std std-ref">tests/test_check_dataset.m</span></a>                        |  160 +-
+ <a class="reference internal" href="matlab/test_check_external.html#test-check-external"><span class="std std-ref">tests/test_check_external.m</span></a>                       |   88 +-
+ <a class="reference internal" href="matlab/test_check_neighborhood.html#test-check-neighborhood"><span class="std std-ref">tests/test_check_neighborhood.m</span></a>                   |  225 +--
+ <a class="reference internal" href="matlab/test_check_partitions.html#test-check-partitions"><span class="std std-ref">tests/test_check_partitions.m</span></a>                     |  173 +-
+ <a class="reference internal" href="matlab/test_chunkize.html#test-chunkize"><span class="std std-ref">tests/test_chunkize.m</span></a>                             |  289 ++-
+ <a class="reference internal" href="matlab/test_classify.html#test-classify"><span class="std std-ref">tests/test_classify.m</span></a>                             |  590 +++---
+ <a class="reference internal" href="matlab/test_cluster_neighborhood.html#test-cluster-neighborhood"><span class="std std-ref">tests/test_cluster_neighborhood.m</span></a>                 |  653 +++---
+ <a class="reference internal" href="matlab/test_clusterize.html#test-clusterize"><span class="std std-ref">tests/test_clusterize.m</span></a>                           |   61 +-
+ <a class="reference internal" href="matlab/test_config.html#test-config"><span class="std std-ref">tests/test_config.m</span></a>                               |  148 +-
+ <a class="reference internal" href="matlab/test_confusion_matrix.html#test-confusion-matrix"><span class="std std-ref">tests/test_confusion_matrix.m</span></a>                     |   91 +-
+ <a class="reference internal" href="matlab/test_convert_neighborhood.html#test-convert-neighborhood"><span class="std std-ref">tests/test_convert_neighborhood.m</span></a>                 |  113 +-
+ <a class="reference internal" href="matlab/test_corr.html#test-corr"><span class="std std-ref">tests/test_corr.m</span></a>                                 |  116 +-
+ <a class="reference internal" href="matlab/test_correlation_measure.html#test-correlation-measure"><span class="std std-ref">tests/test_correlation_measure.m</span></a>                  |  328 ++-
+ <a class="reference internal" href="matlab/test_cosmo_dataset_operations.html#test-cosmo-dataset-operations"><span class="std std-ref">tests/test_cosmo_dataset_operations.m</span></a>             |   89 +-
+ <a class="reference internal" href="matlab/test_cosmo_fmri_dataset.html#test-cosmo-fmri-dataset"><span class="std std-ref">tests/test_cosmo_fmri_dataset.m</span></a>                   |  179 +-
+ <a class="reference internal" href="matlab/test_cosmo_notify_test_skipped.html#test-cosmo-notify-test-skipped"><span class="std std-ref">tests/test_cosmo_notify_test_skipped.m</span></a>            |   82 +-
+ <a class="reference internal" href="matlab/test_cosmo_skip_test_if_no_external.html#test-cosmo-skip-test-if-no-external"><span class="std std-ref">tests/test_cosmo_skip_test_if_no_external.m</span></a>       |   37 +-
+ <a class="reference internal" href="matlab/test_cross_neighborhood.html#test-cross-neighborhood"><span class="std std-ref">tests/test_cross_neighborhood.m</span></a>                   |  355 ++--
+ <a class="reference internal" href="matlab/test_crossvalidate.html#test-crossvalidate"><span class="std std-ref">tests/test_crossvalidate.m</span></a>                        |   79 +-
+ <a class="reference internal" href="matlab/test_crossvalidation_measure.html#test-crossvalidation-measure"><span class="std std-ref">tests/test_crossvalidation_measure.m</span></a>              |  579 +++---
+ <a class="reference internal" href="matlab/test_dim_find.html#test-dim-find"><span class="std std-ref">tests/test_dim_find.m</span></a>                             |  104 +-
+ <a class="reference internal" href="matlab/test_dim_generalization_measure.html#test-dim-generalization-measure"><span class="std std-ref">tests/test_dim_generalization_measure.m</span></a>           |  382 ++--
+ <a class="reference internal" href="matlab/test_dim_insert.html#test-dim-insert"><span class="std std-ref">tests/test_dim_insert.m</span></a>                           |  157 +-
+ <a class="reference internal" href="matlab/test_dim_match.html#test-dim-match"><span class="std std-ref">tests/test_dim_match.m</span></a>                            |  209 +-
+ <a class="reference internal" href="matlab/test_dim_prune.html#test-dim-prune"><span class="std std-ref">tests/test_dim_prune.m</span></a>                            |  223 +--
+ <a class="reference internal" href="matlab/test_dim_remove.html#test-dim-remove"><span class="std std-ref">tests/test_dim_remove.m</span></a>                           |   91 +-
+ <a class="reference internal" href="matlab/test_dim_rename.html#test-dim-rename"><span class="std std-ref">tests/test_dim_rename.m</span></a>                           |   44 +-
+ <a class="reference internal" href="matlab/test_dim_slice.html#test-dim-slice"><span class="std std-ref">tests/test_dim_slice.m</span></a>                            |   51 +-
+ <a class="reference internal" href="matlab/test_dim_transpose.html#test-dim-transpose"><span class="std std-ref">tests/test_dim_transpose.m</span></a>                        |  168 +-
+ <a class="reference internal" href="matlab/test_dir.html#test-dir"><span class="std std-ref">tests/test_dir.m</span></a>                                  |  143 +-
+ <a class="reference internal" href="matlab/test_disp.html#test-disp"><span class="std std-ref">tests/test_disp.m</span></a>                                 |  427 ++--
+ <a class="reference internal" href="matlab/test_dissimilarity_matrix_measure.html#test-dissimilarity-matrix-measure"><span class="std std-ref">tests/test_dissimilarity_matrix_measure.m</span></a>         |  116 +-
+ <a class="reference internal" href="matlab/test_distatis.html#test-distatis"><span class="std std-ref">tests/test_distatis.m</span></a>                             |  281 ++-
+ <a class="reference internal" href="matlab/test_external_neuroelf.html#test-external-neuroelf"><span class="std std-ref">tests/test_external_neuroelf.m</span></a>                    |   90 +-
+ <a class="reference internal" href="matlab/test_external_surfing.html#test-external-surfing"><span class="std std-ref">tests/test_external_surfing.m</span></a>                     |  236 ++-
+ <a class="reference internal" href="matlab/test_find_local_extrema.html#test-find-local-extrema"><span class="std std-ref">tests/test_find_local_extrema.m</span></a>                   |   90 +-
+ <a class="reference internal" href="matlab/test_flatten.html#test-flatten"><span class="std std-ref">tests/test_flatten.m</span></a>                              |  160 +-
+ <a class="reference internal" href="matlab/test_fmri_convert_xform.html#test-fmri-convert-xform"><span class="std std-ref">tests/test_fmri_convert_xform.m</span></a>                   |   92 +-
+ <a class="reference internal" href="matlab/test_fmri_dataset.html#test-fmri-dataset"><span class="std std-ref">tests/test_fmri_dataset.m</span></a>                         |  722 ++++---
+ <a class="reference internal" href="matlab/test_fmri_deoblique.html#test-fmri-deoblique"><span class="std std-ref">tests/test_fmri_deoblique.m</span></a>                       |   39 +-
+ <a class="reference internal" href="matlab/test_fmri_io.html#test-fmri-io"><span class="std std-ref">tests/test_fmri_io.m</span></a>                              |  699 ++++---
+ <a class="reference internal" href="matlab/test_fmri_orientation.html#test-fmri-orientation"><span class="std std-ref">tests/test_fmri_orientation.m</span></a>                     |  255 ++-
+ <a class="reference internal" href="matlab/test_fx.html#test-fx"><span class="std std-ref">tests/test_fx.m</span></a>                                   |  140 +-
+ <a class="reference internal" href="matlab/test_independent_samples_partitioner.html#test-independent-samples-partitioner"><span class="std std-ref">tests/test_independent_samples_partitioner.m</span></a>      |  455 ++---
+ <a class="reference internal" href="matlab/test_index_unique.html#test-index-unique"><span class="std std-ref">tests/test_index_unique.m</span></a>                         |  209 +-
+ <a class="reference internal" href="matlab/test_interval_neighborhood.html#test-interval-neighborhood"><span class="std std-ref">tests/test_interval_neighborhood.m</span></a>                |  185 +-
+ <a class="reference internal" href="matlab/test_isequaln.html#test-isequaln"><span class="std std-ref">tests/test_isequaln.m</span></a>                             |  105 +-
+ <a class="reference internal" href="matlab/test_isfield.html#test-isfield"><span class="std std-ref">tests/test_isfield.m</span></a>                              |   84 +-
+ <a class="reference internal" href="matlab/test_map_pca.html#test-map-pca"><span class="std std-ref">tests/test_map_pca.m</span></a>                              |  338 ++--
+ <a class="reference internal" href="matlab/test_mask_dim_intersect.html#test-mask-dim-intersect"><span class="std std-ref">tests/test_mask_dim_intersect.m</span></a>                   |  208 +-
+ <a class="reference internal" href="matlab/test_match.html#test-match"><span class="std std-ref">tests/test_match.m</span></a>                                |  123 +-
+ <a class="reference internal" href="matlab/test_measure_clusters.html#test-measure-clusters"><span class="std std-ref">tests/test_measure_clusters.m</span></a>                     |  164 +-
+ <a class="reference internal" href="matlab/test_meeg_baseline_correct.html#test-meeg-baseline-correct"><span class="std std-ref">tests/test_meeg_baseline_correct.m</span></a>                |  282 ++-
+ <a class="reference internal" href="matlab/test_meeg_chan_neighborhood.html#test-meeg-chan-neighborhood"><span class="std std-ref">tests/test_meeg_chan_neighborhood.m</span></a>               |  160 +-
+ <a class="reference internal" href="matlab/test_meeg_chan_neighbors.html#test-meeg-chan-neighbors"><span class="std std-ref">tests/test_meeg_chan_neighbors.m</span></a>                  |  765 ++++---
+ <a class="reference internal" href="matlab/test_meeg_chantype.html#test-meeg-chantype"><span class="std std-ref">tests/test_meeg_chantype.m</span></a>                        |  188 +-
+ <a class="reference internal" href="matlab/test_meeg_find_layout.html#test-meeg-find-layout"><span class="std std-ref">tests/test_meeg_find_layout.m</span></a>                     |  436 ++--
+ <a class="reference internal" href="matlab/test_meeg_io.html#test-meeg-io"><span class="std std-ref">tests/test_meeg_io.m</span></a>                              |  901 ++++-----
+ <a class="reference internal" href="matlab/test_meeg_layout_collection.html#test-meeg-layout-collection"><span class="std std-ref">tests/test_meeg_layout_collection.m</span></a>               |  257 ++-
+ <a class="reference internal" href="matlab/test_meeg_read_layout.html#test-meeg-read-layout"><span class="std std-ref">tests/test_meeg_read_layout.m</span></a>                     |  169 +-
+ <a class="reference internal" href="matlab/test_meeg_senstype_collection.html#test-meeg-senstype-collection"><span class="std std-ref">tests/test_meeg_senstype_collection.m</span></a>             |  345 ++--
+ <a class="reference internal" href="matlab/test_meeg_source.html#test-meeg-source"><span class="std std-ref">tests/test_meeg_source.m</span></a>                          |  360 ++--
+ <a class="reference internal" href="matlab/test_montecarlo_cluster_stat.html#test-montecarlo-cluster-stat"><span class="std std-ref">tests/test_montecarlo_cluster_stat.m</span></a>              |  909 ++++-----
+ <a class="reference internal" href="matlab/test_montecarlo_cluster_stat_distribution.html#test-montecarlo-cluster-stat-distribution"><span class="std std-ref">tests/test_montecarlo_cluster_stat_distribution.m</span></a> |  150 +-
+ <a class="reference internal" href="matlab/test_montecarlo_phase_stat.html#test-montecarlo-phase-stat"><span class="std std-ref">tests/test_montecarlo_phase_stat.m</span></a>                |  399 ++--
+ <a class="reference internal" href="matlab/test_naive_bayes_classifier_searchlight.html#test-naive-bayes-classifier-searchlight"><span class="std std-ref">tests/test_naive_bayes_classifier_searchlight.m</span></a>   |  251 ++-
+ <a class="reference internal" href="matlab/test_neighborhood_split.html#test-neighborhood-split"><span class="std std-ref">tests/test_neighborhood_split.m</span></a>                   |  138 +-
+ <a class="reference internal" href="matlab/test_normalize.html#test-normalize"><span class="std std-ref">tests/test_normalize.m</span></a>                            |  317 ++-
+ <a class="reference internal" href="matlab/test_norminv.html#test-norminv"><span class="std std-ref">tests/test_norminv.m</span></a>                              |   56 +-
+ <a class="reference internal" href="matlab/test_oddeven_partitioner.html#test-oddeven-partitioner"><span class="std std-ref">tests/test_oddeven_partitioner.m</span></a>                  |  128 +-
+ <a class="reference internal" href="matlab/test_parallel_get_nproc_available.html#test-parallel-get-nproc-available"><span class="std std-ref">tests/test_parallel_get_nproc_available.m</span></a>         |  212 +-
+ <a class="reference internal" href="matlab/test_parcellfun.html#test-parcellfun"><span class="std std-ref">tests/test_parcellfun.m</span></a>                           |  160 +-
+ <a class="reference internal" href="matlab/test_partitions.html#test-partitions"><span class="std std-ref">tests/test_partitions.m</span></a>                           |  258 ++-
+ <a class="reference internal" href="matlab/test_pca.html#test-pca"><span class="std std-ref">tests/test_pca.m</span></a>                                  |  260 ++-
+ <a class="reference internal" href="matlab/test_pdist.html#test-pdist"><span class="std std-ref">tests/test_pdist.m</span></a>                                |   41 +-
+ <a class="reference internal" href="matlab/test_phase_itc.html#test-phase-itc"><span class="std std-ref">tests/test_phase_itc.m</span></a>                            |  170 +-
+ <a class="reference internal" href="matlab/test_phase_stat.html#test-phase-stat"><span class="std std-ref">tests/test_phase_stat.m</span></a>                           |  278 ++-
+ <a class="reference internal" href="matlab/test_plot_slices.html#test-plot-slices"><span class="std std-ref">tests/test_plot_slices.m</span></a>                          |   33 +-
+ <a class="reference internal" href="matlab/test_publish_run_scripts.html#test-publish-run-scripts"><span class="std std-ref">tests/test_publish_run_scripts.m</span></a>                  |  163 +-
+ <a class="reference internal" href="matlab/test_rand.html#test-rand"><span class="std std-ref">tests/test_rand.m</span></a>                                 |  101 +-
+ <a class="reference internal" href="matlab/test_randomize_targets.html#test-randomize-targets"><span class="std std-ref">tests/test_randomize_targets.m</span></a>                    |   62 +-
+ <a class="reference internal" href="matlab/test_randperm.html#test-randperm"><span class="std std-ref">tests/test_randperm.m</span></a>                             |  156 +-
+ <a class="reference internal" href="matlab/test_remove_useless_data.html#test-remove-useless-data"><span class="std std-ref">tests/test_remove_useless_data.m</span></a>                  |  138 +-
+ <a class="reference internal" href="matlab/test_run_tests.html#test-run-tests"><span class="std std-ref">tests/test_run_tests.m</span></a>                            |  169 +-
+ <a class="reference internal" href="matlab/test_sample_unique.html#test-sample-unique"><span class="std std-ref">tests/test_sample_unique.m</span></a>                        |  148 +-
+ <a class="reference internal" href="matlab/test_searchlight.html#test-searchlight"><span class="std std-ref">tests/test_searchlight.m</span></a>                          |  215 +-
+ <a class="reference internal" href="matlab/test_show_progress.html#test-show-progress"><span class="std std-ref">tests/test_show_progress.m</span></a>                        |   94 +-
+ <a class="reference internal" href="matlab/test_singleton_neighborhood.html#test-singleton-neighborhood"><span class="std std-ref">tests/test_singleton_neighborhood.m</span></a>               |   87 +-
+ <a class="reference internal" href="matlab/test_slice.html#test-slice"><span class="std std-ref">tests/test_slice.m</span></a>                                |  251 ++-
+ <a class="reference internal" href="matlab/test_spherical_neighborhood.html#test-spherical-neighborhood"><span class="std std-ref">tests/test_spherical_neighborhood.m</span></a>               |  644 +++---
+ <a class="reference internal" href="matlab/test_split.html#test-split"><span class="std std-ref">tests/test_split.m</span></a>                                |   91 +-
+ <a class="reference internal" href="matlab/test_squareform.html#test-squareform"><span class="std std-ref">tests/test_squareform.m</span></a>                           |  149 +-
+ <a class="reference internal" href="matlab/test_stack.html#test-stack"><span class="std std-ref">tests/test_stack.m</span></a>                                |  158 +-
+ <a class="reference internal" href="matlab/test_stat.html#test-stat"><span class="std std-ref">tests/test_stat.m</span></a>                                 |  729 ++++---
+ <a class="reference internal" href="matlab/test_statcode.html#test-statcode"><span class="std std-ref">tests/test_statcode.m</span></a>                             |  207 +-
+ <a class="reference internal" href="matlab/test_strjoin.html#test-strjoin"><span class="std std-ref">tests/test_strjoin.m</span></a>                              |   41 +-
+ <a class="reference internal" href="matlab/test_strsplit.html#test-strsplit"><span class="std std-ref">tests/test_strsplit.m</span></a>                             |   76 +-
+ <a class="reference internal" href="matlab/test_structjoin.html#test-structjoin"><span class="std std-ref">tests/test_structjoin.m</span></a>                           |  101 +-
+ <a class="reference internal" href="matlab/test_surface_io.html#test-surface-io"><span class="std std-ref">tests/test_surface_io.m</span></a>                           |  389 ++--
+ <a class="reference internal" href="matlab/test_surficial_io_gifti.html#test-surficial-io-gifti"><span class="std std-ref">tests/test_surficial_io_gifti.m</span></a>                   |  320 ++-
+ <a class="reference internal" href="matlab/test_surficial_io_niml_dset.html#test-surficial-io-niml-dset"><span class="std std-ref">tests/test_surficial_io_niml_dset.m</span></a>               |  291 ++-
+ <a class="reference internal" href="matlab/test_surficial_neighborhood.html#test-surficial-neighborhood"><span class="std std-ref">tests/test_surficial_neighborhood.m</span></a>               |  818 ++++----
+ <a class="reference internal" href="matlab/test_synthetic_dataset.html#test-synthetic-dataset"><span class="std std-ref">tests/test_synthetic_dataset.m</span></a>                    |   93 +-
+ <a class="reference internal" href="matlab/test_tail.html#test-tail"><span class="std std-ref">tests/test_tail.m</span></a>                                 |  135 +-
+ <a class="reference internal" href="matlab/test_target_dsm_corr_measure.html#test-target-dsm-corr-measure"><span class="std std-ref">tests/test_target_dsm_corr_measure.m</span></a>              |  570 +++---
+ <a class="reference internal" href="matlab/test_tiedrank.html#test-tiedrank"><span class="std std-ref">tests/test_tiedrank.m</span></a>                             |  218 +-
+ <a class="reference internal" href="matlab/test_type.html#test-type"><span class="std std-ref">tests/test_type.m</span></a>                                 |   49 +-
+ <a class="reference internal" href="matlab/test_vol_coordinates.html#test-vol-coordinates"><span class="std std-ref">tests/test_vol_coordinates.m</span></a>                      |  248 ++-
+ <a class="reference internal" href="matlab/test_vol_grid_convert.html#test-vol-grid-convert"><span class="std std-ref">tests/test_vol_grid_convert.m</span></a>                     |   99 +-
+ <a class="reference internal" href="matlab/test_warning.html#test-warning"><span class="std std-ref">tests/test_warning.m</span></a>                              |   33 +-
+ <a class="reference internal" href="matlab/test_wtf.html#test-wtf"><span class="std std-ref">tests/test_wtf.m</span></a>                                  |  105 +-
+ 249 files changed, 36041 insertions(+), 37903 deletions(-)
+
+commit <a class="reference external" href="https://github.com/CoSMoMVPA/CoSMoMVPA/commit/74ed3185a402d9d2ad6369505d9a1036a7d3df6d">74ed3185a402d9d2ad6369505d9a1036a7d3df6d</a>
+Author: Nikolaas N. Oosterhof &lt;<a class="reference external" href="mailto:n&#46;n&#46;oosterhof&#37;&#52;&#48;googlemail&#46;com">n<span>&#46;</span>n<span>&#46;</span>oosterhof<span>&#64;</span>googlemail<span>&#46;</span>com</a>&gt;
+Date:   Sat Sep 13 13:07:45 2025 +0200
+
+    ENH: minor compatibility updates (#212)          * ENH: minor
+        compatibility updates          * CMPT: add extra safety on not
+        returning negative p values          * FIX: do not transpose
+        text message          * TST+OCTV: update test after changed
+        behaviour of Octave pca function          * TST+OCTV: support
+        Octave pca row vector results          * TST: fix version
+        check          * DOC: fix indent          * TST: limit use of
+        findstr          * DOC+RF: minor changes          ---------
+        Co-authored-by: Nikolaas N. Oosterhof
+        &lt;<a class="reference external" href="mailto:n&#46;n&#46;oosterhof&#37;&#52;&#48;gmail&#46;com">n<span>&#46;</span>n<span>&#46;</span>oosterhof<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;
+
+ .gitignore                                |  2 ++
+ COPYING                                   |  2 +-
+ <a class="reference internal" href="matlab/cosmo_check_external.html#cosmo-check-external"><span class="std std-ref">mvpa/cosmo_check_external.m</span></a>               | 28 ++++++++++++++++++
+ <a class="reference internal" href="matlab/cosmo_check_neighborhood.html#cosmo-check-neighborhood"><span class="std std-ref">mvpa/cosmo_check_neighborhood.m</span></a>           |  2 +-
+ <a class="reference internal" href="matlab/cosmo_dim_match.html#cosmo-dim-match"><span class="std std-ref">mvpa/cosmo_dim_match.m</span></a>                    |  2 +-
+ <a class="reference internal" href="matlab/cosmo_dim_prune.html#cosmo-dim-prune"><span class="std std-ref">mvpa/cosmo_dim_prune.m</span></a>                    |  2 +-
+ <a class="reference internal" href="matlab/cosmo_dissimilarity_matrix_measure.html#cosmo-dissimilarity-matrix-measure"><span class="std std-ref">mvpa/cosmo_dissimilarity_matrix_measure.m</span></a> | 42 +++++++++++++--------------
+ <a class="reference internal" href="matlab/cosmo_run_tests.html#cosmo-run-tests"><span class="std std-ref">mvpa/cosmo_run_tests.m</span></a>                    |  6 ++--
+ <a class="reference internal" href="matlab/cosmo_squareform.html#cosmo-squareform"><span class="std std-ref">mvpa/cosmo_squareform.m</span></a>                   |  2 +-
+ <a class="reference internal" href="matlab/cosmo_stat.html#cosmo-stat"><span class="std std-ref">mvpa/cosmo_stat.m</span></a>                         |  6 +++-
+ <a class="reference internal" href="matlab/test_check_external.html#test-check-external"><span class="std std-ref">tests/test_check_external.m</span></a>               | 10 +++----
+ <a class="reference internal" href="matlab/test_classify.html#test-classify"><span class="std std-ref">tests/test_classify.m</span></a>                     |  9 +++++-
+ <a class="reference internal" href="matlab/test_corr.html#test-corr"><span class="std std-ref">tests/test_corr.m</span></a>                         | 10 +------
+ <a class="reference internal" href="matlab/test_cosmo_notify_test_skipped.html#test-cosmo-notify-test-skipped"><span class="std std-ref">tests/test_cosmo_notify_test_skipped.m</span></a>    |  4 +--
+ <a class="reference internal" href="matlab/test_index_unique.html#test-index-unique"><span class="std std-ref">tests/test_index_unique.m</span></a>                 |  9 ++----
+ <a class="reference internal" href="matlab/test_meeg_baseline_correct.html#test-meeg-baseline-correct"><span class="std std-ref">tests/test_meeg_baseline_correct.m</span></a>        |  9 +-----
+ <a class="reference internal" href="matlab/test_parallel_get_nproc_available.html#test-parallel-get-nproc-available"><span class="std std-ref">tests/test_parallel_get_nproc_available.m</span></a> |  9 +++---
+ <a class="reference internal" href="matlab/test_pca.html#test-pca"><span class="std std-ref">tests/test_pca.m</span></a>                          | 48 +++++++++++++++++++++----------
+ <a class="reference internal" href="matlab/test_run_tests.html#test-run-tests"><span class="std std-ref">tests/test_run_tests.m</span></a>                    |  4 +--
+ <a class="reference internal" href="matlab/test_stat.html#test-stat"><span class="std std-ref">tests/test_stat.m</span></a>                         | 24 ++++++++++++++--
+ 20 files changed, 146 insertions(+), 84 deletions(-)</pre>
+</section>
+</section>
+<section id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="documentation.html#documentation"><span class="std std-ref">Documentation</span></a></p></li>
+<li><p><a class="reference internal" href="matindex.html#matindex"><span class="std std-ref">CoSMoMVPA functions</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="#">
+              <img class="logo" src="_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h3><a href="#">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">CoSMoMVPA</a></li>
+<li><a class="reference internal" href="#news">News</a><ul>
+<li><a class="reference internal" href="#analysis-gallery">Analysis gallery</a></li>
+<li><a class="reference internal" href="#changes-since-last-month">Changes since last month</a><ul>
+<li><a class="reference internal" href="#summary">Summary</a></li>
+<li><a class="reference internal" href="#major-changes">Major changes</a></li>
+<li><a class="reference internal" href="#changes-that-break-existing-functionality">Changes that break existing functionality</a></li>
+<li><a class="reference internal" href="#bug-fixes">Bug fixes</a></li>
+<li><a class="reference internal" href="#all-changes">All changes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="philosophy.html"
+                          title="next chapter">CoSMoMVPA philosophy</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="philosophy.html" title="CoSMoMVPA philosophy"
+             >next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">CoSMoMVPA</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CoSMoMVPA</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

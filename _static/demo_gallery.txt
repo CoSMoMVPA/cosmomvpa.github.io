@@ -1,0 +1,61 @@
+Analysis gallery
+================
+
+.. |gallery_demo_fmri_rois_8| image:: _static/publish/demo_fmri_rois_08.png
+    :target: matlab/demo_fmri_rois.html
+    :scale: 30%
+.. |gallery_run_splithalf_correlations_5| image:: _static/publish/run_splithalf_correlations_05.png
+    :target: matlab/run_splithalf_correlations.html
+    :scale: 30%
+.. |gallery_demo_fmri_correlation_searchlight_1| image:: _static/publish/demo_fmri_correlation_searchlight_01.png
+    :target: matlab/demo_fmri_correlation_searchlight.html
+    :scale: 30%
+.. |gallery_demo_surface_searchlight_lda_1| image:: _static/publish/demo_surface_searchlight_lda_01.png
+    :target: matlab/demo_surface_searchlight_lda.html
+    :scale: 30%
+.. |gallery_demo_fmri_searchlight_rsm_2| image:: _static/publish/demo_fmri_searchlight_rsm_02.png
+    :target: matlab/demo_fmri_searchlight_rsm.html
+    :scale: 30%
+.. |gallery_demo_fmri_searchlight_naive_bayes_1| image:: _static/publish/demo_fmri_searchlight_naive_bayes_01.png
+    :target: matlab/demo_fmri_searchlight_naive_bayes.html
+    :scale: 30%
+.. |gallery_demo_fmri_distatis_1| image:: _static/publish/demo_fmri_distatis_01.png
+    :target: matlab/demo_fmri_distatis.html
+    :scale: 30%
+.. |gallery_demo_surface_tfce_2| image:: _static/publish/demo_surface_tfce_02.png
+    :target: matlab/demo_surface_tfce.html
+    :scale: 30%
+.. |gallery_demo_meeg_timeseries_classification_1| image:: _static/publish/demo_meeg_timeseries_classification_01.png
+    :target: matlab/demo_meeg_timeseries_classification.html
+    :scale: 30%
+.. |gallery_demo_meeg_timelock_searchlight_1| image:: _static/publish/demo_meeg_timelock_searchlight_01.png
+    :target: matlab/demo_meeg_timelock_searchlight.html
+    :scale: 30%
+.. |gallery_demo_meeg_timefreq_searchlight_1| image:: _static/publish/demo_meeg_timefreq_searchlight_01.png
+    :target: matlab/demo_meeg_timefreq_searchlight.html
+    :scale: 30%
+.. |gallery_demo_meeg_timeseries_generalization_1| image:: _static/publish/demo_meeg_timeseries_generalization_01.png
+    :target: matlab/demo_meeg_timeseries_generalization.html
+    :scale: 30%
+.. |gallery_demo_meeg_timeseries_generalization_3| image:: _static/publish/demo_meeg_timeseries_generalization_03.png
+    :target: matlab/demo_meeg_timeseries_generalization.html
+    :scale: 30%
+
+
++-------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------+
+| |gallery_demo_fmri_rois_8|                                                          | |gallery_run_splithalf_correlations_5|                                              | |gallery_demo_fmri_correlation_searchlight_1|                                       | |gallery_demo_surface_searchlight_lda_1|                                            |
+|                                                                                     |                                                                                     |                                                                                     |                                                                                     |
+| :ref:`fMRI ROI classification analysis <demo_fmri_rois>`                            | :ref:`fMRI ROI split-half correlations <run_splithalf_correlations>`                | :ref:`fMRI split-half correlations searchlight <demo_fmri_correlation_searchlight>` | :ref:`Surface-based classification searchlight <demo_surface_searchlight_lda>`      |
++-------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------+
+| |gallery_demo_fmri_searchlight_rsm_2|                                               | |gallery_demo_fmri_searchlight_naive_bayes_1|                                       | |gallery_demo_fmri_distatis_1|                                                      | |gallery_demo_surface_tfce_2|                                                       |
+|                                                                                     |                                                                                     |                                                                                     |                                                                                     |
+| :ref:`Representational similarity analysis searchlight <demo_fmri_searchlight_rsm>` | :ref:`Fast Naive Bayes searchlight <demo_fmri_searchlight_naive_bayes>`             | :ref:`DISTATIS <demo_fmri_distatis>`                                                | :ref:`Threshold-Free Cluster Enhancement <demo_surface_tfce>`                       |
++-------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------+
+| |gallery_demo_meeg_timeseries_classification_1|                                     | |gallery_demo_meeg_timelock_searchlight_1|                                          | |gallery_demo_meeg_timefreq_searchlight_1|                                          | |gallery_demo_meeg_timeseries_generalization_1|                                     |
+|                                                                                     |                                                                                     |                                                                                     |                                                                                     |
+| :ref:`MEEG timeseries classification <demo_meeg_timeseries_classification>`         | :ref:`MEEG time-locked searchlight <demo_meeg_timelock_searchlight>`                | :ref:`MEEG time-frequency searchlight <demo_meeg_timefreq_searchlight>`             | :ref:`MEEG time generalization <demo_meeg_timeseries_generalization>`               |
++-------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------+
+| |gallery_demo_meeg_timeseries_generalization_3|                                     |                                                                                     |                                                                                     |                                                                                     |
+|                                                                                     |                                                                                     |                                                                                     |                                                                                     |
+| :ref:`MEEG time generalization searchlight <demo_meeg_timeseries_generalization>`   |                                                                                     |                                                                                     |                                                                                     |
++-------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------+

@@ -1,0 +1,477 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>cosmo publish run scripts &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css?v=279e0f84" />
+    <script src="../_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="cosmo rand" href="cosmo_rand.html" />
+    <link rel="prev" title="cosmo plot slices" href="cosmo_plot_slices.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cosmo_rand.html" title="cosmo rand"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_plot_slices.html" title="cosmo plot slices"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex.html" accesskey="U">CoSMoMVPA functions</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo publish run scripts</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cosmo-publish-run-scripts">
+<span id="id1"></span><h1>cosmo publish run scripts<a class="headerlink" href="#cosmo-publish-run-scripts" title="Link to this heading">¶</a></h1>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>is_ok<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">cosmo_publish_run_scripts</span><span class="p">(</span>varargin<span class="p">)</span>
+<span class="w">    </span><span class="c">% helper function to publish example scripts (for developers)</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% cosmo_publish_build_html([force|fn])</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Inputs:</span>
+<span class="w">    </span><span class="c">%   fn           filename of matlab file to publish (in the examples</span>
+<span class="w">    </span><span class="c">%                directory)</span>
+<span class="w">    </span><span class="c">%   &#39;-force&#39;     force rebuild, even if an output file is newer than the</span>
+<span class="w">    </span><span class="c">%                corresponding output file</span>
+<span class="w">    </span><span class="c">%   &#39;-dry&#39;       dry run: do not build any files, but show the output that</span>
+<span class="w">    </span><span class="c">%                would be shown.</span>
+<span class="w">    </span><span class="c">%   &#39;-o&#39;, d      write output in directory d. By default d is</span>
+<span class="w">    </span><span class="c">%                &#39;doc/source/_static/publish/&#39; relative to the CoSMoMVPA</span>
+<span class="w">    </span><span class="c">%                root directory.</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Notes:</span>
+<span class="w">    </span><span class="c">%  - if no filename is given, then all files are rebuilt if necessary</span>
+<span class="w">    </span><span class="c">%  - this function is intended for developers (to build the website)</span>
+<span class="w">    </span><span class="c">%  - whether an output file is out of date is first determined using</span>
+<span class="w">    </span><span class="c">%    git: if git shows no changes to the last commit of the input file</span>
+<span class="w">    </span><span class="c">%    then it is assumed it is not out of date. If the input file has</span>
+<span class="w">    </span><span class="c">%    been changed since the last commit (or never been committed), then</span>
+<span class="w">    </span><span class="c">%    the modification date is used to determine whether it is out of date.</span>
+<span class="w">    </span><span class="c">%  - requirements</span>
+<span class="w">    </span><span class="c">%    * a Unix-like system</span>
+<span class="w">    </span><span class="c">%    * a working installation of git</span>
+<span class="w">    </span><span class="c">%    * CoSMoMVPA code present in a git repository</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% #   For CoSMoMVPA&#39;s copyright information and license terms,   #</span>
+<span class="w">    </span><span class="c">% #   see the COPYING file distributed with CoSMoMVPA.           #</span>
+
+<span class="w">    </span><span class="c">% ensure &#39;publish&#39; function is available</span>
+<span class="w">    </span><span class="n">cosmo_check_external</span><span class="p">(</span><span class="s">&#39;!publish&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
+
+<span class="w">    </span><span class="p">[</span><span class="n">srcfn_cell</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">process_input</span><span class="p">(</span><span class="nb">varargin</span><span class="p">{:});</span>
+<span class="w">    </span><span class="n">trgdir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_output_dir</span><span class="p">(</span><span class="n">opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">trgext</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;.&#39;</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">format</span><span class="p">];</span>
+<span class="w">    </span><span class="n">summaryfn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;index.&#39;</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">format</span><span class="p">];</span>
+
+<span class="w">    </span><span class="n">orig_path</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">path</span><span class="p">();</span>
+<span class="w">    </span><span class="n">path_resetter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">onCleanup</span><span class="p">(@()</span><span class="nb">path</span><span class="p">(</span><span class="n">orig_path</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c">% go to mvpa dir</span>
+<span class="w">    </span><span class="n">orig_pwd</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">pwd</span><span class="p">();</span>
+<span class="w">    </span><span class="n">pwd_resetter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">onCleanup</span><span class="p">(@()</span><span class="nb">cd</span><span class="p">(</span><span class="n">orig_pwd</span><span class="p">));</span>
+<span class="w">    </span><span class="n">mvpa_dir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fileparts</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">(</span><span class="s">&#39;fullpath&#39;</span><span class="p">));</span>
+<span class="w">    </span><span class="nb">cd</span><span class="p">(</span><span class="n">mvpa_dir</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">isdir</span><span class="p">(</span><span class="n">trgdir</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">~</span><span class="n">opt</span><span class="p">.</span><span class="n">dryrun</span>
+<span class="w">        </span><span class="n">mkdir_recursively</span><span class="p">(</span><span class="n">trgdir</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">nsrc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">srcfn_cell</span><span class="p">);</span>
+<span class="w">    </span><span class="n">outputs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="n">nsrc</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">total_time_took</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="n">output_pos</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="n">is_ok</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">nsrc</span>
+<span class="w">        </span><span class="n">srcfn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">srcfn_cell</span><span class="p">{</span><span class="n">k</span><span class="p">};</span>
+<span class="w">        </span><span class="p">[</span><span class="n">srcpth</span><span class="p">,</span><span class="w"> </span><span class="n">srcnm</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fileparts</span><span class="p">(</span><span class="n">srcfn</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="nb">addpath</span><span class="p">(</span><span class="n">srcpth</span><span class="p">);</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">        </span><span class="n">trgfn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fullfile</span><span class="p">(</span><span class="n">trgdir</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">srcnm</span><span class="w"> </span><span class="n">trgext</span><span class="p">]);</span>
+
+<span class="w">        </span><span class="p">[</span><span class="n">needs_update</span><span class="p">,</span><span class="w"> </span><span class="n">build_msg</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">target_needs_update</span><span class="p">(</span><span class="n">srcfn</span><span class="p">,</span><span class="w"> </span><span class="n">trgfn</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">force</span>
+<span class="w">            </span><span class="n">build_msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;update forced: %s&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">srcfn</span><span class="p">);</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">        </span><span class="nb">fprintf</span><span class="p">(</span><span class="n">build_msg</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">do_update</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">needs_update</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">force</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">do_update</span>
+<span class="w">            </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;\n   building ... &#39;</span><span class="p">);</span>
+<span class="w">            </span><span class="n">clock_start</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">clock</span><span class="p">();</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">dryrun</span>
+<span class="w">                </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;&lt;dry run&gt;&#39;</span><span class="p">);</span>
+<span class="w">                </span><span class="n">is_built</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">            </span><span class="k">else</span>
+<span class="w">                </span><span class="n">is_built</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">publish_helper</span><span class="p">(</span><span class="n">srcfn</span><span class="p">,</span><span class="w"> </span><span class="n">trgfn</span><span class="p">);</span>
+<span class="w">            </span><span class="k">end</span>
+
+<span class="w">            </span><span class="n">clock_end</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">clock</span><span class="p">();</span>
+<span class="w">            </span><span class="n">time_took</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">etime</span><span class="p">(</span><span class="n">clock_end</span><span class="p">,</span><span class="w"> </span><span class="n">clock_start</span><span class="p">);</span>
+<span class="w">            </span><span class="n">total_time_took</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">total_time_took</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">time_took</span><span class="p">;</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">is_built</span>
+<span class="w">                </span><span class="n">outcome_msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39; done&#39;</span><span class="p">;</span>
+<span class="w">            </span><span class="k">else</span>
+<span class="w">                </span><span class="n">outcome_msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39; !! failed&#39;</span><span class="p">;</span>
+<span class="w">                </span><span class="n">is_ok</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">            </span><span class="k">end</span>
+
+<span class="w">            </span><span class="n">status_msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;%s (%.1f sec)&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">outcome_msg</span><span class="p">,</span><span class="w"> </span><span class="n">time_took</span><span class="p">);</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="n">status_msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">        </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;%s\n&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">status_msg</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">output_pos</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">output_pos</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="n">outputs</span><span class="p">{</span><span class="n">output_pos</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">srcnm</span><span class="p">;</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;Processed %d files (%.1f sec)\n&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">output_pos</span><span class="p">,</span><span class="w"> </span><span class="n">total_time_took</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">outputfn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fullfile</span><span class="p">(</span><span class="n">trgdir</span><span class="p">,</span><span class="w"> </span><span class="n">summaryfn</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">opt</span><span class="p">.</span><span class="n">dryrun</span>
+<span class="w">        </span><span class="n">write_index</span><span class="p">(</span><span class="n">outputfn</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">write_index</span><span class="p">(</span>index_outputfn, opt<span class="p">)</span>
+<span class="w">    </span><span class="p">[</span><span class="n">outputdir</span><span class="p">,</span><span class="w"> </span><span class="n">outputnm</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fileparts</span><span class="p">(</span><span class="n">index_outputfn</span><span class="p">);</span>
+<span class="w">    </span><span class="n">inputdir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fullfile</span><span class="p">(</span><span class="n">get_root_dir</span><span class="p">(),</span><span class="w"> </span><span class="s">&#39;examples&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">dir</span><span class="p">(</span><span class="nb">fullfile</span><span class="p">(</span><span class="n">inputdir</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;*.m&#39;</span><span class="p">));</span>
+
+<span class="w">    </span><span class="n">fid</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fopen</span><span class="p">(</span><span class="n">index_outputfn</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;w&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">cleaner3</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">onCleanup</span><span class="p">(@()</span><span class="nb">fclose</span><span class="p">(</span><span class="n">fid</span><span class="p">));</span>
+<span class="w">    </span><span class="nb">fprintf</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01//EN&quot;&#39;</span><span class="k">...</span>
+<span class="w">                  </span><span class="s">&#39;&gt;\n&#39;</span><span class="p">]);</span>
+<span class="w">    </span><span class="nb">fprintf</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;&lt;HTML&gt;&lt;HEAD&gt;&lt;TITLE&gt;Index of matlab outputs&#39;</span><span class="k">...</span>
+<span class="w">                  </span><span class="s">&#39;&lt;/TITLE&gt;&lt;/HEAD&gt;\n&lt;BODY&gt;Matlab output&lt;UL&gt;\n&#39;</span><span class="p">]);</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="w">        </span><span class="p">[</span><span class="n">unused</span><span class="p">,</span><span class="w"> </span><span class="n">nm</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fileparts</span><span class="p">(</span><span class="n">d</span><span class="p">(</span><span class="n">k</span><span class="p">).</span><span class="n">name</span><span class="p">);</span>
+<span class="w">        </span><span class="n">outputfn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;%s.%s&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">nm</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">format</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">exist</span><span class="p">(</span><span class="nb">fullfile</span><span class="p">(</span><span class="n">outputdir</span><span class="p">,</span><span class="w"> </span><span class="n">outputfn</span><span class="p">),</span><span class="w"> </span><span class="s">&#39;file&#39;</span><span class="p">)</span>
+<span class="w">            </span><span class="nb">fprintf</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;&lt;LI&gt;&lt;A HREF=&quot;%s&quot;&gt;%s&lt;/A&gt;&lt;/LI&gt;\n&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">outputfn</span><span class="p">,</span><span class="w"> </span><span class="n">nm</span><span class="p">);</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="nb">fprintf</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;&lt;/UL&gt;Back to &lt;A HREF=&quot;../../%s.html&quot;&gt;index&#39;</span><span class="k">...</span>
+<span class="w">                  </span><span class="s">&#39;&lt;/A&gt;.&lt;/BODY&gt;&lt;/HTML&gt;\n&#39;</span><span class="p">],</span><span class="w"> </span><span class="n">outputnm</span><span class="p">);</span>
+
+<span class="w">    </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;Index written to %s\n&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">index_outputfn</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span>trgdir<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">get_output_dir</span><span class="p">(</span>opt<span class="p">)</span>
+<span class="w">    </span><span class="n">trgdir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">output_dir</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">trgdir</span><span class="p">)</span>
+<span class="w">        </span><span class="n">trgdir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fullfile</span><span class="p">(</span><span class="n">get_root_dir</span><span class="p">(),</span><span class="w"> </span><span class="s">&#39;doc/source/_static/publish/&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span>d<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">get_root_dir</span><span class="p">()</span>
+<span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fileparts</span><span class="p">(</span><span class="nb">fileparts</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">(</span><span class="s">&#39;fullpath&#39;</span><span class="p">)));</span>
+
+<span class="k">function</span><span class="w"> </span>is_built<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">publish_helper</span><span class="p">(</span>srcfn, trgfn<span class="p">)</span>
+<span class="w">    </span><span class="n">is_built</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">    </span><span class="k">try</span>
+<span class="w">        </span><span class="n">publish_wrapper</span><span class="p">(</span><span class="n">srcfn</span><span class="p">,</span><span class="w"> </span><span class="n">trgfn</span><span class="p">);</span>
+<span class="w">        </span><span class="n">is_built</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">    </span><span class="k">catch</span>
+<span class="w">        </span><span class="n">me</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">lasterror</span><span class="p">();</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">exist</span><span class="p">(</span><span class="n">trgfn</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;file&#39;</span><span class="p">)</span>
+<span class="w">            </span><span class="nb">delete</span><span class="p">(</span><span class="n">trgfn</span><span class="p">);</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">        </span><span class="n">msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;Unable to build %s: %s\n&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">srcfn</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                      </span><span class="n">me</span><span class="p">.</span><span class="n">message</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">s</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">me</span><span class="p">.</span><span class="n">stack</span><span class="p">;</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nb">j</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="w">            </span><span class="n">msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;%s\n  %s:%s&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">(</span><span class="nb">j</span><span class="p">).</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">(</span><span class="nb">j</span><span class="p">).</span><span class="n">line</span><span class="p">);</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">        </span><span class="n">cosmo_warning</span><span class="p">(</span><span class="s">&#39;%s&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">publish_wrapper</span><span class="p">(</span>srcfn, trgfn<span class="p">)</span>
+<span class="w">    </span><span class="p">[</span><span class="n">srcdir</span><span class="p">,</span><span class="w"> </span><span class="n">srcnm</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fileparts</span><span class="p">(</span><span class="n">srcfn</span><span class="p">);</span>
+<span class="w">    </span><span class="n">trgdir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fileparts</span><span class="p">(</span><span class="n">trgfn</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">orig_pwd</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">pwd</span><span class="p">();</span>
+<span class="w">    </span><span class="n">pwd_resetter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">onCleanup</span><span class="p">(@()</span><span class="nb">cd</span><span class="p">(</span><span class="n">orig_pwd</span><span class="p">));</span>
+
+<span class="w">    </span><span class="n">orig_fig_handles</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">findobj</span><span class="p">(</span><span class="s">&#39;Type&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;figure&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">fig_cleaner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">onCleanup</span><span class="p">(@()</span><span class="nb">close</span><span class="p">(</span><span class="nb">setdiff</span><span class="p">(</span><span class="nb">findobj</span><span class="p">(</span><span class="s">&#39;Type&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;figure&#39;</span><span class="p">),</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                             </span><span class="n">orig_fig_handles</span><span class="p">)));</span>
+
+<span class="w">    </span><span class="nb">addpath</span><span class="p">(</span><span class="n">srcdir</span><span class="p">);</span>
+<span class="w">    </span><span class="nb">cd</span><span class="p">(</span><span class="n">trgdir</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">cosmo_wtf</span><span class="p">(</span><span class="s">&#39;is_matlab&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">args</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="nb">struct</span><span class="p">(</span><span class="s">&#39;outputDir&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">trgdir</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;catchError&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">false</span><span class="p">)};</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="n">args</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;format&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;html&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;imageFormat&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;jpg&#39;</span><span class="p">};</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="nb">publish</span><span class="p">(</span><span class="n">srcnm</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p">{:});</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">[srcfn_cell, opt] = process_input</span><span class="p">(</span>varargin<span class="p">)</span>
+<span class="w">    </span><span class="c">% set defaults</span>
+<span class="w">    </span><span class="n">srcpat</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">force</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">dryrun</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">format</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;html&#39;</span><span class="p">;</span><span class="w"> </span><span class="c">% currently not changeable</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">output_dir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c">% process arguments</span>
+<span class="w">    </span><span class="n">n</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="nb">varargin</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span>
+<span class="w">        </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="n">arg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">varargin</span><span class="p">{</span><span class="n">k</span><span class="p">};</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">ischar</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nb">strcmp</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;-force&#39;</span><span class="p">)</span>
+<span class="w">                </span><span class="n">opt</span><span class="p">.</span><span class="n">force</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">            </span><span class="k">elseif</span><span class="w"> </span><span class="nb">strcmp</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;-dry&#39;</span><span class="p">)</span>
+<span class="w">                </span><span class="n">opt</span><span class="p">.</span><span class="n">dryrun</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">            </span><span class="k">elseif</span><span class="w"> </span><span class="nb">strcmp</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;-o&#39;</span><span class="p">)</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">n</span>
+<span class="w">                    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Missing argument after %s&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">arg</span><span class="p">);</span>
+<span class="w">                </span><span class="k">end</span>
+<span class="w">                </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">                </span><span class="n">opt</span><span class="p">.</span><span class="n">output_dir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">varargin</span><span class="p">{</span><span class="n">k</span><span class="p">};</span>
+
+<span class="w">            </span><span class="k">elseif</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">srcpat</span><span class="p">)</span>
+<span class="w">                </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;multiple inputs found, this is not supported&#39;</span><span class="p">);</span>
+<span class="w">            </span><span class="k">else</span>
+<span class="w">                </span><span class="n">srcpat</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">arg</span><span class="p">;</span>
+<span class="w">            </span><span class="k">end</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Illegal argument at position %d - expected string&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">);</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">srcfn_cell</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_srcfn_cell</span><span class="p">(</span><span class="n">srcpat</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span>srcfn_cell<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">get_srcfn_cell</span><span class="p">(</span>srcpat<span class="p">)</span>
+<span class="w">    </span><span class="n">default_pattern</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;run_*&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;demo_*&#39;</span><span class="p">};</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">isdir</span><span class="p">(</span><span class="n">srcpat</span><span class="p">)</span>
+<span class="w">        </span><span class="n">p</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">srcpat</span><span class="p">;</span>
+<span class="w">        </span><span class="n">nms</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">default_pattern</span><span class="p">;</span>
+<span class="w">        </span><span class="n">e</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;.m&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="p">[</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">nm</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fileparts</span><span class="p">(</span><span class="n">srcpat</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="w">            </span><span class="n">p</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fullfile</span><span class="p">(</span><span class="n">get_root_dir</span><span class="p">(),</span><span class="w"> </span><span class="s">&#39;examples&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">nm</span><span class="p">)</span>
+<span class="w">            </span><span class="n">nms</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">default_pattern</span><span class="p">;</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="n">nms</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="n">nm</span><span class="p">};</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="w">            </span><span class="n">e</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;.m&#39;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">ds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cellfun</span><span class="p">(@(</span><span class="n">nm</span><span class="p">)</span><span class="nb">dir</span><span class="p">(</span><span class="nb">fullfile</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">nm</span><span class="w"> </span><span class="n">e</span><span class="p">])),</span><span class="w"> </span><span class="n">nms</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">false</span><span class="p">);</span>
+<span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cat</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ds</span><span class="p">{:});</span>
+<span class="w">    </span><span class="n">n</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">d</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;No input files found&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">srcfn_cell</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cellfun</span><span class="p">(@(</span><span class="n">fn</span><span class="p">)</span><span class="nb">fullfile</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">fn</span><span class="p">),</span><span class="w"> </span><span class="p">{</span><span class="n">d</span><span class="p">.</span><span class="n">name</span><span class="p">},</span><span class="w"> </span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">false</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">[tf, msg] = target_needs_update</span><span class="p">(</span>srcfn, trgfn<span class="p">)</span>
+<span class="w">    </span><span class="c">% helper function to see if html is out of date</span>
+<span class="w">    </span><span class="p">[</span><span class="n">unused</span><span class="p">,</span><span class="w"> </span><span class="n">root</span><span class="p">,</span><span class="w"> </span><span class="n">srcext</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fileparts</span><span class="p">(</span><span class="n">srcfn</span><span class="p">);</span>
+<span class="w">    </span><span class="p">[</span><span class="n">unused</span><span class="p">,</span><span class="w"> </span><span class="n">root_alt</span><span class="p">,</span><span class="w"> </span><span class="n">trgext</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fileparts</span><span class="p">(</span><span class="n">trgfn</span><span class="p">);</span>
+<span class="w">    </span><span class="nb">assert</span><span class="p">(</span><span class="nb">isequal</span><span class="p">(</span><span class="n">root</span><span class="p">,</span><span class="w"> </span><span class="n">root_alt</span><span class="p">));</span>
+
+<span class="w">    </span><span class="n">srcname</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">root</span><span class="p">,</span><span class="w"> </span><span class="n">srcext</span><span class="p">];</span>
+<span class="w">    </span><span class="n">trgname</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">root</span><span class="p">,</span><span class="w"> </span><span class="n">trgext</span><span class="p">];</span>
+<span class="w">    </span><span class="n">t_trg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">time_last_changed</span><span class="p">(</span><span class="n">trgfn</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isnan</span><span class="p">(</span><span class="n">t_trg</span><span class="p">)</span>
+<span class="w">        </span><span class="c">% does not exist, so needs update</span>
+<span class="w">        </span><span class="n">tf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">        </span><span class="n">msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;not found: %s&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">trgname</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">is_in_staging</span><span class="p">(</span><span class="n">srcfn</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">is_untracked</span><span class="p">(</span><span class="n">srcfn</span><span class="p">)</span>
+<span class="w">        </span><span class="c">% changes since last commit, see when changes were made</span>
+<span class="w">        </span><span class="n">t_src</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">time_last_changed</span><span class="p">(</span><span class="n">srcfn</span><span class="p">);</span>
+<span class="w">        </span><span class="n">tf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">isnan</span><span class="p">(</span><span class="n">t_src</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">t_trg</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">t_src</span><span class="p">;</span>
+<span class="w">        </span><span class="n">msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;modified: %s&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">srcname</span><span class="p">);</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="c">% no changes since last commit, see when last commit was made</span>
+<span class="w">        </span><span class="n">t_src</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">time_last_commit</span><span class="p">(</span><span class="n">srcfn</span><span class="p">);</span>
+<span class="w">        </span><span class="n">tf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">isnan</span><span class="p">(</span><span class="n">t_src</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">t_trg</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">t_src</span><span class="p">;</span>
+<span class="w">        </span><span class="n">msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;recent commit: %s&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">srcname</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">tf</span>
+<span class="w">        </span><span class="n">msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;up to date: %s&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">trgname</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span>t<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">time_last_changed</span><span class="p">(</span>fn<span class="p">)</span>
+<span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">dir</span><span class="p">(</span><span class="n">fn</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="w">        </span><span class="n">t</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">NaN</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="nb">assert</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">t</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">datenum</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">datenum</span><span class="p">(</span><span class="mi">1970</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">86400</span><span class="p">;</span>
+
+<span class="k">function</span><span class="w"> </span>r<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">run_git</span><span class="p">(</span>args<span class="p">)</span>
+<span class="w">    </span><span class="n">prefix</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;export TERM=ansi; git &#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cmd</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">prefix</span><span class="w"> </span><span class="n">args</span><span class="p">];</span>
+
+<span class="w">    </span><span class="p">[</span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">unix</span><span class="p">(</span><span class="n">cmd</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">e</span>
+<span class="w">        </span><span class="nb">fprintf</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Unable to run git, or an error was produced\n&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="n">r</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span>tf<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">is_untracked</span><span class="p">(</span>srcfn<span class="p">)</span>
+<span class="w">    </span><span class="n">untracked</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">run_git</span><span class="p">(</span><span class="s">&#39;ls-files . --exclude-standard --others&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">tf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_match</span><span class="p">({</span><span class="n">srcfn</span><span class="p">},</span><span class="w"> </span><span class="n">untracked</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span>t<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">time_last_commit</span><span class="p">(</span>srcfn<span class="p">)</span>
+<span class="w">    </span><span class="n">cmd</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;log -n 1 --pretty=format:%%ct -- %s&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">srcfn</span><span class="p">);</span>
+<span class="w">    </span><span class="n">r</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">run_git</span><span class="p">(</span><span class="n">cmd</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">t</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">str2double</span><span class="p">(</span><span class="nb">regexp</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;(\d*)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;match&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;once&#39;</span><span class="p">));</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="w">        </span><span class="n">t</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">NaN</span><span class="p">;</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="nb">assert</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span>tf<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">is_in_staging</span><span class="p">(</span>fn<span class="p">)</span>
+<span class="w">    </span><span class="n">in_staging_str</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">run_git</span><span class="p">(</span><span class="s">&#39;diff HEAD  --name-only | xargs basename&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">in_staging</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_strsplit</span><span class="p">(</span><span class="n">in_staging_str</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;\n&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">basefn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_strsplit</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="w"> </span><span class="nb">filesep</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">tf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_match</span><span class="p">({</span><span class="n">basefn</span><span class="p">},</span><span class="w"> </span><span class="n">in_staging</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">mkdir_recursively</span><span class="p">(</span>trgdir<span class="p">)</span>
+<span class="w">    </span><span class="n">parent</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fileparts</span><span class="p">(</span><span class="n">trgdir</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">isdir</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+<span class="w">        </span><span class="n">mkdir_recursively</span><span class="p">(</span><span class="n">parent</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="nb">mkdir</span><span class="p">(</span><span class="n">trgdir</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="cosmo_plot_slices.html"
+                          title="previous chapter">cosmo plot slices</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cosmo_rand.html"
+                          title="next chapter">cosmo rand</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/matlab/cosmo_publish_run_scripts.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cosmo_rand.html" title="cosmo rand"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_plot_slices.html" title="cosmo plot slices"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex.html" >CoSMoMVPA functions</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo publish run scripts</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="../_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

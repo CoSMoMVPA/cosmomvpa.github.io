@@ -1,0 +1,719 @@
+Changes since last month
+========================
+.. contents::
+    :local:
+    :depth: 1
+
+
+Summary
+^^^^^^^
+.. parsed-literal::
+
+        
+      [BIG]    1 major changes
+      [BLD]    1 changes in build system
+      [CLN]    5 clean-ups
+      [DOC]    1 code documentation changes
+      [ENH]    1 enhancements
+     [OCTV]    2 Octave-compatibility improvements
+       [RF]    1 refactorings
+
+Major changes
+^^^^^^^^^^^^^
+.. parsed-literal::
+
+        
+    commit `8c328fba3b5f7e8d2b58abd962059a0501b8f1f9 <https://github.com/CoSMoMVPA/CoSMoMVPA/commit/8c328fba3b5f7e8d2b58abd962059a0501b8f1f9>`_
+    Author: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+    Date:   Sat Sep 13 14:49:19 2025 +0200
+    
+        BIG+CLN: code reformatting using MISS_HIT
+    
+     :ref:`mvpa/cosmo_align.m                                <cosmo_align>`                                |  152 +-
+     :ref:`mvpa/cosmo_anova_feature_selector.m               <cosmo_anova_feature_selector>`               |   84 +-
+     :ref:`mvpa/cosmo_average_samples.m                      <cosmo_average_samples>`                      |  449 ++---
+     :ref:`mvpa/cosmo_balance_dataset.m                      <cosmo_balance_dataset>`                      |  150 +-
+     :ref:`mvpa/cosmo_balance_partitions.m                   <cosmo_balance_partitions>`                   |  418 ++--
+     :ref:`mvpa/cosmo_cartprod.m                             <cosmo_cartprod>`                             |  220 +-
+     :ref:`mvpa/cosmo_check_dataset.m                        <cosmo_check_dataset>`                        |  509 +++--
+     :ref:`mvpa/cosmo_check_external.m                       <cosmo_check_external>`                       | 1017 +++++-----
+     :ref:`mvpa/cosmo_check_neighborhood.m                   <cosmo_check_neighborhood>`                   |  381 ++--
+     :ref:`mvpa/cosmo_check_partitions.m                     <cosmo_check_partitions>`                     |  367 ++--
+     :ref:`mvpa/cosmo_chunkize.m                             <cosmo_chunkize>`                             |  346 ++--
+     :ref:`mvpa/cosmo_classify_knn.m                         <cosmo_classify_knn>`                         |  149 +-
+     :ref:`mvpa/cosmo_classify_lda.m                         <cosmo_classify_lda>`                         |  306 +--
+     :ref:`mvpa/cosmo_classify_libsvm.m                      <cosmo_classify_libsvm>`                      |  227 +--
+     :ref:`mvpa/cosmo_classify_matlabcsvm.m                  <cosmo_classify_matlabcsvm>`                  |  164 +-
+     :ref:`mvpa/cosmo_classify_matlabsvm.m                   <cosmo_classify_matlabsvm>`                   |  123 +-
+     :ref:`mvpa/cosmo_classify_matlabsvm_2class.m            <cosmo_classify_matlabsvm_2class>`            |  226 +--
+     :ref:`mvpa/cosmo_classify_meta_feature_selection.m      <cosmo_classify_meta_feature_selection>`      |  117 +-
+     :ref:`mvpa/cosmo_classify_naive_bayes.m                 <cosmo_classify_naive_bayes>`                 |  167 +-
+     :ref:`mvpa/cosmo_classify_nn.m                          <cosmo_classify_nn>`                          |   88 +-
+     :ref:`mvpa/cosmo_classify_svm.m                         <cosmo_classify_svm>`                         |  166 +-
+     :ref:`mvpa/cosmo_cluster_neighborhood.m                 <cosmo_cluster_neighborhood>`                 |  638 +++---
+     :ref:`mvpa/cosmo_clusterize.m                           <cosmo_clusterize>`                           |  236 ++-
+     :ref:`mvpa/cosmo_config.m                               <cosmo_config>`                               |  361 ++--
+     :ref:`mvpa/cosmo_confusion_matrix.m                     <cosmo_confusion_matrix>`                     |  216 +-
+     :ref:`mvpa/cosmo_convert_neighborhood.m                 <cosmo_convert_neighborhood>`                 |  238 ++-
+     :ref:`mvpa/cosmo_corr.m                                 <cosmo_corr>`                                 |  135 +-
+     :ref:`mvpa/cosmo_correlation_measure.m                  <cosmo_correlation_measure>`                  |  800 ++++----
+     :ref:`mvpa/cosmo_cross_neighborhood.m                   <cosmo_cross_neighborhood>`                   |  340 ++--
+     :ref:`mvpa/cosmo_crossvalidate.m                        <cosmo_crossvalidate>`                        |  396 ++--
+     :ref:`mvpa/cosmo_crossvalidation_measure.m              <cosmo_crossvalidation_measure>`              |  604 +++---
+     :ref:`mvpa/cosmo_dataset_slice_fa.m                     <cosmo_dataset_slice_fa>`                     |   62 +-
+     :ref:`mvpa/cosmo_dataset_slice_sa.m                     <cosmo_dataset_slice_sa>`                     |   64 +-
+     :ref:`mvpa/cosmo_dim_find.m                             <cosmo_dim_find>`                             |  238 ++-
+     :ref:`mvpa/cosmo_dim_generalization_measure.m           <cosmo_dim_generalization_measure>`           |  666 +++---
+     :ref:`mvpa/cosmo_dim_insert.m                           <cosmo_dim_insert>`                           |  236 ++-
+     :ref:`mvpa/cosmo_dim_match.m                            <cosmo_dim_match>`                            |  344 ++--
+     :ref:`mvpa/cosmo_dim_prune.m                            <cosmo_dim_prune>`                            |  301 ++-
+     :ref:`mvpa/cosmo_dim_remove.m                           <cosmo_dim_remove>`                           |  165 +-
+     :ref:`mvpa/cosmo_dim_rename.m                           <cosmo_dim_rename>`                           |  135 +-
+     :ref:`mvpa/cosmo_dim_slice.m                            <cosmo_dim_slice>`                            |   82 +-
+     :ref:`mvpa/cosmo_dim_transpose.m                        <cosmo_dim_transpose>`                        |  289 ++-
+     :ref:`mvpa/cosmo_dir.m                                  <cosmo_dir>`                                  |  230 ++-
+     :ref:`mvpa/cosmo_disp.m                                 <cosmo_disp>`                                 |  840 ++++----
+     :ref:`mvpa/cosmo_dissimilarity_matrix_measure.m         <cosmo_dissimilarity_matrix_measure>`         |  535 +++--
+     :ref:`mvpa/cosmo_distatis.m                             <cosmo_distatis>`                             |  638 +++---
+     :ref:`mvpa/cosmo_find_local_extrema.m                   <cosmo_find_local_extrema>`                   |  312 ++-
+     :ref:`mvpa/cosmo_flatten.m                              <cosmo_flatten>`                              |  386 ++--
+     :ref:`mvpa/cosmo_fmri_convert_xform.m                   <cosmo_fmri_convert_xform>`                   |  304 ++-
+     :ref:`mvpa/cosmo_fmri_dataset.m                         <cosmo_fmri_dataset>`                         | 2227 ++++++++++-----------
+     :ref:`mvpa/cosmo_fmri_deoblique.m                       <cosmo_fmri_deoblique>`                       |  145 +-
+     :ref:`mvpa/cosmo_fmri_orientation.m                     <cosmo_fmri_orientation>`                     |  155 +-
+     :ref:`mvpa/cosmo_fmri_reorient.m                        <cosmo_fmri_reorient>`                        |  281 ++-
+     :ref:`mvpa/cosmo_fx.m                                   <cosmo_fx>`                                   |  172 +-
+     :ref:`mvpa/cosmo_independent_samples_partitioner.m      <cosmo_independent_samples_partitioner>`      |  644 +++---
+     :ref:`mvpa/cosmo_index_unique.m                         <cosmo_index_unique>`                         |  266 ++-
+     :ref:`mvpa/cosmo_interval_neighborhood.m                <cosmo_interval_neighborhood>`                |  245 ++-
+     :ref:`mvpa/cosmo_isequaln.m                             <cosmo_isequaln>`                             |   96 +-
+     :ref:`mvpa/cosmo_isfield.m                              <cosmo_isfield>`                              |  175 +-
+     :ref:`mvpa/cosmo_make_temp_filename.m                   <cosmo_make_temp_filename>`                   |  144 +-
+     :ref:`mvpa/cosmo_map2fmri.m                             <cosmo_map2fmri>`                             |  781 ++++----
+     :ref:`mvpa/cosmo_map2meeg.m                             <cosmo_map2meeg>`                             |  613 +++---
+     :ref:`mvpa/cosmo_map2surface.m                          <cosmo_map2surface>`                          |  413 ++--
+     :ref:`mvpa/cosmo_map_pca.m                              <cosmo_map_pca>`                              |  238 ++-
+     :ref:`mvpa/cosmo_mask_dim_intersect.m                   <cosmo_mask_dim_intersect>`                   |  244 ++-
+     :ref:`mvpa/cosmo_match.m                                <cosmo_match>`                                |  191 +-
+     :ref:`mvpa/cosmo_measure_clusters.m                     <cosmo_measure_clusters>`                     |  419 ++--
+     :ref:`mvpa/cosmo_meeg_baseline_correct.m                <cosmo_meeg_baseline_correct>`                |  243 ++-
+     :ref:`mvpa/cosmo_meeg_chan_neighborhood.m               <cosmo_meeg_chan_neighborhood>`               |  542 +++--
+     :ref:`mvpa/cosmo_meeg_chan_neighbors.m                  <cosmo_meeg_chan_neighbors>`                  |  876 ++++----
+     :ref:`mvpa/cosmo_meeg_chantype.m                        <cosmo_meeg_chantype>`                        |  249 ++-
+     :ref:`mvpa/cosmo_meeg_dataset.m                         <cosmo_meeg_dataset>`                         | 1217 ++++++-----
+     :ref:`mvpa/cosmo_meeg_find_layout.m                     <cosmo_meeg_find_layout>`                     |  386 ++--
+     :ref:`mvpa/cosmo_meeg_layout_collection.m               <cosmo_meeg_layout_collection>`               |  340 ++--
+     :ref:`mvpa/cosmo_meeg_read_layout.m                     <cosmo_meeg_read_layout>`                     |  149 +-
+     :ref:`mvpa/cosmo_meeg_senstype2layout_mapping.m         <cosmo_meeg_senstype2layout_mapping>`         |  406 ++--
+     :ref:`mvpa/cosmo_meeg_senstype_collection.m             <cosmo_meeg_senstype_collection>`             |  849 ++++----
+     :ref:`mvpa/cosmo_meta_feature_selection_classifier.m    <cosmo_meta_feature_selection_classifier>`    |   62 +-
+     :ref:`mvpa/cosmo_montecarlo_cluster_stat.m              <cosmo_montecarlo_cluster_stat>`              | 1155 ++++++-----
+     :ref:`mvpa/cosmo_montecarlo_phase_stat.m                <cosmo_montecarlo_phase_stat>`                |  436 ++--
+     :ref:`mvpa/cosmo_naive_bayes_classifier_searchlight.m   <cosmo_naive_bayes_classifier_searchlight>`   |  487 +++--
+     :ref:`mvpa/cosmo_nchoosek_partitioner.m                 <cosmo_nchoosek_partitioner>`                 |  962 +++++----
+     :ref:`mvpa/cosmo_neighborhood_split.m                   <cosmo_neighborhood_split>`                   |  469 +++--
+     :ref:`mvpa/cosmo_nfold_partitioner.m                    <cosmo_nfold_partitioner>`                    |  181 +-
+     :ref:`mvpa/cosmo_normalize.m                            <cosmo_normalize>`                            |  436 ++--
+     :ref:`mvpa/cosmo_norminv.m                              <cosmo_norminv>`                              |   58 +-
+     :ref:`mvpa/cosmo_notify_test_skipped.m                  <cosmo_notify_test_skipped>`                  |  132 +-
+     :ref:`mvpa/cosmo_oddeven_partitioner.m                  <cosmo_oddeven_partitioner>`                  |  213 +-
+     :ref:`mvpa/cosmo_overlap.m                              <cosmo_overlap>`                              |  221 +-
+     :ref:`mvpa/cosmo_parallel_get_nproc_available.m         <cosmo_parallel_get_nproc_available>`         |  264 ++-
+     :ref:`mvpa/cosmo_parcellfun.m                           <cosmo_parcellfun>`                           |  158 +-
+     :ref:`mvpa/cosmo_pca.m                                  <cosmo_pca>`                                  |  210 +-
+     :ref:`mvpa/cosmo_pdist.m                                <cosmo_pdist>`                                |  144 +-
+     :ref:`mvpa/cosmo_phase_itc.m                            <cosmo_phase_itc>`                            |  210 +-
+     :ref:`mvpa/cosmo_phase_stat.m                           <cosmo_phase_stat>`                           |  170 +-
+     :ref:`mvpa/cosmo_plot_slices.m                          <cosmo_plot_slices>`                          |  208 +-
+     :ref:`mvpa/cosmo_publish_run_scripts.m                  <cosmo_publish_run_scripts>`                  |  401 ++--
+     :ref:`mvpa/cosmo_rand.m                                 <cosmo_rand>`                                 |  249 ++-
+     :ref:`mvpa/cosmo_randomize_targets.m                    <cosmo_randomize_targets>`                    |  205 +-
+     :ref:`mvpa/cosmo_randperm.m                             <cosmo_randperm>`                             |  119 +-
+     :ref:`mvpa/cosmo_remove_useless_data.m                  <cosmo_remove_useless_data>`                  |  223 +--
+     :ref:`mvpa/cosmo_run_tests.m                            <cosmo_run_tests>`                            |  277 ++-
+     :ref:`mvpa/cosmo_sample_unique.m                        <cosmo_sample_unique>`                        |  143 +-
+     :ref:`mvpa/cosmo_searchlight.m                          <cosmo_searchlight>`                          |  544 +++--
+     :ref:`mvpa/cosmo_set_path.m                             <cosmo_set_path>`                             |   79 +-
+     :ref:`mvpa/cosmo_show_progress.m                        <cosmo_show_progress>`                        |  170 +-
+     :ref:`mvpa/cosmo_singleton_neighborhood.m               <cosmo_singleton_neighborhood>`               |  176 +-
+     :ref:`mvpa/cosmo_skip_test_if_no_external.m             <cosmo_skip_test_if_no_external>`             |   96 +-
+     :ref:`mvpa/cosmo_slice.m                                <cosmo_slice>`                                |  506 ++---
+     :ref:`mvpa/cosmo_sphere_offsets.m                       <cosmo_sphere_offsets>`                       |  128 +-
+     :ref:`mvpa/cosmo_spherical_neighborhood.m               <cosmo_spherical_neighborhood>`               |  796 ++++----
+     :ref:`mvpa/cosmo_split.m                                <cosmo_split>`                                |  276 ++-
+     :ref:`mvpa/cosmo_squareform.m                           <cosmo_squareform>`                           |  133 +-
+     :ref:`mvpa/cosmo_stack.m                                <cosmo_stack>`                                |  486 +++--
+     :ref:`mvpa/cosmo_stat.m                                 <cosmo_stat>`                                 | 1045 +++++-----
+     :ref:`mvpa/cosmo_statcode.m                             <cosmo_statcode>`                             |  514 +++--
+     :ref:`mvpa/cosmo_strjoin.m                              <cosmo_strjoin>`                              |  131 +-
+     :ref:`mvpa/cosmo_strsplit.m                             <cosmo_strsplit>`                             |  202 +-
+     :ref:`mvpa/cosmo_structjoin.m                           <cosmo_structjoin>`                           |  226 ++-
+     :ref:`mvpa/cosmo_surface_dataset.m                      <cosmo_surface_dataset>`                      |  628 +++---
+     :ref:`mvpa/cosmo_surficial_neighborhood.m               <cosmo_surficial_neighborhood>`               |  905 ++++-----
+     :ref:`mvpa/cosmo_synthetic_dataset.m                    <cosmo_synthetic_dataset>`                    |  986 +++++----
+     :ref:`mvpa/cosmo_tail.m                                 <cosmo_tail>`                                 |  157 +-
+     :ref:`mvpa/cosmo_target_dsm_corr_measure.m              <cosmo_target_dsm_corr_measure>`              |  615 +++---
+     :ref:`mvpa/cosmo_tiedrank.m                             <cosmo_tiedrank>`                             |  211 +-
+     :ref:`mvpa/cosmo_type.m                                 <cosmo_type>`                                 |   30 +-
+     :ref:`mvpa/cosmo_unflatten.m                            <cosmo_unflatten>`                            |  363 ++--
+     :ref:`mvpa/cosmo_vol_coordinates.m                      <cosmo_vol_coordinates>`                      |  188 +-
+     :ref:`mvpa/cosmo_vol_grid_convert.m                     <cosmo_vol_grid_convert>`                     |  330 ++-
+     :ref:`mvpa/cosmo_warning.m                              <cosmo_warning>`                              |  191 +-
+     :ref:`mvpa/cosmo_winner_indices.m                       <cosmo_winner_indices>`                       |  169 +-
+     :ref:`mvpa/cosmo_wtf.m                                  <cosmo_wtf>`                                  |  310 ++-
+     :ref:`tests/test_align.m                                <test_align>`                                |  127 +-
+     :ref:`tests/test_anova_feature_selector.m               <test_anova_feature_selector>`               |   38 +-
+     :ref:`tests/test_average_samples.m                      <test_average_samples>`                      |  501 +++--
+     :ref:`tests/test_balance_dataset.m                      <test_balance_dataset>`                      |  121 +-
+     :ref:`tests/test_balance_partitions.m                   <test_balance_partitions>`                   |  392 ++--
+     :ref:`tests/test_cartprod.m                             <test_cartprod>`                             |   62 +-
+     :ref:`tests/test_check_dataset.m                        <test_check_dataset>`                        |  160 +-
+     :ref:`tests/test_check_external.m                       <test_check_external>`                       |   88 +-
+     :ref:`tests/test_check_neighborhood.m                   <test_check_neighborhood>`                   |  225 +--
+     :ref:`tests/test_check_partitions.m                     <test_check_partitions>`                     |  173 +-
+     :ref:`tests/test_chunkize.m                             <test_chunkize>`                             |  289 ++-
+     :ref:`tests/test_classify.m                             <test_classify>`                             |  590 +++---
+     :ref:`tests/test_cluster_neighborhood.m                 <test_cluster_neighborhood>`                 |  653 +++---
+     :ref:`tests/test_clusterize.m                           <test_clusterize>`                           |   61 +-
+     :ref:`tests/test_config.m                               <test_config>`                               |  148 +-
+     :ref:`tests/test_confusion_matrix.m                     <test_confusion_matrix>`                     |   91 +-
+     :ref:`tests/test_convert_neighborhood.m                 <test_convert_neighborhood>`                 |  113 +-
+     :ref:`tests/test_corr.m                                 <test_corr>`                                 |  116 +-
+     :ref:`tests/test_correlation_measure.m                  <test_correlation_measure>`                  |  328 ++-
+     :ref:`tests/test_cosmo_dataset_operations.m             <test_cosmo_dataset_operations>`             |   89 +-
+     :ref:`tests/test_cosmo_fmri_dataset.m                   <test_cosmo_fmri_dataset>`                   |  179 +-
+     :ref:`tests/test_cosmo_notify_test_skipped.m            <test_cosmo_notify_test_skipped>`            |   82 +-
+     :ref:`tests/test_cosmo_skip_test_if_no_external.m       <test_cosmo_skip_test_if_no_external>`       |   37 +-
+     :ref:`tests/test_cross_neighborhood.m                   <test_cross_neighborhood>`                   |  355 ++--
+     :ref:`tests/test_crossvalidate.m                        <test_crossvalidate>`                        |   79 +-
+     :ref:`tests/test_crossvalidation_measure.m              <test_crossvalidation_measure>`              |  579 +++---
+     :ref:`tests/test_dim_find.m                             <test_dim_find>`                             |  104 +-
+     :ref:`tests/test_dim_generalization_measure.m           <test_dim_generalization_measure>`           |  382 ++--
+     :ref:`tests/test_dim_insert.m                           <test_dim_insert>`                           |  157 +-
+     :ref:`tests/test_dim_match.m                            <test_dim_match>`                            |  209 +-
+     :ref:`tests/test_dim_prune.m                            <test_dim_prune>`                            |  223 +--
+     :ref:`tests/test_dim_remove.m                           <test_dim_remove>`                           |   91 +-
+     :ref:`tests/test_dim_rename.m                           <test_dim_rename>`                           |   44 +-
+     :ref:`tests/test_dim_slice.m                            <test_dim_slice>`                            |   51 +-
+     :ref:`tests/test_dim_transpose.m                        <test_dim_transpose>`                        |  168 +-
+     :ref:`tests/test_dir.m                                  <test_dir>`                                  |  143 +-
+     :ref:`tests/test_disp.m                                 <test_disp>`                                 |  427 ++--
+     :ref:`tests/test_dissimilarity_matrix_measure.m         <test_dissimilarity_matrix_measure>`         |  116 +-
+     :ref:`tests/test_distatis.m                             <test_distatis>`                             |  281 ++-
+     :ref:`tests/test_external_neuroelf.m                    <test_external_neuroelf>`                    |   90 +-
+     :ref:`tests/test_external_surfing.m                     <test_external_surfing>`                     |  236 ++-
+     :ref:`tests/test_find_local_extrema.m                   <test_find_local_extrema>`                   |   90 +-
+     :ref:`tests/test_flatten.m                              <test_flatten>`                              |  160 +-
+     :ref:`tests/test_fmri_convert_xform.m                   <test_fmri_convert_xform>`                   |   92 +-
+     :ref:`tests/test_fmri_dataset.m                         <test_fmri_dataset>`                         |  722 ++++---
+     :ref:`tests/test_fmri_deoblique.m                       <test_fmri_deoblique>`                       |   39 +-
+     :ref:`tests/test_fmri_io.m                              <test_fmri_io>`                              |  699 ++++---
+     :ref:`tests/test_fmri_orientation.m                     <test_fmri_orientation>`                     |  255 ++-
+     :ref:`tests/test_fx.m                                   <test_fx>`                                   |  140 +-
+     :ref:`tests/test_independent_samples_partitioner.m      <test_independent_samples_partitioner>`      |  455 ++---
+     :ref:`tests/test_index_unique.m                         <test_index_unique>`                         |  209 +-
+     :ref:`tests/test_interval_neighborhood.m                <test_interval_neighborhood>`                |  185 +-
+     :ref:`tests/test_isequaln.m                             <test_isequaln>`                             |  105 +-
+     :ref:`tests/test_isfield.m                              <test_isfield>`                              |   84 +-
+     :ref:`tests/test_map_pca.m                              <test_map_pca>`                              |  338 ++--
+     :ref:`tests/test_mask_dim_intersect.m                   <test_mask_dim_intersect>`                   |  208 +-
+     :ref:`tests/test_match.m                                <test_match>`                                |  123 +-
+     :ref:`tests/test_measure_clusters.m                     <test_measure_clusters>`                     |  164 +-
+     :ref:`tests/test_meeg_baseline_correct.m                <test_meeg_baseline_correct>`                |  282 ++-
+     :ref:`tests/test_meeg_chan_neighborhood.m               <test_meeg_chan_neighborhood>`               |  160 +-
+     :ref:`tests/test_meeg_chan_neighbors.m                  <test_meeg_chan_neighbors>`                  |  765 ++++---
+     :ref:`tests/test_meeg_chantype.m                        <test_meeg_chantype>`                        |  188 +-
+     :ref:`tests/test_meeg_find_layout.m                     <test_meeg_find_layout>`                     |  436 ++--
+     :ref:`tests/test_meeg_io.m                              <test_meeg_io>`                              |  901 ++++-----
+     :ref:`tests/test_meeg_layout_collection.m               <test_meeg_layout_collection>`               |  257 ++-
+     :ref:`tests/test_meeg_read_layout.m                     <test_meeg_read_layout>`                     |  169 +-
+     :ref:`tests/test_meeg_senstype_collection.m             <test_meeg_senstype_collection>`             |  345 ++--
+     :ref:`tests/test_meeg_source.m                          <test_meeg_source>`                          |  360 ++--
+     :ref:`tests/test_montecarlo_cluster_stat.m              <test_montecarlo_cluster_stat>`              |  909 ++++-----
+     :ref:`tests/test_montecarlo_cluster_stat_distribution.m <test_montecarlo_cluster_stat_distribution>` |  150 +-
+     :ref:`tests/test_montecarlo_phase_stat.m                <test_montecarlo_phase_stat>`                |  399 ++--
+     :ref:`tests/test_naive_bayes_classifier_searchlight.m   <test_naive_bayes_classifier_searchlight>`   |  251 ++-
+     :ref:`tests/test_neighborhood_split.m                   <test_neighborhood_split>`                   |  138 +-
+     :ref:`tests/test_normalize.m                            <test_normalize>`                            |  317 ++-
+     :ref:`tests/test_norminv.m                              <test_norminv>`                              |   56 +-
+     :ref:`tests/test_oddeven_partitioner.m                  <test_oddeven_partitioner>`                  |  128 +-
+     :ref:`tests/test_parallel_get_nproc_available.m         <test_parallel_get_nproc_available>`         |  212 +-
+     :ref:`tests/test_parcellfun.m                           <test_parcellfun>`                           |  160 +-
+     :ref:`tests/test_partitions.m                           <test_partitions>`                           |  258 ++-
+     :ref:`tests/test_pca.m                                  <test_pca>`                                  |  260 ++-
+     :ref:`tests/test_pdist.m                                <test_pdist>`                                |   41 +-
+     :ref:`tests/test_phase_itc.m                            <test_phase_itc>`                            |  170 +-
+     :ref:`tests/test_phase_stat.m                           <test_phase_stat>`                           |  278 ++-
+     :ref:`tests/test_plot_slices.m                          <test_plot_slices>`                          |   33 +-
+     :ref:`tests/test_publish_run_scripts.m                  <test_publish_run_scripts>`                  |  163 +-
+     :ref:`tests/test_rand.m                                 <test_rand>`                                 |  101 +-
+     :ref:`tests/test_randomize_targets.m                    <test_randomize_targets>`                    |   62 +-
+     :ref:`tests/test_randperm.m                             <test_randperm>`                             |  156 +-
+     :ref:`tests/test_remove_useless_data.m                  <test_remove_useless_data>`                  |  138 +-
+     :ref:`tests/test_run_tests.m                            <test_run_tests>`                            |  169 +-
+     :ref:`tests/test_sample_unique.m                        <test_sample_unique>`                        |  148 +-
+     :ref:`tests/test_searchlight.m                          <test_searchlight>`                          |  215 +-
+     :ref:`tests/test_show_progress.m                        <test_show_progress>`                        |   94 +-
+     :ref:`tests/test_singleton_neighborhood.m               <test_singleton_neighborhood>`               |   87 +-
+     :ref:`tests/test_slice.m                                <test_slice>`                                |  251 ++-
+     :ref:`tests/test_spherical_neighborhood.m               <test_spherical_neighborhood>`               |  644 +++---
+     :ref:`tests/test_split.m                                <test_split>`                                |   91 +-
+     :ref:`tests/test_squareform.m                           <test_squareform>`                           |  149 +-
+     :ref:`tests/test_stack.m                                <test_stack>`                                |  158 +-
+     :ref:`tests/test_stat.m                                 <test_stat>`                                 |  729 ++++---
+     :ref:`tests/test_statcode.m                             <test_statcode>`                             |  207 +-
+     :ref:`tests/test_strjoin.m                              <test_strjoin>`                              |   41 +-
+     :ref:`tests/test_strsplit.m                             <test_strsplit>`                             |   76 +-
+     :ref:`tests/test_structjoin.m                           <test_structjoin>`                           |  101 +-
+     :ref:`tests/test_surface_io.m                           <test_surface_io>`                           |  389 ++--
+     :ref:`tests/test_surficial_io_gifti.m                   <test_surficial_io_gifti>`                   |  320 ++-
+     :ref:`tests/test_surficial_io_niml_dset.m               <test_surficial_io_niml_dset>`               |  291 ++-
+     :ref:`tests/test_surficial_neighborhood.m               <test_surficial_neighborhood>`               |  818 ++++----
+     :ref:`tests/test_synthetic_dataset.m                    <test_synthetic_dataset>`                    |   93 +-
+     :ref:`tests/test_tail.m                                 <test_tail>`                                 |  135 +-
+     :ref:`tests/test_target_dsm_corr_measure.m              <test_target_dsm_corr_measure>`              |  570 +++---
+     :ref:`tests/test_tiedrank.m                             <test_tiedrank>`                             |  218 +-
+     :ref:`tests/test_type.m                                 <test_type>`                                 |   49 +-
+     :ref:`tests/test_vol_coordinates.m                      <test_vol_coordinates>`                      |  248 ++-
+     :ref:`tests/test_vol_grid_convert.m                     <test_vol_grid_convert>`                     |   99 +-
+     :ref:`tests/test_warning.m                              <test_warning>`                              |   33 +-
+     :ref:`tests/test_wtf.m                                  <test_wtf>`                                  |  105 +-
+     249 files changed, 36041 insertions(+), 37903 deletions(-)
+    
+    
+Changes that break existing functionality
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. parsed-literal::
+
+        
+    
+Bug fixes
+^^^^^^^^^
+.. parsed-literal::
+
+        
+    
+All changes
+^^^^^^^^^^^
+.. parsed-literal::
+
+        
+    commit `227184fb93d0b026e01a5a76c11c5040517d25d0 <https://github.com/CoSMoMVPA/CoSMoMVPA/commit/227184fb93d0b026e01a5a76c11c5040517d25d0>`_
+    Author: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+    Date:   Sat Sep 13 17:48:00 2025 +0200
+    
+        CLN: remove unused code
+    
+     doc/tools/matlab2rst.py | 3 ---
+     1 file changed, 3 deletions(-)
+    
+    commit `b3ce0b96588c8e02c8a86a305a5a58fefc375b9e <https://github.com/CoSMoMVPA/CoSMoMVPA/commit/b3ce0b96588c8e02c8a86a305a5a58fefc375b9e>`_
+    Author: Nikolaas N. Oosterhof <n.n.oosterhof@googlemail.com>
+    Date:   Sat Sep 13 17:44:53 2025 +0200
+    
+        DOC+BLD: update sphinx build configuration (#214)          * DOC:
+            update files to build with recent sphinx-build          * NF:
+            include codespell configuration          ---------
+            Co-authored-by: Nikolaas N. Oosterhof
+            <n.n.oosterhof@gmail.com>
+    
+     .codespellrc                               |  3 +++
+     doc/source/conf.py                         | 11 +++++++----
+     doc/source/download.rst                    |  2 --
+     doc/source/ex_classify_double_dipping.rst  |  2 +-
+     doc/source/ex_classify_lda.rst             |  2 +-
+     doc/source/ex_classify_naive_bayes.rst     |  2 +-
+     doc/source/ex_dataset_basics.rst           |  8 ++++----
+     doc/source/ex_measures.rst                 |  4 ++--
+     doc/source/ex_meeg_searchlight.rst         |  4 ++--
+     doc/source/ex_meeg_time_generalization.rst |  2 +-
+     doc/source/ex_multiple_comparisons.rst     |  4 ++--
+     doc/source/ex_neighborhood.rst             |  2 +-
+     doc/source/ex_nfold_crossvalidation.rst    |  2 +-
+     doc/source/ex_rsa_tutorial.rst             |  4 ++--
+     doc/source/ex_rsa_visualization.rst        |  2 +-
+     doc/source/ex_searchlight_measure.rst      |  4 ++--
+     doc/source/ex_sphere_offsets.rst           |  2 +-
+     doc/source/ex_splithalf_correlations.rst   |  4 ++--
+     doc/source/ex_surface_searchlight.rst      |  2 +-
+     doc/source/ex_write_classify_nn.rst        |  2 +-
+     doc/source/faq.rst                         |  2 +-
+     doc/source/labman2017_intro.rst            |  2 +-
+     doc/source/news.rst                        |  2 +-
+     doc/source/nmsm2019_intro.rst              |  2 +-
+     doc/source/prni2016_intro.rst              |  2 +-
+     doc/tools/matlab2rst.py                    |  9 ++++++---
+     26 files changed, 47 insertions(+), 40 deletions(-)
+    
+    commit `7d5a45c3a3902875b34ac2a0236a09e2be41d7f9 <https://github.com/CoSMoMVPA/CoSMoMVPA/commit/7d5a45c3a3902875b34ac2a0236a09e2be41d7f9>`_
+    Merge: 74ed3185 bfe0035d
+    Author: Nikolaas N. Oosterhof <n.n.oosterhof@googlemail.com>
+    Date:   Sat Sep 13 15:12:55 2025 +0200
+    
+        CLN: cleanup / typo's fixed using MISS_HIT and codespell
+            CLN: cleanup / typo's fixed using MISS_HIT and codespell
+    
+    commit `bfe0035de299a53fe962b13afd739a891ebb810c <https://github.com/CoSMoMVPA/CoSMoMVPA/commit/bfe0035de299a53fe962b13afd739a891ebb810c>`_
+    Author: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+    Date:   Sat Sep 13 15:06:07 2025 +0200
+    
+        CLN: fix typos using codespell
+    
+     :ref:`mvpa/cosmo_align.m                                <cosmo_align>`                                |  2 +-
+     :ref:`mvpa/cosmo_average_samples.m                      <cosmo_average_samples>`                      |  2 +-
+     :ref:`mvpa/cosmo_balance_partitions.m                   <cosmo_balance_partitions>`                   | 10 +++++-----
+     :ref:`mvpa/cosmo_check_external.m                       <cosmo_check_external>`                       |  4 ++--
+     :ref:`mvpa/cosmo_chunkize.m                             <cosmo_chunkize>`                             |  2 +-
+     :ref:`mvpa/cosmo_classify_naive_bayes.m                 <cosmo_classify_naive_bayes>`                 |  2 +-
+     :ref:`mvpa/cosmo_classify_nn.m                          <cosmo_classify_nn>`                          |  2 +-
+     :ref:`mvpa/cosmo_classify_svm.m                         <cosmo_classify_svm>`                         |  6 +++---
+     :ref:`mvpa/cosmo_cluster_neighborhood.m                 <cosmo_cluster_neighborhood>`                 |  2 +-
+     :ref:`mvpa/cosmo_clusterize.m                           <cosmo_clusterize>`                           |  4 ++--
+     :ref:`mvpa/cosmo_config.m                               <cosmo_config>`                               |  6 +++---
+     :ref:`mvpa/cosmo_cross_neighborhood.m                   <cosmo_cross_neighborhood>`                   |  2 +-
+     :ref:`mvpa/cosmo_crossvalidation_measure.m              <cosmo_crossvalidation_measure>`              |  4 ++--
+     :ref:`mvpa/cosmo_dim_generalization_measure.m           <cosmo_dim_generalization_measure>`           |  2 +-
+     :ref:`mvpa/cosmo_dir.m                                  <cosmo_dir>`                                  |  4 ++--
+     :ref:`mvpa/cosmo_disp.m                                 <cosmo_disp>`                                 |  2 +-
+     :ref:`mvpa/cosmo_find_local_extrema.m                   <cosmo_find_local_extrema>`                   |  2 +-
+     :ref:`mvpa/cosmo_fmri_convert_xform.m                   <cosmo_fmri_convert_xform>`                   |  4 ++--
+     :ref:`mvpa/cosmo_fmri_dataset.m                         <cosmo_fmri_dataset>`                         |  6 +++---
+     :ref:`mvpa/cosmo_fx.m                                   <cosmo_fx>`                                   |  2 +-
+     :ref:`mvpa/cosmo_independent_samples_partitioner.m      <cosmo_independent_samples_partitioner>`      |  2 +-
+     :ref:`mvpa/cosmo_map2fmri.m                             <cosmo_map2fmri>`                             |  6 +++---
+     :ref:`mvpa/cosmo_map2meeg.m                             <cosmo_map2meeg>`                             |  4 ++--
+     :ref:`mvpa/cosmo_map_pca.m                              <cosmo_map_pca>`                              |  6 +++---
+     :ref:`mvpa/cosmo_mask_dim_intersect.m                   <cosmo_mask_dim_intersect>`                   |  2 +-
+     :ref:`mvpa/cosmo_match.m                                <cosmo_match>`                                |  2 +-
+     :ref:`mvpa/cosmo_measure_clusters.m                     <cosmo_measure_clusters>`                     |  4 ++--
+     :ref:`mvpa/cosmo_meeg_chan_neighbors.m                  <cosmo_meeg_chan_neighbors>`                  |  2 +-
+     :ref:`mvpa/cosmo_meeg_dataset.m                         <cosmo_meeg_dataset>`                         |  4 ++--
+     :ref:`mvpa/cosmo_meeg_senstype_collection.m             <cosmo_meeg_senstype_collection>`             |  4 ++--
+     :ref:`mvpa/cosmo_montecarlo_cluster_stat.m              <cosmo_montecarlo_cluster_stat>`              | 12 ++++++------
+     :ref:`mvpa/cosmo_montecarlo_phase_stat.m                <cosmo_montecarlo_phase_stat>`                |  4 ++--
+     :ref:`mvpa/cosmo_nchoosek_partitioner.m                 <cosmo_nchoosek_partitioner>`                 |  4 ++--
+     :ref:`mvpa/cosmo_normalize.m                            <cosmo_normalize>`                            |  2 +-
+     :ref:`mvpa/cosmo_overlap.m                              <cosmo_overlap>`                              |  2 +-
+     :ref:`mvpa/cosmo_pca.m                                  <cosmo_pca>`                                  |  2 +-
+     :ref:`mvpa/cosmo_phase_itc.m                            <cosmo_phase_itc>`                            |  6 +++---
+     :ref:`mvpa/cosmo_plot_slices.m                          <cosmo_plot_slices>`                          |  6 +++---
+     :ref:`mvpa/cosmo_publish_run_scripts.m                  <cosmo_publish_run_scripts>`                  |  2 +-
+     :ref:`mvpa/cosmo_randperm.m                             <cosmo_randperm>`                             |  2 +-
+     :ref:`mvpa/cosmo_sample_unique.m                        <cosmo_sample_unique>`                        |  2 +-
+     :ref:`mvpa/cosmo_searchlight.m                          <cosmo_searchlight>`                          |  4 ++--
+     :ref:`mvpa/cosmo_sphere_offsets.m                       <cosmo_sphere_offsets>`                       |  2 +-
+     :ref:`mvpa/cosmo_spherical_neighborhood.m               <cosmo_spherical_neighborhood>`               |  2 +-
+     :ref:`mvpa/cosmo_stack.m                                <cosmo_stack>`                                |  2 +-
+     :ref:`mvpa/cosmo_stat.m                                 <cosmo_stat>`                                 | 10 +++++-----
+     :ref:`mvpa/cosmo_strjoin.m                              <cosmo_strjoin>`                              |  4 ++--
+     :ref:`mvpa/cosmo_strsplit.m                             <cosmo_strsplit>`                             | 10 +++++-----
+     :ref:`mvpa/cosmo_surface_dataset.m                      <cosmo_surface_dataset>`                      |  2 +-
+     :ref:`mvpa/cosmo_target_dsm_corr_measure.m              <cosmo_target_dsm_corr_measure>`              |  4 ++--
+     :ref:`mvpa/cosmo_winner_indices.m                       <cosmo_winner_indices>`                       |  2 +-
+     :ref:`tests/test_config.m                               <test_config>`                               |  2 +-
+     :ref:`tests/test_cosmo_notify_test_skipped.m            <test_cosmo_notify_test_skipped>`            |  2 +-
+     :ref:`tests/test_crossvalidation_measure.m              <test_crossvalidation_measure>`              |  2 +-
+     :ref:`tests/test_fmri_convert_xform.m                   <test_fmri_convert_xform>`                   |  2 +-
+     :ref:`tests/test_independent_samples_partitioner.m      <test_independent_samples_partitioner>`      |  4 ++--
+     :ref:`tests/test_montecarlo_cluster_stat_distribution.m <test_montecarlo_cluster_stat_distribution>` |  2 +-
+     :ref:`tests/test_montecarlo_phase_stat.m                <test_montecarlo_phase_stat>`                |  2 +-
+     :ref:`tests/test_randomize_targets.m                    <test_randomize_targets>`                    |  2 +-
+     :ref:`tests/test_show_progress.m                        <test_show_progress>`                        |  2 +-
+     :ref:`tests/test_slice.m                                <test_slice>`                                |  2 +-
+     61 files changed, 107 insertions(+), 107 deletions(-)
+    
+    commit `8c328fba3b5f7e8d2b58abd962059a0501b8f1f9 <https://github.com/CoSMoMVPA/CoSMoMVPA/commit/8c328fba3b5f7e8d2b58abd962059a0501b8f1f9>`_
+    Author: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+    Date:   Sat Sep 13 14:49:19 2025 +0200
+    
+        BIG+CLN: code reformatting using MISS_HIT
+    
+     :ref:`mvpa/cosmo_align.m                                <cosmo_align>`                                |  152 +-
+     :ref:`mvpa/cosmo_anova_feature_selector.m               <cosmo_anova_feature_selector>`               |   84 +-
+     :ref:`mvpa/cosmo_average_samples.m                      <cosmo_average_samples>`                      |  449 ++---
+     :ref:`mvpa/cosmo_balance_dataset.m                      <cosmo_balance_dataset>`                      |  150 +-
+     :ref:`mvpa/cosmo_balance_partitions.m                   <cosmo_balance_partitions>`                   |  418 ++--
+     :ref:`mvpa/cosmo_cartprod.m                             <cosmo_cartprod>`                             |  220 +-
+     :ref:`mvpa/cosmo_check_dataset.m                        <cosmo_check_dataset>`                        |  509 +++--
+     :ref:`mvpa/cosmo_check_external.m                       <cosmo_check_external>`                       | 1017 +++++-----
+     :ref:`mvpa/cosmo_check_neighborhood.m                   <cosmo_check_neighborhood>`                   |  381 ++--
+     :ref:`mvpa/cosmo_check_partitions.m                     <cosmo_check_partitions>`                     |  367 ++--
+     :ref:`mvpa/cosmo_chunkize.m                             <cosmo_chunkize>`                             |  346 ++--
+     :ref:`mvpa/cosmo_classify_knn.m                         <cosmo_classify_knn>`                         |  149 +-
+     :ref:`mvpa/cosmo_classify_lda.m                         <cosmo_classify_lda>`                         |  306 +--
+     :ref:`mvpa/cosmo_classify_libsvm.m                      <cosmo_classify_libsvm>`                      |  227 +--
+     :ref:`mvpa/cosmo_classify_matlabcsvm.m                  <cosmo_classify_matlabcsvm>`                  |  164 +-
+     :ref:`mvpa/cosmo_classify_matlabsvm.m                   <cosmo_classify_matlabsvm>`                   |  123 +-
+     :ref:`mvpa/cosmo_classify_matlabsvm_2class.m            <cosmo_classify_matlabsvm_2class>`            |  226 +--
+     :ref:`mvpa/cosmo_classify_meta_feature_selection.m      <cosmo_classify_meta_feature_selection>`      |  117 +-
+     :ref:`mvpa/cosmo_classify_naive_bayes.m                 <cosmo_classify_naive_bayes>`                 |  167 +-
+     :ref:`mvpa/cosmo_classify_nn.m                          <cosmo_classify_nn>`                          |   88 +-
+     :ref:`mvpa/cosmo_classify_svm.m                         <cosmo_classify_svm>`                         |  166 +-
+     :ref:`mvpa/cosmo_cluster_neighborhood.m                 <cosmo_cluster_neighborhood>`                 |  638 +++---
+     :ref:`mvpa/cosmo_clusterize.m                           <cosmo_clusterize>`                           |  236 ++-
+     :ref:`mvpa/cosmo_config.m                               <cosmo_config>`                               |  361 ++--
+     :ref:`mvpa/cosmo_confusion_matrix.m                     <cosmo_confusion_matrix>`                     |  216 +-
+     :ref:`mvpa/cosmo_convert_neighborhood.m                 <cosmo_convert_neighborhood>`                 |  238 ++-
+     :ref:`mvpa/cosmo_corr.m                                 <cosmo_corr>`                                 |  135 +-
+     :ref:`mvpa/cosmo_correlation_measure.m                  <cosmo_correlation_measure>`                  |  800 ++++----
+     :ref:`mvpa/cosmo_cross_neighborhood.m                   <cosmo_cross_neighborhood>`                   |  340 ++--
+     :ref:`mvpa/cosmo_crossvalidate.m                        <cosmo_crossvalidate>`                        |  396 ++--
+     :ref:`mvpa/cosmo_crossvalidation_measure.m              <cosmo_crossvalidation_measure>`              |  604 +++---
+     :ref:`mvpa/cosmo_dataset_slice_fa.m                     <cosmo_dataset_slice_fa>`                     |   62 +-
+     :ref:`mvpa/cosmo_dataset_slice_sa.m                     <cosmo_dataset_slice_sa>`                     |   64 +-
+     :ref:`mvpa/cosmo_dim_find.m                             <cosmo_dim_find>`                             |  238 ++-
+     :ref:`mvpa/cosmo_dim_generalization_measure.m           <cosmo_dim_generalization_measure>`           |  666 +++---
+     :ref:`mvpa/cosmo_dim_insert.m                           <cosmo_dim_insert>`                           |  236 ++-
+     :ref:`mvpa/cosmo_dim_match.m                            <cosmo_dim_match>`                            |  344 ++--
+     :ref:`mvpa/cosmo_dim_prune.m                            <cosmo_dim_prune>`                            |  301 ++-
+     :ref:`mvpa/cosmo_dim_remove.m                           <cosmo_dim_remove>`                           |  165 +-
+     :ref:`mvpa/cosmo_dim_rename.m                           <cosmo_dim_rename>`                           |  135 +-
+     :ref:`mvpa/cosmo_dim_slice.m                            <cosmo_dim_slice>`                            |   82 +-
+     :ref:`mvpa/cosmo_dim_transpose.m                        <cosmo_dim_transpose>`                        |  289 ++-
+     :ref:`mvpa/cosmo_dir.m                                  <cosmo_dir>`                                  |  230 ++-
+     :ref:`mvpa/cosmo_disp.m                                 <cosmo_disp>`                                 |  840 ++++----
+     :ref:`mvpa/cosmo_dissimilarity_matrix_measure.m         <cosmo_dissimilarity_matrix_measure>`         |  535 +++--
+     :ref:`mvpa/cosmo_distatis.m                             <cosmo_distatis>`                             |  638 +++---
+     :ref:`mvpa/cosmo_find_local_extrema.m                   <cosmo_find_local_extrema>`                   |  312 ++-
+     :ref:`mvpa/cosmo_flatten.m                              <cosmo_flatten>`                              |  386 ++--
+     :ref:`mvpa/cosmo_fmri_convert_xform.m                   <cosmo_fmri_convert_xform>`                   |  304 ++-
+     :ref:`mvpa/cosmo_fmri_dataset.m                         <cosmo_fmri_dataset>`                         | 2227 ++++++++++-----------
+     :ref:`mvpa/cosmo_fmri_deoblique.m                       <cosmo_fmri_deoblique>`                       |  145 +-
+     :ref:`mvpa/cosmo_fmri_orientation.m                     <cosmo_fmri_orientation>`                     |  155 +-
+     :ref:`mvpa/cosmo_fmri_reorient.m                        <cosmo_fmri_reorient>`                        |  281 ++-
+     :ref:`mvpa/cosmo_fx.m                                   <cosmo_fx>`                                   |  172 +-
+     :ref:`mvpa/cosmo_independent_samples_partitioner.m      <cosmo_independent_samples_partitioner>`      |  644 +++---
+     :ref:`mvpa/cosmo_index_unique.m                         <cosmo_index_unique>`                         |  266 ++-
+     :ref:`mvpa/cosmo_interval_neighborhood.m                <cosmo_interval_neighborhood>`                |  245 ++-
+     :ref:`mvpa/cosmo_isequaln.m                             <cosmo_isequaln>`                             |   96 +-
+     :ref:`mvpa/cosmo_isfield.m                              <cosmo_isfield>`                              |  175 +-
+     :ref:`mvpa/cosmo_make_temp_filename.m                   <cosmo_make_temp_filename>`                   |  144 +-
+     :ref:`mvpa/cosmo_map2fmri.m                             <cosmo_map2fmri>`                             |  781 ++++----
+     :ref:`mvpa/cosmo_map2meeg.m                             <cosmo_map2meeg>`                             |  613 +++---
+     :ref:`mvpa/cosmo_map2surface.m                          <cosmo_map2surface>`                          |  413 ++--
+     :ref:`mvpa/cosmo_map_pca.m                              <cosmo_map_pca>`                              |  238 ++-
+     :ref:`mvpa/cosmo_mask_dim_intersect.m                   <cosmo_mask_dim_intersect>`                   |  244 ++-
+     :ref:`mvpa/cosmo_match.m                                <cosmo_match>`                                |  191 +-
+     :ref:`mvpa/cosmo_measure_clusters.m                     <cosmo_measure_clusters>`                     |  419 ++--
+     :ref:`mvpa/cosmo_meeg_baseline_correct.m                <cosmo_meeg_baseline_correct>`                |  243 ++-
+     :ref:`mvpa/cosmo_meeg_chan_neighborhood.m               <cosmo_meeg_chan_neighborhood>`               |  542 +++--
+     :ref:`mvpa/cosmo_meeg_chan_neighbors.m                  <cosmo_meeg_chan_neighbors>`                  |  876 ++++----
+     :ref:`mvpa/cosmo_meeg_chantype.m                        <cosmo_meeg_chantype>`                        |  249 ++-
+     :ref:`mvpa/cosmo_meeg_dataset.m                         <cosmo_meeg_dataset>`                         | 1217 ++++++-----
+     :ref:`mvpa/cosmo_meeg_find_layout.m                     <cosmo_meeg_find_layout>`                     |  386 ++--
+     :ref:`mvpa/cosmo_meeg_layout_collection.m               <cosmo_meeg_layout_collection>`               |  340 ++--
+     :ref:`mvpa/cosmo_meeg_read_layout.m                     <cosmo_meeg_read_layout>`                     |  149 +-
+     :ref:`mvpa/cosmo_meeg_senstype2layout_mapping.m         <cosmo_meeg_senstype2layout_mapping>`         |  406 ++--
+     :ref:`mvpa/cosmo_meeg_senstype_collection.m             <cosmo_meeg_senstype_collection>`             |  849 ++++----
+     :ref:`mvpa/cosmo_meta_feature_selection_classifier.m    <cosmo_meta_feature_selection_classifier>`    |   62 +-
+     :ref:`mvpa/cosmo_montecarlo_cluster_stat.m              <cosmo_montecarlo_cluster_stat>`              | 1155 ++++++-----
+     :ref:`mvpa/cosmo_montecarlo_phase_stat.m                <cosmo_montecarlo_phase_stat>`                |  436 ++--
+     :ref:`mvpa/cosmo_naive_bayes_classifier_searchlight.m   <cosmo_naive_bayes_classifier_searchlight>`   |  487 +++--
+     :ref:`mvpa/cosmo_nchoosek_partitioner.m                 <cosmo_nchoosek_partitioner>`                 |  962 +++++----
+     :ref:`mvpa/cosmo_neighborhood_split.m                   <cosmo_neighborhood_split>`                   |  469 +++--
+     :ref:`mvpa/cosmo_nfold_partitioner.m                    <cosmo_nfold_partitioner>`                    |  181 +-
+     :ref:`mvpa/cosmo_normalize.m                            <cosmo_normalize>`                            |  436 ++--
+     :ref:`mvpa/cosmo_norminv.m                              <cosmo_norminv>`                              |   58 +-
+     :ref:`mvpa/cosmo_notify_test_skipped.m                  <cosmo_notify_test_skipped>`                  |  132 +-
+     :ref:`mvpa/cosmo_oddeven_partitioner.m                  <cosmo_oddeven_partitioner>`                  |  213 +-
+     :ref:`mvpa/cosmo_overlap.m                              <cosmo_overlap>`                              |  221 +-
+     :ref:`mvpa/cosmo_parallel_get_nproc_available.m         <cosmo_parallel_get_nproc_available>`         |  264 ++-
+     :ref:`mvpa/cosmo_parcellfun.m                           <cosmo_parcellfun>`                           |  158 +-
+     :ref:`mvpa/cosmo_pca.m                                  <cosmo_pca>`                                  |  210 +-
+     :ref:`mvpa/cosmo_pdist.m                                <cosmo_pdist>`                                |  144 +-
+     :ref:`mvpa/cosmo_phase_itc.m                            <cosmo_phase_itc>`                            |  210 +-
+     :ref:`mvpa/cosmo_phase_stat.m                           <cosmo_phase_stat>`                           |  170 +-
+     :ref:`mvpa/cosmo_plot_slices.m                          <cosmo_plot_slices>`                          |  208 +-
+     :ref:`mvpa/cosmo_publish_run_scripts.m                  <cosmo_publish_run_scripts>`                  |  401 ++--
+     :ref:`mvpa/cosmo_rand.m                                 <cosmo_rand>`                                 |  249 ++-
+     :ref:`mvpa/cosmo_randomize_targets.m                    <cosmo_randomize_targets>`                    |  205 +-
+     :ref:`mvpa/cosmo_randperm.m                             <cosmo_randperm>`                             |  119 +-
+     :ref:`mvpa/cosmo_remove_useless_data.m                  <cosmo_remove_useless_data>`                  |  223 +--
+     :ref:`mvpa/cosmo_run_tests.m                            <cosmo_run_tests>`                            |  277 ++-
+     :ref:`mvpa/cosmo_sample_unique.m                        <cosmo_sample_unique>`                        |  143 +-
+     :ref:`mvpa/cosmo_searchlight.m                          <cosmo_searchlight>`                          |  544 +++--
+     :ref:`mvpa/cosmo_set_path.m                             <cosmo_set_path>`                             |   79 +-
+     :ref:`mvpa/cosmo_show_progress.m                        <cosmo_show_progress>`                        |  170 +-
+     :ref:`mvpa/cosmo_singleton_neighborhood.m               <cosmo_singleton_neighborhood>`               |  176 +-
+     :ref:`mvpa/cosmo_skip_test_if_no_external.m             <cosmo_skip_test_if_no_external>`             |   96 +-
+     :ref:`mvpa/cosmo_slice.m                                <cosmo_slice>`                                |  506 ++---
+     :ref:`mvpa/cosmo_sphere_offsets.m                       <cosmo_sphere_offsets>`                       |  128 +-
+     :ref:`mvpa/cosmo_spherical_neighborhood.m               <cosmo_spherical_neighborhood>`               |  796 ++++----
+     :ref:`mvpa/cosmo_split.m                                <cosmo_split>`                                |  276 ++-
+     :ref:`mvpa/cosmo_squareform.m                           <cosmo_squareform>`                           |  133 +-
+     :ref:`mvpa/cosmo_stack.m                                <cosmo_stack>`                                |  486 +++--
+     :ref:`mvpa/cosmo_stat.m                                 <cosmo_stat>`                                 | 1045 +++++-----
+     :ref:`mvpa/cosmo_statcode.m                             <cosmo_statcode>`                             |  514 +++--
+     :ref:`mvpa/cosmo_strjoin.m                              <cosmo_strjoin>`                              |  131 +-
+     :ref:`mvpa/cosmo_strsplit.m                             <cosmo_strsplit>`                             |  202 +-
+     :ref:`mvpa/cosmo_structjoin.m                           <cosmo_structjoin>`                           |  226 ++-
+     :ref:`mvpa/cosmo_surface_dataset.m                      <cosmo_surface_dataset>`                      |  628 +++---
+     :ref:`mvpa/cosmo_surficial_neighborhood.m               <cosmo_surficial_neighborhood>`               |  905 ++++-----
+     :ref:`mvpa/cosmo_synthetic_dataset.m                    <cosmo_synthetic_dataset>`                    |  986 +++++----
+     :ref:`mvpa/cosmo_tail.m                                 <cosmo_tail>`                                 |  157 +-
+     :ref:`mvpa/cosmo_target_dsm_corr_measure.m              <cosmo_target_dsm_corr_measure>`              |  615 +++---
+     :ref:`mvpa/cosmo_tiedrank.m                             <cosmo_tiedrank>`                             |  211 +-
+     :ref:`mvpa/cosmo_type.m                                 <cosmo_type>`                                 |   30 +-
+     :ref:`mvpa/cosmo_unflatten.m                            <cosmo_unflatten>`                            |  363 ++--
+     :ref:`mvpa/cosmo_vol_coordinates.m                      <cosmo_vol_coordinates>`                      |  188 +-
+     :ref:`mvpa/cosmo_vol_grid_convert.m                     <cosmo_vol_grid_convert>`                     |  330 ++-
+     :ref:`mvpa/cosmo_warning.m                              <cosmo_warning>`                              |  191 +-
+     :ref:`mvpa/cosmo_winner_indices.m                       <cosmo_winner_indices>`                       |  169 +-
+     :ref:`mvpa/cosmo_wtf.m                                  <cosmo_wtf>`                                  |  310 ++-
+     :ref:`tests/test_align.m                                <test_align>`                                |  127 +-
+     :ref:`tests/test_anova_feature_selector.m               <test_anova_feature_selector>`               |   38 +-
+     :ref:`tests/test_average_samples.m                      <test_average_samples>`                      |  501 +++--
+     :ref:`tests/test_balance_dataset.m                      <test_balance_dataset>`                      |  121 +-
+     :ref:`tests/test_balance_partitions.m                   <test_balance_partitions>`                   |  392 ++--
+     :ref:`tests/test_cartprod.m                             <test_cartprod>`                             |   62 +-
+     :ref:`tests/test_check_dataset.m                        <test_check_dataset>`                        |  160 +-
+     :ref:`tests/test_check_external.m                       <test_check_external>`                       |   88 +-
+     :ref:`tests/test_check_neighborhood.m                   <test_check_neighborhood>`                   |  225 +--
+     :ref:`tests/test_check_partitions.m                     <test_check_partitions>`                     |  173 +-
+     :ref:`tests/test_chunkize.m                             <test_chunkize>`                             |  289 ++-
+     :ref:`tests/test_classify.m                             <test_classify>`                             |  590 +++---
+     :ref:`tests/test_cluster_neighborhood.m                 <test_cluster_neighborhood>`                 |  653 +++---
+     :ref:`tests/test_clusterize.m                           <test_clusterize>`                           |   61 +-
+     :ref:`tests/test_config.m                               <test_config>`                               |  148 +-
+     :ref:`tests/test_confusion_matrix.m                     <test_confusion_matrix>`                     |   91 +-
+     :ref:`tests/test_convert_neighborhood.m                 <test_convert_neighborhood>`                 |  113 +-
+     :ref:`tests/test_corr.m                                 <test_corr>`                                 |  116 +-
+     :ref:`tests/test_correlation_measure.m                  <test_correlation_measure>`                  |  328 ++-
+     :ref:`tests/test_cosmo_dataset_operations.m             <test_cosmo_dataset_operations>`             |   89 +-
+     :ref:`tests/test_cosmo_fmri_dataset.m                   <test_cosmo_fmri_dataset>`                   |  179 +-
+     :ref:`tests/test_cosmo_notify_test_skipped.m            <test_cosmo_notify_test_skipped>`            |   82 +-
+     :ref:`tests/test_cosmo_skip_test_if_no_external.m       <test_cosmo_skip_test_if_no_external>`       |   37 +-
+     :ref:`tests/test_cross_neighborhood.m                   <test_cross_neighborhood>`                   |  355 ++--
+     :ref:`tests/test_crossvalidate.m                        <test_crossvalidate>`                        |   79 +-
+     :ref:`tests/test_crossvalidation_measure.m              <test_crossvalidation_measure>`              |  579 +++---
+     :ref:`tests/test_dim_find.m                             <test_dim_find>`                             |  104 +-
+     :ref:`tests/test_dim_generalization_measure.m           <test_dim_generalization_measure>`           |  382 ++--
+     :ref:`tests/test_dim_insert.m                           <test_dim_insert>`                           |  157 +-
+     :ref:`tests/test_dim_match.m                            <test_dim_match>`                            |  209 +-
+     :ref:`tests/test_dim_prune.m                            <test_dim_prune>`                            |  223 +--
+     :ref:`tests/test_dim_remove.m                           <test_dim_remove>`                           |   91 +-
+     :ref:`tests/test_dim_rename.m                           <test_dim_rename>`                           |   44 +-
+     :ref:`tests/test_dim_slice.m                            <test_dim_slice>`                            |   51 +-
+     :ref:`tests/test_dim_transpose.m                        <test_dim_transpose>`                        |  168 +-
+     :ref:`tests/test_dir.m                                  <test_dir>`                                  |  143 +-
+     :ref:`tests/test_disp.m                                 <test_disp>`                                 |  427 ++--
+     :ref:`tests/test_dissimilarity_matrix_measure.m         <test_dissimilarity_matrix_measure>`         |  116 +-
+     :ref:`tests/test_distatis.m                             <test_distatis>`                             |  281 ++-
+     :ref:`tests/test_external_neuroelf.m                    <test_external_neuroelf>`                    |   90 +-
+     :ref:`tests/test_external_surfing.m                     <test_external_surfing>`                     |  236 ++-
+     :ref:`tests/test_find_local_extrema.m                   <test_find_local_extrema>`                   |   90 +-
+     :ref:`tests/test_flatten.m                              <test_flatten>`                              |  160 +-
+     :ref:`tests/test_fmri_convert_xform.m                   <test_fmri_convert_xform>`                   |   92 +-
+     :ref:`tests/test_fmri_dataset.m                         <test_fmri_dataset>`                         |  722 ++++---
+     :ref:`tests/test_fmri_deoblique.m                       <test_fmri_deoblique>`                       |   39 +-
+     :ref:`tests/test_fmri_io.m                              <test_fmri_io>`                              |  699 ++++---
+     :ref:`tests/test_fmri_orientation.m                     <test_fmri_orientation>`                     |  255 ++-
+     :ref:`tests/test_fx.m                                   <test_fx>`                                   |  140 +-
+     :ref:`tests/test_independent_samples_partitioner.m      <test_independent_samples_partitioner>`      |  455 ++---
+     :ref:`tests/test_index_unique.m                         <test_index_unique>`                         |  209 +-
+     :ref:`tests/test_interval_neighborhood.m                <test_interval_neighborhood>`                |  185 +-
+     :ref:`tests/test_isequaln.m                             <test_isequaln>`                             |  105 +-
+     :ref:`tests/test_isfield.m                              <test_isfield>`                              |   84 +-
+     :ref:`tests/test_map_pca.m                              <test_map_pca>`                              |  338 ++--
+     :ref:`tests/test_mask_dim_intersect.m                   <test_mask_dim_intersect>`                   |  208 +-
+     :ref:`tests/test_match.m                                <test_match>`                                |  123 +-
+     :ref:`tests/test_measure_clusters.m                     <test_measure_clusters>`                     |  164 +-
+     :ref:`tests/test_meeg_baseline_correct.m                <test_meeg_baseline_correct>`                |  282 ++-
+     :ref:`tests/test_meeg_chan_neighborhood.m               <test_meeg_chan_neighborhood>`               |  160 +-
+     :ref:`tests/test_meeg_chan_neighbors.m                  <test_meeg_chan_neighbors>`                  |  765 ++++---
+     :ref:`tests/test_meeg_chantype.m                        <test_meeg_chantype>`                        |  188 +-
+     :ref:`tests/test_meeg_find_layout.m                     <test_meeg_find_layout>`                     |  436 ++--
+     :ref:`tests/test_meeg_io.m                              <test_meeg_io>`                              |  901 ++++-----
+     :ref:`tests/test_meeg_layout_collection.m               <test_meeg_layout_collection>`               |  257 ++-
+     :ref:`tests/test_meeg_read_layout.m                     <test_meeg_read_layout>`                     |  169 +-
+     :ref:`tests/test_meeg_senstype_collection.m             <test_meeg_senstype_collection>`             |  345 ++--
+     :ref:`tests/test_meeg_source.m                          <test_meeg_source>`                          |  360 ++--
+     :ref:`tests/test_montecarlo_cluster_stat.m              <test_montecarlo_cluster_stat>`              |  909 ++++-----
+     :ref:`tests/test_montecarlo_cluster_stat_distribution.m <test_montecarlo_cluster_stat_distribution>` |  150 +-
+     :ref:`tests/test_montecarlo_phase_stat.m                <test_montecarlo_phase_stat>`                |  399 ++--
+     :ref:`tests/test_naive_bayes_classifier_searchlight.m   <test_naive_bayes_classifier_searchlight>`   |  251 ++-
+     :ref:`tests/test_neighborhood_split.m                   <test_neighborhood_split>`                   |  138 +-
+     :ref:`tests/test_normalize.m                            <test_normalize>`                            |  317 ++-
+     :ref:`tests/test_norminv.m                              <test_norminv>`                              |   56 +-
+     :ref:`tests/test_oddeven_partitioner.m                  <test_oddeven_partitioner>`                  |  128 +-
+     :ref:`tests/test_parallel_get_nproc_available.m         <test_parallel_get_nproc_available>`         |  212 +-
+     :ref:`tests/test_parcellfun.m                           <test_parcellfun>`                           |  160 +-
+     :ref:`tests/test_partitions.m                           <test_partitions>`                           |  258 ++-
+     :ref:`tests/test_pca.m                                  <test_pca>`                                  |  260 ++-
+     :ref:`tests/test_pdist.m                                <test_pdist>`                                |   41 +-
+     :ref:`tests/test_phase_itc.m                            <test_phase_itc>`                            |  170 +-
+     :ref:`tests/test_phase_stat.m                           <test_phase_stat>`                           |  278 ++-
+     :ref:`tests/test_plot_slices.m                          <test_plot_slices>`                          |   33 +-
+     :ref:`tests/test_publish_run_scripts.m                  <test_publish_run_scripts>`                  |  163 +-
+     :ref:`tests/test_rand.m                                 <test_rand>`                                 |  101 +-
+     :ref:`tests/test_randomize_targets.m                    <test_randomize_targets>`                    |   62 +-
+     :ref:`tests/test_randperm.m                             <test_randperm>`                             |  156 +-
+     :ref:`tests/test_remove_useless_data.m                  <test_remove_useless_data>`                  |  138 +-
+     :ref:`tests/test_run_tests.m                            <test_run_tests>`                            |  169 +-
+     :ref:`tests/test_sample_unique.m                        <test_sample_unique>`                        |  148 +-
+     :ref:`tests/test_searchlight.m                          <test_searchlight>`                          |  215 +-
+     :ref:`tests/test_show_progress.m                        <test_show_progress>`                        |   94 +-
+     :ref:`tests/test_singleton_neighborhood.m               <test_singleton_neighborhood>`               |   87 +-
+     :ref:`tests/test_slice.m                                <test_slice>`                                |  251 ++-
+     :ref:`tests/test_spherical_neighborhood.m               <test_spherical_neighborhood>`               |  644 +++---
+     :ref:`tests/test_split.m                                <test_split>`                                |   91 +-
+     :ref:`tests/test_squareform.m                           <test_squareform>`                           |  149 +-
+     :ref:`tests/test_stack.m                                <test_stack>`                                |  158 +-
+     :ref:`tests/test_stat.m                                 <test_stat>`                                 |  729 ++++---
+     :ref:`tests/test_statcode.m                             <test_statcode>`                             |  207 +-
+     :ref:`tests/test_strjoin.m                              <test_strjoin>`                              |   41 +-
+     :ref:`tests/test_strsplit.m                             <test_strsplit>`                             |   76 +-
+     :ref:`tests/test_structjoin.m                           <test_structjoin>`                           |  101 +-
+     :ref:`tests/test_surface_io.m                           <test_surface_io>`                           |  389 ++--
+     :ref:`tests/test_surficial_io_gifti.m                   <test_surficial_io_gifti>`                   |  320 ++-
+     :ref:`tests/test_surficial_io_niml_dset.m               <test_surficial_io_niml_dset>`               |  291 ++-
+     :ref:`tests/test_surficial_neighborhood.m               <test_surficial_neighborhood>`               |  818 ++++----
+     :ref:`tests/test_synthetic_dataset.m                    <test_synthetic_dataset>`                    |   93 +-
+     :ref:`tests/test_tail.m                                 <test_tail>`                                 |  135 +-
+     :ref:`tests/test_target_dsm_corr_measure.m              <test_target_dsm_corr_measure>`              |  570 +++---
+     :ref:`tests/test_tiedrank.m                             <test_tiedrank>`                             |  218 +-
+     :ref:`tests/test_type.m                                 <test_type>`                                 |   49 +-
+     :ref:`tests/test_vol_coordinates.m                      <test_vol_coordinates>`                      |  248 ++-
+     :ref:`tests/test_vol_grid_convert.m                     <test_vol_grid_convert>`                     |   99 +-
+     :ref:`tests/test_warning.m                              <test_warning>`                              |   33 +-
+     :ref:`tests/test_wtf.m                                  <test_wtf>`                                  |  105 +-
+     249 files changed, 36041 insertions(+), 37903 deletions(-)
+    
+    commit `74ed3185a402d9d2ad6369505d9a1036a7d3df6d <https://github.com/CoSMoMVPA/CoSMoMVPA/commit/74ed3185a402d9d2ad6369505d9a1036a7d3df6d>`_
+    Author: Nikolaas N. Oosterhof <n.n.oosterhof@googlemail.com>
+    Date:   Sat Sep 13 13:07:45 2025 +0200
+    
+        ENH: minor compatibility updates (#212)          * ENH: minor
+            compatibility updates          * CMPT: add extra safety on not
+            returning negative p values          * FIX: do not transpose
+            text message          * TST+OCTV: update test after changed
+            behaviour of Octave pca function          * TST+OCTV: support
+            Octave pca row vector results          * TST: fix version
+            check          * DOC: fix indent          * TST: limit use of
+            findstr          * DOC+RF: minor changes          ---------
+            Co-authored-by: Nikolaas N. Oosterhof
+            <n.n.oosterhof@gmail.com>
+    
+     .gitignore                                |  2 ++
+     COPYING                                   |  2 +-
+     :ref:`mvpa/cosmo_check_external.m               <cosmo_check_external>`               | 28 ++++++++++++++++++
+     :ref:`mvpa/cosmo_check_neighborhood.m           <cosmo_check_neighborhood>`           |  2 +-
+     :ref:`mvpa/cosmo_dim_match.m                    <cosmo_dim_match>`                    |  2 +-
+     :ref:`mvpa/cosmo_dim_prune.m                    <cosmo_dim_prune>`                    |  2 +-
+     :ref:`mvpa/cosmo_dissimilarity_matrix_measure.m <cosmo_dissimilarity_matrix_measure>` | 42 +++++++++++++--------------
+     :ref:`mvpa/cosmo_run_tests.m                    <cosmo_run_tests>`                    |  6 ++--
+     :ref:`mvpa/cosmo_squareform.m                   <cosmo_squareform>`                   |  2 +-
+     :ref:`mvpa/cosmo_stat.m                         <cosmo_stat>`                         |  6 +++-
+     :ref:`tests/test_check_external.m               <test_check_external>`               | 10 +++----
+     :ref:`tests/test_classify.m                     <test_classify>`                     |  9 +++++-
+     :ref:`tests/test_corr.m                         <test_corr>`                         | 10 +------
+     :ref:`tests/test_cosmo_notify_test_skipped.m    <test_cosmo_notify_test_skipped>`    |  4 +--
+     :ref:`tests/test_index_unique.m                 <test_index_unique>`                 |  9 ++----
+     :ref:`tests/test_meeg_baseline_correct.m        <test_meeg_baseline_correct>`        |  9 +-----
+     :ref:`tests/test_parallel_get_nproc_available.m <test_parallel_get_nproc_available>` |  9 +++---
+     :ref:`tests/test_pca.m                          <test_pca>`                          | 48 +++++++++++++++++++++----------
+     :ref:`tests/test_run_tests.m                    <test_run_tests>`                    |  4 +--
+     :ref:`tests/test_stat.m                         <test_stat>`                         | 24 ++++++++++++++--
+     20 files changed, 146 insertions(+), 84 deletions(-)
+    
+    

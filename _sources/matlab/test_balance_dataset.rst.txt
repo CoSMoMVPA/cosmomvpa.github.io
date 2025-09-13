@@ -1,0 +1,7 @@
+.. _test_balance_dataset:
+
+test balance dataset
+====================
+
+.. include :: test_balance_dataset.txt
+
