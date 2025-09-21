@@ -1,0 +1,246 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>cosmo classify matlabcsvm &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css?v=279e0f84" />
+    <script src="../_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="cosmo classify matlabsvm" href="cosmo_classify_matlabsvm.html" />
+    <link rel="prev" title="cosmo classify libsvm" href="cosmo_classify_libsvm.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cosmo_classify_matlabsvm.html" title="cosmo classify matlabsvm"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_classify_libsvm.html" title="cosmo classify libsvm"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex.html" accesskey="U">CoSMoMVPA functions</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo classify matlabcsvm</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cosmo-classify-matlabcsvm">
+<span id="id1"></span><h1>cosmo classify matlabcsvm<a class="headerlink" href="#cosmo-classify-matlabcsvm" title="Link to this heading">¶</a></h1>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>predicted<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">cosmo_classify_matlabcsvm</span><span class="p">(</span>samples_train, targets_train, samples_test, opt<span class="p">)</span>
+<span class="w">    </span><span class="c">% svm classifier wrapper (around fitcsvm)</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% predicted=cosmo_classify_matlabcsvm(samples_train, targets_train, samples_test, opt)</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Inputs:</span>
+<span class="w">    </span><span class="c">%   samples_train      PxR training data for P samples and R features</span>
+<span class="w">    </span><span class="c">%   targets_train      Px1 training data classes</span>
+<span class="w">    </span><span class="c">%   samples_test       QxR test data</span>
+<span class="w">    </span><span class="c">%   opt                struct with options. supports any option that</span>
+<span class="w">    </span><span class="c">%                      fitcsvm supports</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Output:</span>
+<span class="w">    </span><span class="c">%   predicted          Qx1 predicted data classes for samples_test</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Notes:</span>
+<span class="w">    </span><span class="c">%  - this function uses Matlab&#39;s builtin fitcsvm function, which was the</span>
+<span class="w">    </span><span class="c">%    successor of svmtrain.</span>
+<span class="w">    </span><span class="c">%  - Matlab&#39;s SVM classifier is rather slow, especially for multi-class</span>
+<span class="w">    </span><span class="c">%    data (more than two classes). When classification takes a long time,</span>
+<span class="w">    </span><span class="c">%    consider using libsvm.</span>
+<span class="w">    </span><span class="c">%  - for a guide on svm classification, see</span>
+<span class="w">    </span><span class="c">%      http://www.csie.ntu.edu.tw/~cjlin/papers/guide/guide.pdf</span>
+<span class="w">    </span><span class="c">%    Note that cosmo_crossvalidate and cosmo_crossvalidation_measure</span>
+<span class="w">    </span><span class="c">%    provide an option &#39;normalization&#39; to perform data scaling</span>
+<span class="w">    </span><span class="c">%  - As of Matlab 2017a (maybe earlier), Matlab gives the warning that</span>
+<span class="w">    </span><span class="c">%      &#39;svmtrain will be removed in a future release. Use fitcsvm instead.&#39;</span>
+<span class="w">    </span><span class="c">%    however fitcsvm gives different results than svmtrain; as a result</span>
+<span class="w">    </span><span class="c">%    cosmo_classify_matlabcsvm gives different results than</span>
+<span class="w">    </span><span class="c">%    cosmo_classify_matlabsvm.</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% See also fitcsvm, svmclassify, cosmo_classify_matlabsvm.</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% #   For CoSMoMVPA&#39;s copyright information and license terms,   #</span>
+<span class="w">    </span><span class="c">% #   see the COPYING file distributed with CoSMoMVPA.           #</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">4</span>
+<span class="w">        </span><span class="n">opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="p">[</span><span class="n">ntrain</span><span class="p">,</span><span class="w"> </span><span class="n">nfeatures</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">samples_train</span><span class="p">);</span>
+<span class="w">    </span><span class="p">[</span><span class="n">ntest</span><span class="p">,</span><span class="w"> </span><span class="n">nfeatures_</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">samples_test</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ntrain_</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">targets_train</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">nfeatures</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="n">nfeatures_</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">ntrain_</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="n">ntrain</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;illegal input size&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">cached_has_matlabcsvm</span><span class="p">()</span>
+<span class="w">        </span><span class="n">cosmo_check_external</span><span class="p">(</span><span class="s">&#39;matlabcsvm&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="p">[</span><span class="n">class_idxs</span><span class="p">,</span><span class="w"> </span><span class="n">classes</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_index_unique</span><span class="p">(</span><span class="n">targets_train</span><span class="p">(:));</span>
+<span class="w">    </span><span class="n">nclasses</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">classes</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">nfeatures</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">nclasses</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="c">% matlab&#39;s svm cannot deal with empty data, so predict all</span>
+<span class="w">        </span><span class="c">% test samples as the class of the first sample</span>
+<span class="w">        </span><span class="n">predicted</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">targets_train</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">ones</span><span class="p">(</span><span class="n">ntest</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">opt_cell</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt2cell</span><span class="p">(</span><span class="n">opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% number of pair-wise comparisons</span>
+<span class="w">    </span><span class="n">ncombi</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">nclasses</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">nclasses</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c">% allocate space for all predictions</span>
+<span class="w">    </span><span class="n">all_predicted</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">NaN</span><span class="p">(</span><span class="n">ntest</span><span class="p">,</span><span class="w"> </span><span class="n">ncombi</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% Consider all pairwise comparisons (over classes)</span>
+<span class="w">    </span><span class="c">% and store the predictions in all_predicted</span>
+<span class="w">    </span><span class="n">pos</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:(</span><span class="n">nclasses</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nb">j</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">):</span><span class="n">nclasses</span>
+<span class="w">            </span><span class="n">pos</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">            </span><span class="c">% classify between 2 classes only</span>
+<span class="w">            </span><span class="n">idxs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cat</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">class_idxs</span><span class="p">{</span><span class="n">k</span><span class="p">},</span><span class="w"> </span><span class="n">class_idxs</span><span class="p">{</span><span class="nb">j</span><span class="p">});</span>
+
+<span class="w">            </span><span class="n">model</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">fitcsvm</span><span class="p">(</span><span class="n">samples_train</span><span class="p">(</span><span class="n">idxs</span><span class="p">,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="n">targets_train</span><span class="p">(</span><span class="n">idxs</span><span class="p">),</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                            </span><span class="n">opt_cell</span><span class="p">{:});</span>
+
+<span class="w">            </span><span class="n">pred</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">samples_test</span><span class="p">(</span><span class="n">idxs</span><span class="p">,</span><span class="w"> </span><span class="p">:));</span>
+<span class="w">            </span><span class="n">all_predicted</span><span class="p">(</span><span class="n">idxs</span><span class="p">,</span><span class="w"> </span><span class="n">pos</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pred</span><span class="p">;</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="nb">assert</span><span class="p">(</span><span class="n">pos</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">ncombi</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% find the classes that were predicted most often.</span>
+<span class="w">    </span><span class="c">% ties are handled by cosmo_winner_indices</span>
+<span class="w">    </span><span class="p">[</span><span class="n">winners</span><span class="p">,</span><span class="w"> </span><span class="n">test_classes</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_winner_indices</span><span class="p">(</span><span class="n">all_predicted</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">predicted</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">test_classes</span><span class="p">(</span><span class="n">winners</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% helper function to convert cell to struct</span>
+<span class="k">function</span><span class="w"> </span>opt_cell<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">opt2cell</span><span class="p">(</span>opt<span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
+<span class="w">        </span><span class="n">opt_cell</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">fns</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fieldnames</span><span class="p">(</span><span class="n">opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">n</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">fns</span><span class="p">);</span>
+<span class="w">    </span><span class="n">opt_cell</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">n</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">n</span>
+<span class="w">        </span><span class="n">fn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">fns</span><span class="p">{</span><span class="n">keep_id</span><span class="p">(</span><span class="n">k</span><span class="p">)};</span>
+<span class="w">        </span><span class="n">opt_cell</span><span class="p">{</span><span class="n">k</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">fn</span><span class="p">;</span>
+<span class="w">        </span><span class="n">opt_cell</span><span class="p">{</span><span class="n">k</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.(</span><span class="n">fn</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span>tf<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">cached_has_matlabcsvm</span><span class="p">()</span>
+<span class="w">    </span><span class="k">persistent</span><span class="w"> </span><span class="n">cached_tf</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isequal</span><span class="p">(</span><span class="n">cached_tf</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">)</span>
+<span class="w">        </span><span class="n">tf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">cached_tf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_check_external</span><span class="p">(</span><span class="s">&#39;matlabcsvm&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">tf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cached_tf</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="cosmo_classify_libsvm.html"
+                          title="previous chapter">cosmo classify libsvm</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cosmo_classify_matlabsvm.html"
+                          title="next chapter">cosmo classify matlabsvm</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/matlab/cosmo_classify_matlabcsvm.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cosmo_classify_matlabsvm.html" title="cosmo classify matlabsvm"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_classify_libsvm.html" title="cosmo classify libsvm"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex.html" >CoSMoMVPA functions</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo classify matlabcsvm</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="../_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

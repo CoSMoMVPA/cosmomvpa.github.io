@@ -1,0 +1,7 @@
+.. _test_singleton_neighborhood:
+
+test singleton neighborhood
+===========================
+
+.. include :: test_singleton_neighborhood.txt
+

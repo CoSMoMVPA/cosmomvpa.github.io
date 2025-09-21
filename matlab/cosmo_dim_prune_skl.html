@@ -1,0 +1,317 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>cosmo dim prune skl &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css?v=279e0f84" />
+    <script src="../_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="cosmo dim remove skl" href="cosmo_dim_remove_skl.html" />
+    <link rel="prev" title="cosmo dim match skl" href="cosmo_dim_match_skl.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cosmo_dim_remove_skl.html" title="cosmo dim remove skl"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_dim_match_skl.html" title="cosmo dim match skl"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_skl.html" accesskey="U">CoSMoMVPA functions - skeleton files</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo dim prune skl</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cosmo-dim-prune-skl">
+<span id="id1"></span><h1>cosmo dim prune skl<a class="headerlink" href="#cosmo-dim-prune-skl" title="Link to this heading">¶</a></h1>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>ds<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">cosmo_dim_prune</span><span class="p">(</span>ds, varargin<span class="p">)</span>
+<span class="w">    </span><span class="c">% prune dataset dimension values that are not used after slicing</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% ds=cosmo_dim_prune(ds, labels, dims)</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Inputs:</span>
+<span class="w">    </span><span class="c">%   ds                  dataset struct</span>
+<span class="w">    </span><span class="c">%   &#39;labels; l          labels of dimensions to be pruned. If not provided</span>
+<span class="w">    </span><span class="c">%                       all labels are pruned.</span>
+<span class="w">    </span><span class="c">%   &#39;dim&#39;,d             dimension(s) along which pruning takes place,</span>
+<span class="w">    </span><span class="c">%                       1=sample dimension, 2=feature dimension.</span>
+<span class="w">    </span><span class="c">%                       Default: [1 2]</span>
+<span class="w">    </span><span class="c">%   &#39;matrix_labels&#39;,m   Names of feature dimensions that store dimension</span>
+<span class="w">    </span><span class="c">%                       information in matrix form. (Currently the only use</span>
+<span class="w">    </span><span class="c">%                       case is m={&#39;pos&#39;} for MEEG source datasets.)</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Output:</span>
+<span class="w">    </span><span class="c">%   ds              dataset struct with pruned dimension values.</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Examples:</span>
+<span class="w">    </span><span class="c">%     % For an MEEG dataset, get a selection of some channels</span>
+<span class="w">    </span><span class="c">%     ds=cosmo_synthetic_dataset(&#39;type&#39;,&#39;meeg&#39;,&#39;size&#39;,&#39;huge&#39;);</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(ds.a.fdim.values{1},&#39;edgeitems&#39;,2);</span>
+<span class="w">    </span><span class="c">%     %|| { &#39;MEG0111&#39;  &#39;MEG0112&#39;  ...  &#39;MEG2642&#39;  &#39;MEG2643&#39;   }@1x306</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(ds.fa.chan)</span>
+<span class="w">    </span><span class="c">%     %|| [ 1         2         3  ...  304       305       306 ]@1x5202</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % select channels</span>
+<span class="w">    </span><span class="c">%     msk=cosmo_dim_match(ds,&#39;chan&#39;,{&#39;MEG1843&#39;,&#39;MEG2441&#39;});</span>
+<span class="w">    </span><span class="c">%     ds_sel=cosmo_slice(ds,msk,2);</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % apply pruning, so that the .fa.chan goes from 1:nf, with nf the</span>
+<span class="w">    </span><span class="c">%     % number of channels that were selected</span>
+<span class="w">    </span><span class="c">%     ds_pruned=cosmo_dim_prune(ds_sel);</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % show result</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(ds_pruned.a.fdim.values{1}); % &#39;chan&#39; is first dimension</span>
+<span class="w">    </span><span class="c">%     %|| { &#39;MEG1843&#39;</span>
+<span class="w">    </span><span class="c">%     %||   &#39;MEG2441&#39; }</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(ds_pruned.fa.chan)</span>
+<span class="w">    </span><span class="c">%     %|| [ 1         2         1  ...  2         1         2 ]@1x34</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % For the same MEEG dataset, get a selection of time points between 0</span>
+<span class="w">    </span><span class="c">%     % and .3 seconds. A function handle is used to select the timepoints</span>
+<span class="w">    </span><span class="c">%     selector=@(x) 0&lt;=x &amp; x&lt;=.301; % use element-wise logical-and</span>
+<span class="w">    </span><span class="c">%     msk=cosmo_dim_match(ds,&#39;time&#39;,selector);</span>
+<span class="w">    </span><span class="c">%     ds_sel=cosmo_slice(ds,msk,2);</span>
+<span class="w">    </span><span class="c">%     ds_pruned=cosmo_dim_prune(ds_sel);</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % show result</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(ds_pruned.a.fdim.values{2}); % &#39;time&#39; is second dimension</span>
+<span class="w">    </span><span class="c">%     %|| [ 0      0.05       0.1  ...  0.2      0.25       0.3 ]@1x7</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(ds_pruned.fa.time)</span>
+<span class="w">    </span><span class="c">%     %|| [ 1         1         1  ...  7         7         7 ]@1x2142</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % For the same MEEG dataset, compute a conjunction mask of the</span>
+<span class="w">    </span><span class="c">%     % channels and time points selected above</span>
+<span class="w">    </span><span class="c">%     msk=cosmo_dim_match(ds,&#39;chan&#39;,{&#39;MEG1843&#39;,&#39;MEG2441&#39;},&#39;time&#39;,selector);</span>
+<span class="w">    </span><span class="c">%     ds_sel=cosmo_slice(ds,msk,2);</span>
+<span class="w">    </span><span class="c">%     ds_pruned=cosmo_dim_prune(ds_sel);</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % show result</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(ds_pruned.a.fdim);</span>
+<span class="w">    </span><span class="c">%     %||.labels</span>
+<span class="w">    </span><span class="c">%     %||  { &#39;chan&#39;</span>
+<span class="w">    </span><span class="c">%     %||    &#39;time&#39; }</span>
+<span class="w">    </span><span class="c">%     %||.values</span>
+<span class="w">    </span><span class="c">%     %||  { { &#39;MEG1843&#39;  &#39;MEG2441&#39; }</span>
+<span class="w">    </span><span class="c">%     %||    [ 0      0.05       0.1  ...  0.2      0.25       0.3 ]@1x7 }</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(ds_pruned.fa.chan)</span>
+<span class="w">    </span><span class="c">%     %|| [ 1         2         1  ...  2         1         2 ]@1x14</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(ds_pruned.fa.time)</span>
+<span class="w">    </span><span class="c">%     %|| [ 1         1         2  ...  6         7         7 ]@1x14</span>
+<span class="w">    </span><span class="c">% Notes:</span>
+<span class="w">    </span><span class="c">%  - Using this function makes sense for MEEG data, but not at all</span>
+<span class="w">    </span><span class="c">%    for fMRI or surface data.</span>
+<span class="w">    </span><span class="c">%  - When using this function for MEEG data after slicing (using</span>
+<span class="w">    </span><span class="c">%    cosmo_dim_match and cosmo_slice), applying this function ensures that</span>
+<span class="w">    </span><span class="c">%    removed values in a dimension are not mapped back to the original</span>
+<span class="w">    </span><span class="c">%    input size when using cosmo_map2meeg.</span>
+<span class="w">    </span><span class="c">%  - When using this function with MEEG source data that has a &#39;pos&#39; field,</span>
+<span class="w">    </span><span class="c">%    use</span>
+<span class="w">    </span><span class="c">%           cosmo_dim_prune(ds,&#39;matrix_labels&#39;,{&#39;pos&#39;})</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">%    to prune the &#39;pos&#39; feature dimension (if it needs pruning)</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% See also: cosmo_dim_match</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% #   For CoSMoMVPA&#39;s copyright information and license terms,   #</span>
+<span class="w">    </span><span class="c">% #   see the COPYING file distributed with CoSMoMVPA.           #</span>
+
+<span class="w">    </span><span class="n">opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">process_opt</span><span class="p">(</span><span class="nb">varargin</span><span class="p">{:});</span>
+
+<span class="w">    </span><span class="n">cosmo_check_dataset</span><span class="p">(</span><span class="n">ds</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">dim</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">dim</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ndim</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">dim</span><span class="p">);</span>
+<span class="w">    </span><span class="n">opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">rmfield</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;dim&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">ndim</span>
+<span class="w">        </span><span class="n">ds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">prune_single_dim</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="p">(</span><span class="n">k</span><span class="p">),</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span>ds<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">prune_single_dim</span><span class="p">(</span>ds, dim, opt<span class="p">)</span>
+<span class="w">    </span><span class="n">labels</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">labels</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">infixes</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;sf&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">infix</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">infixes</span><span class="p">(</span><span class="n">dim</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">attr_name</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">infix</span><span class="w"> </span><span class="s">&#39;a&#39;</span><span class="p">];</span>
+<span class="w">    </span><span class="n">dim_name</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">infix</span><span class="w"> </span><span class="s">&#39;dim&#39;</span><span class="p">];</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">cosmo_isfield</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;a.&#39;</span><span class="w"> </span><span class="n">dim_name</span><span class="w"> </span><span class="s">&#39;.labels&#39;</span><span class="p">])</span>
+<span class="w">        </span><span class="n">use_dim_labels</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">labels</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">use_dim_labels</span>
+<span class="w">            </span><span class="n">labels</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">.</span><span class="n">a</span><span class="p">.(</span><span class="n">dim_name</span><span class="p">).</span><span class="n">labels</span><span class="p">;</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">iscellstr</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+<span class="w">            </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;expected cell with labels, or single string&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">        </span><span class="c">% helper to ensure that slicing output has proper size</span>
+<span class="w">        </span><span class="n">nvalues</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="p">);</span>
+<span class="w">        </span><span class="n">shape_arg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{[],</span><span class="w"> </span><span class="p">[]};</span>
+<span class="w">        </span><span class="n">shape_arg</span><span class="p">{</span><span class="n">dim</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">nvalues</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">in_shape</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">shape_arg</span><span class="p">{:});</span>
+
+<span class="w">        </span><span class="n">nlabels</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">labels</span><span class="p">);</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">nlabels</span>
+<span class="w">            </span><span class="n">label</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">labels</span><span class="p">{</span><span class="n">k</span><span class="p">};</span>
+
+<span class="w">            </span><span class="p">[</span><span class="n">dim_</span><span class="p">,</span><span class="w"> </span><span class="n">index</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_dim_find</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">use_dim_labels</span>
+<span class="w">                </span><span class="nb">assert</span><span class="p">(</span><span class="n">dim_</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">dim</span><span class="p">);</span>
+<span class="w">            </span><span class="k">elseif</span><span class="w"> </span><span class="n">dim</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="n">dim_</span>
+<span class="w">                </span><span class="k">continue</span>
+<span class="w">            </span><span class="k">end</span>
+
+<span class="w">            </span><span class="nb">values</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">.</span><span class="n">a</span><span class="p">.(</span><span class="n">dim_name</span><span class="p">).</span><span class="n">values</span><span class="p">{</span><span class="n">index</span><span class="p">};</span>
+<span class="w">            </span><span class="n">attr</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">.(</span><span class="n">attr_name</span><span class="p">).(</span><span class="n">label</span><span class="p">);</span>
+<span class="w">            </span><span class="p">[</span><span class="n">unq_idxs</span><span class="p">,</span><span class="w"> </span><span class="n">unused</span><span class="p">,</span><span class="w"> </span><span class="n">map_idxs</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">unique</span><span class="p">(</span><span class="n">attr</span><span class="p">);</span>
+
+<span class="w">            </span><span class="nb">values</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_unique</span><span class="p">(</span><span class="n">label</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="nb">values</span><span class="p">,</span><span class="w"> </span><span class="n">unq_idxs</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+<span class="w">            </span><span class="n">ds</span><span class="p">.</span><span class="n">a</span><span class="p">.(</span><span class="n">dim_name</span><span class="p">).</span><span class="n">values</span><span class="p">{</span><span class="n">index</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">values</span><span class="p">;</span>
+
+<span class="w">            </span><span class="n">ds</span><span class="p">.(</span><span class="n">attr_name</span><span class="p">).(</span><span class="n">label</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">in_shape</span><span class="p">(</span><span class="n">map_idxs</span><span class="p">);</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span>values<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">get_unique</span><span class="p">(</span>label, dim, values, unq_idxs, opt<span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="nb">values</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">cosmo_match</span><span class="p">({</span><span class="n">label</span><span class="p">},</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">matrix_labels</span><span class="p">)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">dim</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">                </span><span class="nb">values</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">values</span><span class="p">(</span><span class="n">unq_idxs</span><span class="p">,</span><span class="w"> </span><span class="p">:);</span>
+<span class="w">            </span><span class="k">else</span>
+<span class="w">                </span><span class="nb">values</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">values</span><span class="p">(:,</span><span class="w"> </span><span class="n">unq_idxs</span><span class="p">);</span>
+<span class="w">            </span><span class="k">end</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="n">msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">([</span><span class="s">&#39;Values for dimension &#39;&#39;%s&#39;&#39; is a matrix, but &#39;</span><span class="k">...</span>
+<span class="w">                           </span><span class="s">&#39;&#39;&#39;%s&#39;&#39; was not specified as a an element &#39;</span><span class="k">...</span>
+<span class="w">                           </span><span class="s">&#39;of the &#39;&#39;matrix_labels&#39;&#39; option.&#39;</span><span class="p">],</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                          </span><span class="n">label</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nb">strcmp</span><span class="p">(</span><span class="n">label</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;pos&#39;</span><span class="p">)</span>
+<span class="w">                </span><span class="n">msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">([</span><span class="s">&#39;%s\nIf this is an MEEG source dataset, &#39;</span><span class="k">...</span>
+<span class="w">                               </span><span class="s">&#39;consider using %s(...,&#39;</span><span class="k">...</span>
+<span class="w">                               </span><span class="s">&#39;&#39;&#39;matrix_labels&#39;&#39;,{&#39;&#39;pos&#39;&#39;})&#39;</span><span class="p">],</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                              </span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="nb">mfilename</span><span class="p">());</span>
+<span class="w">            </span><span class="k">end</span>
+<span class="w">            </span><span class="nb">error</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="nb">values</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">values</span><span class="p">(</span><span class="n">unq_idxs</span><span class="p">);</span>
+<span class="w">        </span><span class="nb">values</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">values</span><span class="p">(:);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">dim</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">            </span><span class="nb">values</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">values</span><span class="o">&#39;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span>[opt]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">process_opt</span><span class="p">(</span>varargin<span class="p">)</span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">default</span><span class="p">.</span><span class="n">labels</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{};</span>
+<span class="w">    </span><span class="n">default</span><span class="p">.</span><span class="n">dim</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="p">];</span>
+<span class="w">    </span><span class="n">default</span><span class="p">.</span><span class="n">matrix_labels</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{};</span>
+
+<span class="w">    </span><span class="n">opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_structjoin</span><span class="p">(</span><span class="n">default</span><span class="p">,</span><span class="w"> </span><span class="nb">varargin</span><span class="p">{:});</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="o">~</span><span class="n">cosmo_match</span><span class="p">(</span><span class="n">opt</span><span class="p">.</span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="p">]))</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;&#39;&#39;dims&#39;&#39; must be 1 or 2&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">iscellstr</span><span class="p">(</span><span class="n">opt</span><span class="p">.</span><span class="n">matrix_labels</span><span class="p">)</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;&#39;&#39;matrix_labels&#39;&#39; option must be a cellstring&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="cosmo_dim_match_skl.html"
+                          title="previous chapter">cosmo dim match skl</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cosmo_dim_remove_skl.html"
+                          title="next chapter">cosmo dim remove skl</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/matlab/cosmo_dim_prune_skl.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cosmo_dim_remove_skl.html" title="cosmo dim remove skl"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_dim_match_skl.html" title="cosmo dim match skl"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_skl.html" >CoSMoMVPA functions - skeleton files</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo dim prune skl</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="../_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>
