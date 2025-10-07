@@ -1,0 +1,721 @@
+commit d00647e8ccffdeaf61356b659b34c3a522b7afdf
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@googlemail.com>
+Date:   Sun Sep 21 19:42:08 2025 +0200
+
+    BLD: use github actions for Octave for CI.
+    
+    Co-authored-by: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+
+ .github/workflows/CI_octave.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit b8e9b7c39ced9b51b044efa55892e85cecaa4577
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+Date:   Sun Sep 21 19:30:20 2025 +0200
+
+    BLD: include statistics package
+
+ .github/workflows/CI_octave.yml | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+commit fc6bba6e2cc6c9db29c704501ded8827df631169
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+Date:   Sun Sep 21 19:24:20 2025 +0200
+
+    BLD: run tests from parent directory
+
+ .github/workflows/CI_octave.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit fdda94b2c237fac10e2d99d8cae2cc8f1da228d1
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+Date:   Sun Sep 21 19:11:43 2025 +0200
+
+    BLD: install octave-dev
+
+ .github/workflows/CI_octave.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit ef23955fda3ad103b7feb966e951e4e6482c6a6a
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+Date:   Sun Sep 21 19:08:13 2025 +0200
+
+    BLD: use proper installation order
+
+ .github/workflows/CI_octave.yml | 9 ---------
+ 1 file changed, 9 deletions(-)
+
+commit 8e5c163046374bb1f76cc8bea3ef1b82ea2bcb69
+Merge: 361306e8 57d3273a
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+Date:   Sun Sep 21 19:06:03 2025 +0200
+
+    BLD: use proper installation order
+
+commit 57d3273a9f37e0ffb459398f6630a251df1ea754
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+Date:   Sun Sep 21 19:04:29 2025 +0200
+
+    BLD: install MOcov after installing Octave
+
+ .github/workflows/CI_octave.yml | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+commit 9927e011812b8869de0fe3add741608944701915
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+Date:   Sun Sep 21 19:01:43 2025 +0200
+
+    BLD support github pages
+
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 361306e87e1ea30c844dd07e123b3618b20fb877
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@googlemail.com>
+Date:   Sun Sep 21 19:00:18 2025 +0200
+
+    BLD: CI for Octave (#216)
+    
+    * BLD: CI for Octave
+    
+    * BLD: fix invalid syntax
+    
+    * BLD: fix invalid syntax
+    
+    * BLD: fix invalid syntax
+    
+    * BLD: fix invalid syntax
+    
+    * BLD: fix invalid syntax
+    
+    ---------
+    
+    Co-authored-by: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+
+ .github/workflows/CI_octave.yml | 67 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 67 insertions(+)
+
+commit c7148a97541129fc45e84b1318eb4e06208c3ec8
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+Date:   Sun Sep 21 18:58:21 2025 +0200
+
+    BLD: fix invalid syntax
+
+ .github/workflows/CI_octave.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 41bb153f476ea846b036391fc09fc45771a22d2d
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+Date:   Sun Sep 21 18:56:59 2025 +0200
+
+    BLD: fix invalid syntax
+
+ .github/workflows/CI_octave.yml | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 54cdbcd2685419748c1f17724b1b12c2b2abe8c3
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+Date:   Sun Sep 21 18:53:11 2025 +0200
+
+    BLD: fix invalid syntax
+
+ .github/workflows/CI_octave.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit f1b81a83189783275f404e48f5fb3977842b6d3f
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+Date:   Sun Sep 21 18:50:46 2025 +0200
+
+    BLD: fix invalid syntax
+
+ .github/workflows/CI_octave.yml | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 2ac29f8e88da0e282f703fbc3568517412884e83
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+Date:   Sun Sep 21 18:49:29 2025 +0200
+
+    BLD: fix invalid syntax
+
+ .github/workflows/CI_octave.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 659831bae10ac61f53782b597be9a3c16aa6956f
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+Date:   Sun Sep 21 18:42:28 2025 +0200
+
+    BLD: CI for Octave
+
+ .github/workflows/CI_octave.yml | 67 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 67 insertions(+)
+
+commit 84d03d61a6b3217ae858cce62c02d0461d020fa6
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@googlemail.com>
+Date:   Sun Sep 21 18:38:00 2025 +0200
+
+    BLD+CLN+DOC: minor updates and compatibility improvements
+    
+    * BLD+DOC: use external links properly
+    
+    * FIX: remove incorrect semicolon
+    
+    * CLN: apply miss_hit fixes
+    
+    * DOC: fix typos using codespell
+    
+    * FIX: allow surface searchlights without geodesic distance metric
+    
+    ---------
+    
+    Co-authored-by: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+
+ .codespellrc                                       |   2 +-
+ .pyproject.toml                                    |   2 +
+ Changelog                                          |   2 +-
+ Makefile                                           |  22 +
+ doc/source/cimec2014_intro.rst                     |   2 +-
+ doc/source/cimec2016_intro.rst                     |  20 +-
+ doc/source/cogneuro_experience.rst                 |   2 +-
+ doc/source/conf.py                                 | 206 +++---
+ doc/source/contribute.rst                          |  18 +-
+ doc/source/cosmo2013_intro.rst                     |   2 +-
+ .../.github/workflows/static.yml                   |  43 ++
+ doc/source/cosmomvpa_concepts.rst                  |  24 +-
+ doc/source/ex_classify_double_dipping.rst          |   2 +-
+ doc/source/ex_classify_lda.rst                     |   4 +-
+ doc/source/ex_classify_naive_bayes.rst             |   4 +-
+ doc/source/ex_classify_svm.rst                     |   2 +-
+ doc/source/ex_crossvalidation_measure.rst          |   4 +-
+ doc/source/ex_dataset_basics.rst                   |  14 +-
+ doc/source/ex_measures.rst                         |   4 +-
+ doc/source/ex_meeg_searchlight.rst                 |   4 +-
+ doc/source/ex_meeg_time_generalization.rst         |   2 +-
+ doc/source/ex_multiple_comparisons.rst             |   6 +-
+ doc/source/ex_neighborhood.rst                     |   2 +-
+ doc/source/ex_nfold_crossvalidation.rst            |   2 +-
+ doc/source/ex_rsa_tutorial.rst                     |   4 +-
+ doc/source/ex_rsa_visualization.rst                |   4 +-
+ doc/source/ex_searchlight_measure.rst              |   4 +-
+ doc/source/ex_sphere_offsets.rst                   |   4 +-
+ doc/source/ex_splithalf_correlations.rst           |   8 +-
+ doc/source/ex_surface_searchlight.rst              |   2 +-
+ doc/source/ex_write_classify_nn.rst                |   6 +-
+ doc/source/faq.rst                                 |  28 +-
+ doc/source/labman2017_intro.rst                    |   4 +-
+ doc/source/matlab_experience.rst                   |   2 +-
+ doc/source/mvpa_concepts.rst                       |  10 +-
+ doc/source/news.rst                                |   2 +-
+ doc/source/nmsm2019_intro.rst                      |   4 +-
+ doc/source/prni2016_intro.rst                      |   4 +-
+ doc/source/references.bib                          |   4 +-
+ doc/source/rhul2016.rst                            |   2 +-
+ doc/source/rhul2016_intro.rst                      |   6 +-
+ doc/source/tips.rst                                |   2 +-
+ doc/tools/build_demo_images.py                     | 148 ++--
+ doc/tools/matlab2rst.py                            | 814 ++++++++++-----------
+ doc/tools/summarize_git_log.py                     | 334 +++++----
+ examples/cosmo_wizard_set_config.m                 | 329 ++++-----
+ examples/demo_fmri_correlation_searchlight.m       |  41 +-
+ examples/demo_fmri_distatis.m                      |  66 +-
+ examples/demo_fmri_rois.m                          | 190 +++--
+ examples/demo_fmri_searchlight_lda.m               |  35 +-
+ examples/demo_fmri_searchlight_naive_bayes.m       |  38 +-
+ examples/demo_fmri_searchlight_rsm.m               | 124 ++--
+ examples/demo_meeg_dataset_operations.m            |  64 +-
+ examples/demo_meeg_timefreq_searchlight.m          | 101 ++-
+ examples/demo_meeg_timelock_searchlight.m          |  88 ++-
+ examples/demo_meeg_timeseries_classification.m     | 115 ++-
+ examples/demo_meeg_timeseries_generalization.m     | 157 ++--
+ examples/demo_surface_searchlight_lda.m            | 165 ++---
+ examples/demo_surface_tfce.m                       |  89 ++-
+ examples/run_anatomical_dataset_basics.m           |  59 +-
+ examples/run_bad_double_dipping_analysis.m         |  40 +-
+ examples/run_classify_lda.m                        | 121 ++-
+ examples/run_classify_naive_bayes.m                |  32 +-
+ examples/run_classify_svm.m                        |  52 +-
+ examples/run_compare_dsm.m                         |  70 +-
+ examples/run_correlation_measure.m                 | 111 ++-
+ examples/run_cross_validation.m                    |  81 +-
+ examples/run_crossvalidation_measure.m             |  90 +--
+ examples/run_crossvalidation_searchlight.m         |  40 +-
+ examples/run_dataset_basics.m                      |  52 +-
+ examples/run_demean.m                              |  46 +-
+ examples/run_feature_selection_classifier.m        |  45 +-
+ .../run_fmri_correlation_searchlight_trivial.m     |  41 +-
+ examples/run_load_datasets.m                       |  24 +-
+ examples/run_measure_searchlight.m                 |  29 +-
+ examples/run_meeg_time_generalization.m            |  87 ++-
+ examples/run_meeg_time_generalization_mcc.m        | 143 ++--
+ examples/run_meeg_timefreq_measures.m              | 107 ++-
+ examples/run_meeg_timelock_measures.m              | 165 ++---
+ examples/run_multiple_comparison_correction.m      |  61 +-
+ examples/run_nfold_crossvalidate.m                 | 106 +--
+ examples/run_nifti_basics.m                        |  88 +--
+ examples/run_operations_on_datasets.m              |  81 +-
+ examples/run_permutation_test.m                    |  56 +-
+ examples/run_roi_neighborhood.m                    | 137 ++--
+ examples/run_rsa_visualize.m                       |  67 +-
+ examples/run_rsm_measure_searchlight.m             |  58 +-
+ examples/run_setting_sample_attr.m                 |  38 +-
+ examples/run_sphere_offsets.m                      |  20 +-
+ examples/run_sphere_offsets_searchlight.m          | 130 ++--
+ examples/run_spherical_neighborhood_searchlight.m  |  85 ++-
+ examples/run_splithalf_correlations.m              | 122 ++-
+ examples/run_splithalf_correlations_searchlight.m  |  44 +-
+ examples/run_splithalf_correlations_single_sub.m   |  99 ++-
+ examples/run_surface_searchlight.m                 | 160 ++--
+ external/NIfTI_20140122/rri_select_file.m          |   2 +-
+ miss_hit.cfg                                       |  25 +
+ mvpa/cosmo_map2meeg.m                              |   2 +-
+ mvpa/cosmo_meeg_dataset.m                          |   2 +-
+ mvpa/cosmo_montecarlo_cluster_stat.m               |  14 +-
+ mvpa/cosmo_surface_dataset.m                       |   4 +-
+ tests/test_average_samples.m                       |   6 +-
+ tests/test_cluster_neighborhood.m                  |   2 +-
+ tests/test_meeg_chan_neighbors.m                   | 112 +--
+ tests/test_meeg_chantype.m                         |   2 +-
+ tests/test_meeg_read_layout.m                      |   2 +-
+ tests/test_naive_bayes_classifier_searchlight.m    |   3 +-
+ tests/test_searchlight.m                           |   2 +-
+ tests/test_surficial_io_gifti.m                    |  24 +-
+ tests/test_surficial_io_niml_dset.m                |  32 +-
+ tests/test_surficial_neighborhood.m                |   2 +-
+ tests/test_vol_coordinates.m                       |   8 +-
+ tools/travis_after_all.py                          | 131 ++--
+ 113 files changed, 3243 insertions(+), 3312 deletions(-)
+
+commit 227184fb93d0b026e01a5a76c11c5040517d25d0
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+Date:   Sat Sep 13 17:48:00 2025 +0200
+
+    CLN: remove unused code
+
+ doc/tools/matlab2rst.py | 3 ---
+ 1 file changed, 3 deletions(-)
+
+commit b3ce0b96588c8e02c8a86a305a5a58fefc375b9e
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@googlemail.com>
+Date:   Sat Sep 13 17:44:53 2025 +0200
+
+    DOC+BLD: update sphinx build configuration (#214)
+    
+    * DOC: update files to build with recent sphinx-build
+    
+    * NF: include codespell configuration
+    
+    ---------
+    
+    Co-authored-by: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+
+ .codespellrc                               |  3 +++
+ doc/source/conf.py                         | 11 +++++++----
+ doc/source/download.rst                    |  2 --
+ doc/source/ex_classify_double_dipping.rst  |  2 +-
+ doc/source/ex_classify_lda.rst             |  2 +-
+ doc/source/ex_classify_naive_bayes.rst     |  2 +-
+ doc/source/ex_dataset_basics.rst           |  8 ++++----
+ doc/source/ex_measures.rst                 |  4 ++--
+ doc/source/ex_meeg_searchlight.rst         |  4 ++--
+ doc/source/ex_meeg_time_generalization.rst |  2 +-
+ doc/source/ex_multiple_comparisons.rst     |  4 ++--
+ doc/source/ex_neighborhood.rst             |  2 +-
+ doc/source/ex_nfold_crossvalidation.rst    |  2 +-
+ doc/source/ex_rsa_tutorial.rst             |  4 ++--
+ doc/source/ex_rsa_visualization.rst        |  2 +-
+ doc/source/ex_searchlight_measure.rst      |  4 ++--
+ doc/source/ex_sphere_offsets.rst           |  2 +-
+ doc/source/ex_splithalf_correlations.rst   |  4 ++--
+ doc/source/ex_surface_searchlight.rst      |  2 +-
+ doc/source/ex_write_classify_nn.rst        |  2 +-
+ doc/source/faq.rst                         |  2 +-
+ doc/source/labman2017_intro.rst            |  2 +-
+ doc/source/news.rst                        |  2 +-
+ doc/source/nmsm2019_intro.rst              |  2 +-
+ doc/source/prni2016_intro.rst              |  2 +-
+ doc/tools/matlab2rst.py                    |  9 ++++++---
+ 26 files changed, 47 insertions(+), 40 deletions(-)
+
+commit 7d5a45c3a3902875b34ac2a0236a09e2be41d7f9
+Merge: 74ed3185 bfe0035d
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@googlemail.com>
+Date:   Sat Sep 13 15:12:55 2025 +0200
+
+    CLN: cleanup / typo's fixed using MISS_HIT and codespell
+    
+    CLN: cleanup / typo's fixed using MISS_HIT and codespell
+
+commit bfe0035de299a53fe962b13afd739a891ebb810c
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+Date:   Sat Sep 13 15:06:07 2025 +0200
+
+    CLN: fix typos using codespell
+
+ mvpa/cosmo_align.m                                |  2 +-
+ mvpa/cosmo_average_samples.m                      |  2 +-
+ mvpa/cosmo_balance_partitions.m                   | 10 +++++-----
+ mvpa/cosmo_check_external.m                       |  4 ++--
+ mvpa/cosmo_chunkize.m                             |  2 +-
+ mvpa/cosmo_classify_naive_bayes.m                 |  2 +-
+ mvpa/cosmo_classify_nn.m                          |  2 +-
+ mvpa/cosmo_classify_svm.m                         |  6 +++---
+ mvpa/cosmo_cluster_neighborhood.m                 |  2 +-
+ mvpa/cosmo_clusterize.m                           |  4 ++--
+ mvpa/cosmo_config.m                               |  6 +++---
+ mvpa/cosmo_cross_neighborhood.m                   |  2 +-
+ mvpa/cosmo_crossvalidation_measure.m              |  4 ++--
+ mvpa/cosmo_dim_generalization_measure.m           |  2 +-
+ mvpa/cosmo_dir.m                                  |  4 ++--
+ mvpa/cosmo_disp.m                                 |  2 +-
+ mvpa/cosmo_find_local_extrema.m                   |  2 +-
+ mvpa/cosmo_fmri_convert_xform.m                   |  4 ++--
+ mvpa/cosmo_fmri_dataset.m                         |  6 +++---
+ mvpa/cosmo_fx.m                                   |  2 +-
+ mvpa/cosmo_independent_samples_partitioner.m      |  2 +-
+ mvpa/cosmo_map2fmri.m                             |  6 +++---
+ mvpa/cosmo_map2meeg.m                             |  4 ++--
+ mvpa/cosmo_map_pca.m                              |  6 +++---
+ mvpa/cosmo_mask_dim_intersect.m                   |  2 +-
+ mvpa/cosmo_match.m                                |  2 +-
+ mvpa/cosmo_measure_clusters.m                     |  4 ++--
+ mvpa/cosmo_meeg_chan_neighbors.m                  |  2 +-
+ mvpa/cosmo_meeg_dataset.m                         |  4 ++--
+ mvpa/cosmo_meeg_senstype_collection.m             |  4 ++--
+ mvpa/cosmo_montecarlo_cluster_stat.m              | 12 ++++++------
+ mvpa/cosmo_montecarlo_phase_stat.m                |  4 ++--
+ mvpa/cosmo_nchoosek_partitioner.m                 |  4 ++--
+ mvpa/cosmo_normalize.m                            |  2 +-
+ mvpa/cosmo_overlap.m                              |  2 +-
+ mvpa/cosmo_pca.m                                  |  2 +-
+ mvpa/cosmo_phase_itc.m                            |  6 +++---
+ mvpa/cosmo_plot_slices.m                          |  6 +++---
+ mvpa/cosmo_publish_run_scripts.m                  |  2 +-
+ mvpa/cosmo_randperm.m                             |  2 +-
+ mvpa/cosmo_sample_unique.m                        |  2 +-
+ mvpa/cosmo_searchlight.m                          |  4 ++--
+ mvpa/cosmo_sphere_offsets.m                       |  2 +-
+ mvpa/cosmo_spherical_neighborhood.m               |  2 +-
+ mvpa/cosmo_stack.m                                |  2 +-
+ mvpa/cosmo_stat.m                                 | 10 +++++-----
+ mvpa/cosmo_strjoin.m                              |  4 ++--
+ mvpa/cosmo_strsplit.m                             | 10 +++++-----
+ mvpa/cosmo_surface_dataset.m                      |  2 +-
+ mvpa/cosmo_target_dsm_corr_measure.m              |  4 ++--
+ mvpa/cosmo_winner_indices.m                       |  2 +-
+ tests/test_config.m                               |  2 +-
+ tests/test_cosmo_notify_test_skipped.m            |  2 +-
+ tests/test_crossvalidation_measure.m              |  2 +-
+ tests/test_fmri_convert_xform.m                   |  2 +-
+ tests/test_independent_samples_partitioner.m      |  4 ++--
+ tests/test_montecarlo_cluster_stat_distribution.m |  2 +-
+ tests/test_montecarlo_phase_stat.m                |  2 +-
+ tests/test_randomize_targets.m                    |  2 +-
+ tests/test_show_progress.m                        |  2 +-
+ tests/test_slice.m                                |  2 +-
+ 61 files changed, 107 insertions(+), 107 deletions(-)
+
+commit 8c328fba3b5f7e8d2b58abd962059a0501b8f1f9
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+Date:   Sat Sep 13 14:49:19 2025 +0200
+
+    BIG+CLN: code reformatting using MISS_HIT
+
+ mvpa/cosmo_align.m                                |  152 +-
+ mvpa/cosmo_anova_feature_selector.m               |   84 +-
+ mvpa/cosmo_average_samples.m                      |  449 ++---
+ mvpa/cosmo_balance_dataset.m                      |  150 +-
+ mvpa/cosmo_balance_partitions.m                   |  418 ++--
+ mvpa/cosmo_cartprod.m                             |  220 +-
+ mvpa/cosmo_check_dataset.m                        |  509 +++--
+ mvpa/cosmo_check_external.m                       | 1017 +++++-----
+ mvpa/cosmo_check_neighborhood.m                   |  381 ++--
+ mvpa/cosmo_check_partitions.m                     |  367 ++--
+ mvpa/cosmo_chunkize.m                             |  346 ++--
+ mvpa/cosmo_classify_knn.m                         |  149 +-
+ mvpa/cosmo_classify_lda.m                         |  306 +--
+ mvpa/cosmo_classify_libsvm.m                      |  227 +--
+ mvpa/cosmo_classify_matlabcsvm.m                  |  164 +-
+ mvpa/cosmo_classify_matlabsvm.m                   |  123 +-
+ mvpa/cosmo_classify_matlabsvm_2class.m            |  226 +--
+ mvpa/cosmo_classify_meta_feature_selection.m      |  117 +-
+ mvpa/cosmo_classify_naive_bayes.m                 |  167 +-
+ mvpa/cosmo_classify_nn.m                          |   88 +-
+ mvpa/cosmo_classify_svm.m                         |  166 +-
+ mvpa/cosmo_cluster_neighborhood.m                 |  638 +++---
+ mvpa/cosmo_clusterize.m                           |  236 ++-
+ mvpa/cosmo_config.m                               |  361 ++--
+ mvpa/cosmo_confusion_matrix.m                     |  216 +-
+ mvpa/cosmo_convert_neighborhood.m                 |  238 ++-
+ mvpa/cosmo_corr.m                                 |  135 +-
+ mvpa/cosmo_correlation_measure.m                  |  800 ++++----
+ mvpa/cosmo_cross_neighborhood.m                   |  340 ++--
+ mvpa/cosmo_crossvalidate.m                        |  396 ++--
+ mvpa/cosmo_crossvalidation_measure.m              |  604 +++---
+ mvpa/cosmo_dataset_slice_fa.m                     |   62 +-
+ mvpa/cosmo_dataset_slice_sa.m                     |   64 +-
+ mvpa/cosmo_dim_find.m                             |  238 ++-
+ mvpa/cosmo_dim_generalization_measure.m           |  666 +++---
+ mvpa/cosmo_dim_insert.m                           |  236 ++-
+ mvpa/cosmo_dim_match.m                            |  344 ++--
+ mvpa/cosmo_dim_prune.m                            |  301 ++-
+ mvpa/cosmo_dim_remove.m                           |  165 +-
+ mvpa/cosmo_dim_rename.m                           |  135 +-
+ mvpa/cosmo_dim_slice.m                            |   82 +-
+ mvpa/cosmo_dim_transpose.m                        |  289 ++-
+ mvpa/cosmo_dir.m                                  |  230 ++-
+ mvpa/cosmo_disp.m                                 |  840 ++++----
+ mvpa/cosmo_dissimilarity_matrix_measure.m         |  535 +++--
+ mvpa/cosmo_distatis.m                             |  638 +++---
+ mvpa/cosmo_find_local_extrema.m                   |  312 ++-
+ mvpa/cosmo_flatten.m                              |  386 ++--
+ mvpa/cosmo_fmri_convert_xform.m                   |  304 ++-
+ mvpa/cosmo_fmri_dataset.m                         | 2227 ++++++++++-----------
+ mvpa/cosmo_fmri_deoblique.m                       |  145 +-
+ mvpa/cosmo_fmri_orientation.m                     |  155 +-
+ mvpa/cosmo_fmri_reorient.m                        |  281 ++-
+ mvpa/cosmo_fx.m                                   |  172 +-
+ mvpa/cosmo_independent_samples_partitioner.m      |  644 +++---
+ mvpa/cosmo_index_unique.m                         |  266 ++-
+ mvpa/cosmo_interval_neighborhood.m                |  245 ++-
+ mvpa/cosmo_isequaln.m                             |   96 +-
+ mvpa/cosmo_isfield.m                              |  175 +-
+ mvpa/cosmo_make_temp_filename.m                   |  144 +-
+ mvpa/cosmo_map2fmri.m                             |  781 ++++----
+ mvpa/cosmo_map2meeg.m                             |  613 +++---
+ mvpa/cosmo_map2surface.m                          |  413 ++--
+ mvpa/cosmo_map_pca.m                              |  238 ++-
+ mvpa/cosmo_mask_dim_intersect.m                   |  244 ++-
+ mvpa/cosmo_match.m                                |  191 +-
+ mvpa/cosmo_measure_clusters.m                     |  419 ++--
+ mvpa/cosmo_meeg_baseline_correct.m                |  243 ++-
+ mvpa/cosmo_meeg_chan_neighborhood.m               |  542 +++--
+ mvpa/cosmo_meeg_chan_neighbors.m                  |  876 ++++----
+ mvpa/cosmo_meeg_chantype.m                        |  249 ++-
+ mvpa/cosmo_meeg_dataset.m                         | 1217 ++++++-----
+ mvpa/cosmo_meeg_find_layout.m                     |  386 ++--
+ mvpa/cosmo_meeg_layout_collection.m               |  340 ++--
+ mvpa/cosmo_meeg_read_layout.m                     |  149 +-
+ mvpa/cosmo_meeg_senstype2layout_mapping.m         |  406 ++--
+ mvpa/cosmo_meeg_senstype_collection.m             |  849 ++++----
+ mvpa/cosmo_meta_feature_selection_classifier.m    |   62 +-
+ mvpa/cosmo_montecarlo_cluster_stat.m              | 1155 ++++++-----
+ mvpa/cosmo_montecarlo_phase_stat.m                |  436 ++--
+ mvpa/cosmo_naive_bayes_classifier_searchlight.m   |  487 +++--
+ mvpa/cosmo_nchoosek_partitioner.m                 |  962 +++++----
+ mvpa/cosmo_neighborhood_split.m                   |  469 +++--
+ mvpa/cosmo_nfold_partitioner.m                    |  181 +-
+ mvpa/cosmo_normalize.m                            |  436 ++--
+ mvpa/cosmo_norminv.m                              |   58 +-
+ mvpa/cosmo_notify_test_skipped.m                  |  132 +-
+ mvpa/cosmo_oddeven_partitioner.m                  |  213 +-
+ mvpa/cosmo_overlap.m                              |  221 +-
+ mvpa/cosmo_parallel_get_nproc_available.m         |  264 ++-
+ mvpa/cosmo_parcellfun.m                           |  158 +-
+ mvpa/cosmo_pca.m                                  |  210 +-
+ mvpa/cosmo_pdist.m                                |  144 +-
+ mvpa/cosmo_phase_itc.m                            |  210 +-
+ mvpa/cosmo_phase_stat.m                           |  170 +-
+ mvpa/cosmo_plot_slices.m                          |  208 +-
+ mvpa/cosmo_publish_run_scripts.m                  |  401 ++--
+ mvpa/cosmo_rand.m                                 |  249 ++-
+ mvpa/cosmo_randomize_targets.m                    |  205 +-
+ mvpa/cosmo_randperm.m                             |  119 +-
+ mvpa/cosmo_remove_useless_data.m                  |  223 +--
+ mvpa/cosmo_run_tests.m                            |  277 ++-
+ mvpa/cosmo_sample_unique.m                        |  143 +-
+ mvpa/cosmo_searchlight.m                          |  544 +++--
+ mvpa/cosmo_set_path.m                             |   79 +-
+ mvpa/cosmo_show_progress.m                        |  170 +-
+ mvpa/cosmo_singleton_neighborhood.m               |  176 +-
+ mvpa/cosmo_skip_test_if_no_external.m             |   96 +-
+ mvpa/cosmo_slice.m                                |  506 ++---
+ mvpa/cosmo_sphere_offsets.m                       |  128 +-
+ mvpa/cosmo_spherical_neighborhood.m               |  796 ++++----
+ mvpa/cosmo_split.m                                |  276 ++-
+ mvpa/cosmo_squareform.m                           |  133 +-
+ mvpa/cosmo_stack.m                                |  486 +++--
+ mvpa/cosmo_stat.m                                 | 1045 +++++-----
+ mvpa/cosmo_statcode.m                             |  514 +++--
+ mvpa/cosmo_strjoin.m                              |  131 +-
+ mvpa/cosmo_strsplit.m                             |  202 +-
+ mvpa/cosmo_structjoin.m                           |  226 ++-
+ mvpa/cosmo_surface_dataset.m                      |  628 +++---
+ mvpa/cosmo_surficial_neighborhood.m               |  905 ++++-----
+ mvpa/cosmo_synthetic_dataset.m                    |  986 +++++----
+ mvpa/cosmo_tail.m                                 |  157 +-
+ mvpa/cosmo_target_dsm_corr_measure.m              |  615 +++---
+ mvpa/cosmo_tiedrank.m                             |  211 +-
+ mvpa/cosmo_type.m                                 |   30 +-
+ mvpa/cosmo_unflatten.m                            |  363 ++--
+ mvpa/cosmo_vol_coordinates.m                      |  188 +-
+ mvpa/cosmo_vol_grid_convert.m                     |  330 ++-
+ mvpa/cosmo_warning.m                              |  191 +-
+ mvpa/cosmo_winner_indices.m                       |  169 +-
+ mvpa/cosmo_wtf.m                                  |  310 ++-
+ tests/test_align.m                                |  127 +-
+ tests/test_anova_feature_selector.m               |   38 +-
+ tests/test_average_samples.m                      |  501 +++--
+ tests/test_balance_dataset.m                      |  121 +-
+ tests/test_balance_partitions.m                   |  392 ++--
+ tests/test_cartprod.m                             |   62 +-
+ tests/test_check_dataset.m                        |  160 +-
+ tests/test_check_external.m                       |   88 +-
+ tests/test_check_neighborhood.m                   |  225 +--
+ tests/test_check_partitions.m                     |  173 +-
+ tests/test_chunkize.m                             |  289 ++-
+ tests/test_classify.m                             |  590 +++---
+ tests/test_cluster_neighborhood.m                 |  653 +++---
+ tests/test_clusterize.m                           |   61 +-
+ tests/test_config.m                               |  148 +-
+ tests/test_confusion_matrix.m                     |   91 +-
+ tests/test_convert_neighborhood.m                 |  113 +-
+ tests/test_corr.m                                 |  116 +-
+ tests/test_correlation_measure.m                  |  328 ++-
+ tests/test_cosmo_dataset_operations.m             |   89 +-
+ tests/test_cosmo_fmri_dataset.m                   |  179 +-
+ tests/test_cosmo_notify_test_skipped.m            |   82 +-
+ tests/test_cosmo_skip_test_if_no_external.m       |   37 +-
+ tests/test_cross_neighborhood.m                   |  355 ++--
+ tests/test_crossvalidate.m                        |   79 +-
+ tests/test_crossvalidation_measure.m              |  579 +++---
+ tests/test_dim_find.m                             |  104 +-
+ tests/test_dim_generalization_measure.m           |  382 ++--
+ tests/test_dim_insert.m                           |  157 +-
+ tests/test_dim_match.m                            |  209 +-
+ tests/test_dim_prune.m                            |  223 +--
+ tests/test_dim_remove.m                           |   91 +-
+ tests/test_dim_rename.m                           |   44 +-
+ tests/test_dim_slice.m                            |   51 +-
+ tests/test_dim_transpose.m                        |  168 +-
+ tests/test_dir.m                                  |  143 +-
+ tests/test_disp.m                                 |  427 ++--
+ tests/test_dissimilarity_matrix_measure.m         |  116 +-
+ tests/test_distatis.m                             |  281 ++-
+ tests/test_external_neuroelf.m                    |   90 +-
+ tests/test_external_surfing.m                     |  236 ++-
+ tests/test_find_local_extrema.m                   |   90 +-
+ tests/test_flatten.m                              |  160 +-
+ tests/test_fmri_convert_xform.m                   |   92 +-
+ tests/test_fmri_dataset.m                         |  722 ++++---
+ tests/test_fmri_deoblique.m                       |   39 +-
+ tests/test_fmri_io.m                              |  699 ++++---
+ tests/test_fmri_orientation.m                     |  255 ++-
+ tests/test_fx.m                                   |  140 +-
+ tests/test_independent_samples_partitioner.m      |  455 ++---
+ tests/test_index_unique.m                         |  209 +-
+ tests/test_interval_neighborhood.m                |  185 +-
+ tests/test_isequaln.m                             |  105 +-
+ tests/test_isfield.m                              |   84 +-
+ tests/test_map_pca.m                              |  338 ++--
+ tests/test_mask_dim_intersect.m                   |  208 +-
+ tests/test_match.m                                |  123 +-
+ tests/test_measure_clusters.m                     |  164 +-
+ tests/test_meeg_baseline_correct.m                |  282 ++-
+ tests/test_meeg_chan_neighborhood.m               |  160 +-
+ tests/test_meeg_chan_neighbors.m                  |  765 ++++---
+ tests/test_meeg_chantype.m                        |  188 +-
+ tests/test_meeg_find_layout.m                     |  436 ++--
+ tests/test_meeg_io.m                              |  901 ++++-----
+ tests/test_meeg_layout_collection.m               |  257 ++-
+ tests/test_meeg_read_layout.m                     |  169 +-
+ tests/test_meeg_senstype_collection.m             |  345 ++--
+ tests/test_meeg_source.m                          |  360 ++--
+ tests/test_montecarlo_cluster_stat.m              |  909 ++++-----
+ tests/test_montecarlo_cluster_stat_distribution.m |  150 +-
+ tests/test_montecarlo_phase_stat.m                |  399 ++--
+ tests/test_naive_bayes_classifier_searchlight.m   |  251 ++-
+ tests/test_neighborhood_split.m                   |  138 +-
+ tests/test_normalize.m                            |  317 ++-
+ tests/test_norminv.m                              |   56 +-
+ tests/test_oddeven_partitioner.m                  |  128 +-
+ tests/test_parallel_get_nproc_available.m         |  212 +-
+ tests/test_parcellfun.m                           |  160 +-
+ tests/test_partitions.m                           |  258 ++-
+ tests/test_pca.m                                  |  260 ++-
+ tests/test_pdist.m                                |   41 +-
+ tests/test_phase_itc.m                            |  170 +-
+ tests/test_phase_stat.m                           |  278 ++-
+ tests/test_plot_slices.m                          |   33 +-
+ tests/test_publish_run_scripts.m                  |  163 +-
+ tests/test_rand.m                                 |  101 +-
+ tests/test_randomize_targets.m                    |   62 +-
+ tests/test_randperm.m                             |  156 +-
+ tests/test_remove_useless_data.m                  |  138 +-
+ tests/test_run_tests.m                            |  169 +-
+ tests/test_sample_unique.m                        |  148 +-
+ tests/test_searchlight.m                          |  215 +-
+ tests/test_show_progress.m                        |   94 +-
+ tests/test_singleton_neighborhood.m               |   87 +-
+ tests/test_slice.m                                |  251 ++-
+ tests/test_spherical_neighborhood.m               |  644 +++---
+ tests/test_split.m                                |   91 +-
+ tests/test_squareform.m                           |  149 +-
+ tests/test_stack.m                                |  158 +-
+ tests/test_stat.m                                 |  729 ++++---
+ tests/test_statcode.m                             |  207 +-
+ tests/test_strjoin.m                              |   41 +-
+ tests/test_strsplit.m                             |   76 +-
+ tests/test_structjoin.m                           |  101 +-
+ tests/test_surface_io.m                           |  389 ++--
+ tests/test_surficial_io_gifti.m                   |  320 ++-
+ tests/test_surficial_io_niml_dset.m               |  291 ++-
+ tests/test_surficial_neighborhood.m               |  818 ++++----
+ tests/test_synthetic_dataset.m                    |   93 +-
+ tests/test_tail.m                                 |  135 +-
+ tests/test_target_dsm_corr_measure.m              |  570 +++---
+ tests/test_tiedrank.m                             |  218 +-
+ tests/test_type.m                                 |   49 +-
+ tests/test_vol_coordinates.m                      |  248 ++-
+ tests/test_vol_grid_convert.m                     |   99 +-
+ tests/test_warning.m                              |   33 +-
+ tests/test_wtf.m                                  |  105 +-
+ 249 files changed, 36041 insertions(+), 37903 deletions(-)
+
+commit 74ed3185a402d9d2ad6369505d9a1036a7d3df6d
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@googlemail.com>
+Date:   Sat Sep 13 13:07:45 2025 +0200
+
+    ENH: minor compatibility updates (#212)
+    
+    * ENH: minor compatibility updates
+    
+    * CMPT: add extra safety on not returning negative p values
+    
+    * FIX: do not transpose text message
+    
+    * TST+OCTV: update test after changed behaviour of Octave pca function
+    
+    * TST+OCTV: support Octave pca row vector results
+    
+    * TST: fix version check
+    
+    * DOC: fix indent
+    
+    * TST: limit use of findstr
+    
+    * DOC+RF: minor changes
+    
+    ---------
+    
+    Co-authored-by: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+
+ .gitignore                                |  2 ++
+ COPYING                                   |  2 +-
+ mvpa/cosmo_check_external.m               | 28 ++++++++++++++++++
+ mvpa/cosmo_check_neighborhood.m           |  2 +-
+ mvpa/cosmo_dim_match.m                    |  2 +-
+ mvpa/cosmo_dim_prune.m                    |  2 +-
+ mvpa/cosmo_dissimilarity_matrix_measure.m | 42 +++++++++++++--------------
+ mvpa/cosmo_run_tests.m                    |  6 ++--
+ mvpa/cosmo_squareform.m                   |  2 +-
+ mvpa/cosmo_stat.m                         |  6 +++-
+ tests/test_check_external.m               | 10 +++----
+ tests/test_classify.m                     |  9 +++++-
+ tests/test_corr.m                         | 10 +------
+ tests/test_cosmo_notify_test_skipped.m    |  4 +--
+ tests/test_index_unique.m                 |  9 ++----
+ tests/test_meeg_baseline_correct.m        |  9 +-----
+ tests/test_parallel_get_nproc_available.m |  9 +++---
+ tests/test_pca.m                          | 48 +++++++++++++++++++++----------
+ tests/test_run_tests.m                    |  4 +--
+ tests/test_stat.m                         | 24 ++++++++++++++--
+ 20 files changed, 146 insertions(+), 84 deletions(-)

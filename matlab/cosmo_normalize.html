@@ -1,0 +1,381 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>cosmo normalize &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css?v=279e0f84" />
+    <script src="../_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="cosmo norminv" href="cosmo_norminv.html" />
+    <link rel="prev" title="cosmo nfold partitioner" href="cosmo_nfold_partitioner.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cosmo_norminv.html" title="cosmo norminv"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_nfold_partitioner.html" title="cosmo nfold partitioner"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex.html" accesskey="U">CoSMoMVPA functions</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo normalize</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cosmo-normalize">
+<span id="id1"></span><h1>cosmo normalize<a class="headerlink" href="#cosmo-normalize" title="Link to this heading">¶</a></h1>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">[ds, params] = cosmo_normalize</span><span class="p">(</span>ds, params, dim<span class="p">)</span>
+<span class="w">    </span><span class="c">% normalize dataset either by estimating or applying estimated parameters</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% [ds, est_params]=cosmo_normalize(ds, norm_type[, dim])</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Inputs</span>
+<span class="w">    </span><span class="c">%   ds            a dataset struct with field .samples of size PxQ, or a</span>
+<span class="w">    </span><span class="c">%                 numeric array of that size</span>
+<span class="w">    </span><span class="c">%   params        either the type of normalization:</span>
+<span class="w">    </span><span class="c">%                   - &#39;demean&#39;     (mean of zero)</span>
+<span class="w">    </span><span class="c">%                   - &#39;zscore&#39;     (demean and unit variance)</span>
+<span class="w">    </span><span class="c">%                   - &#39;scale_unit&#39; (scale to interval [-1,1])</span>
+<span class="w">    </span><span class="c">%                 -or-</span>
+<span class="w">    </span><span class="c">%                 previously estimated parameters using the &#39;params&#39;</span>
+<span class="w">    </span><span class="c">%                 output result from a previous call to this function.</span>
+<span class="w">    </span><span class="c">%   dim           1 or 2, indicating along with dimension of ds to</span>
+<span class="w">    </span><span class="c">%                 normalize (if params it not a string and ends with &#39;1&#39; or</span>
+<span class="w">    </span><span class="c">%                 2&#39;).</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Output</span>
+<span class="w">    </span><span class="c">%   ds_norm       a dataset struct similar to ds, but with .samples data</span>
+<span class="w">    </span><span class="c">%                 normalized. If the input was a numeric array then ds_norm</span>
+<span class="w">    </span><span class="c">%                 is a numeric array as well.</span>
+<span class="w">    </span><span class="c">%   params        estimated parameters for normalization. These can be</span>
+<span class="w">    </span><span class="c">%                 reused for a second normalization step of an independent</span>
+<span class="w">    </span><span class="c">%                 dataset. For example, parameters can be estimated from a</span>
+<span class="w">    </span><span class="c">%                 training dataset and then applied to a testing dataset</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Examples:</span>
+<span class="w">    </span><span class="c">%     ds=struct();</span>
+<span class="w">    </span><span class="c">%     ds.samples=reshape(1:15,5,3)*2;</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(ds);</span>
+<span class="w">    </span><span class="c">%     %|| .samples</span>
+<span class="w">    </span><span class="c">%     %||   [  2        12        22</span>
+<span class="w">    </span><span class="c">%     %||      4        14        24</span>
+<span class="w">    </span><span class="c">%     %||      6        16        26</span>
+<span class="w">    </span><span class="c">%     %||      8        18        28</span>
+<span class="w">    </span><span class="c">%     %||     10        20        30 ]</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % demean along first dimension</span>
+<span class="w">    </span><span class="c">%     dsn=cosmo_normalize(ds,&#39;demean&#39;,1);</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(dsn);</span>
+<span class="w">    </span><span class="c">%     %|| .samples</span>
+<span class="w">    </span><span class="c">%     %||   [ -4        -4        -4</span>
+<span class="w">    </span><span class="c">%     %||     -2        -2        -2</span>
+<span class="w">    </span><span class="c">%     %||      0         0         0</span>
+<span class="w">    </span><span class="c">%     %||      2         2         2</span>
+<span class="w">    </span><span class="c">%     %||      4         4         4 ]</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % demean along second dimension</span>
+<span class="w">    </span><span class="c">%     dsn=cosmo_normalize(ds,&#39;demean&#39;,2);</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(dsn);</span>
+<span class="w">    </span><span class="c">%     %|| .samples</span>
+<span class="w">    </span><span class="c">%     %||   [ -10         0        10</span>
+<span class="w">    </span><span class="c">%     %||     -10         0        10</span>
+<span class="w">    </span><span class="c">%     %||     -10         0        10</span>
+<span class="w">    </span><span class="c">%     %||     -10         0        10</span>
+<span class="w">    </span><span class="c">%     %||     -10         0        10 ]</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % scale to range [-1,1] along first dimension</span>
+<span class="w">    </span><span class="c">%     dsn=cosmo_normalize(ds,&#39;scale_unit&#39;,1);</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(dsn);</span>
+<span class="w">    </span><span class="c">%     %|| .samples</span>
+<span class="w">    </span><span class="c">%     %||   [   -1        -1        -1</span>
+<span class="w">    </span><span class="c">%     %||     -0.5      -0.5      -0.5</span>
+<span class="w">    </span><span class="c">%     %||        0         0         0</span>
+<span class="w">    </span><span class="c">%     %||      0.5       0.5       0.5</span>
+<span class="w">    </span><span class="c">%     %||        1         1         1 ]</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % z-score along first dimension</span>
+<span class="w">    </span><span class="c">%     dsn=cosmo_normalize(ds,&#39;zscore&#39;,1);</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(dsn);</span>
+<span class="w">    </span><span class="c">%     %|| .samples</span>
+<span class="w">    </span><span class="c">%     %||   [  -1.26     -1.26     -1.26</span>
+<span class="w">    </span><span class="c">%     %||     -0.632    -0.632    -0.632</span>
+<span class="w">    </span><span class="c">%     %||          0         0         0</span>
+<span class="w">    </span><span class="c">%     %||      0.632     0.632     0.632</span>
+<span class="w">    </span><span class="c">%     %||       1.26      1.26      1.26 ]</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % z-score along second dimension</span>
+<span class="w">    </span><span class="c">%     dsn=cosmo_normalize(ds,&#39;zscore&#39;,2);</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(dsn);</span>
+<span class="w">    </span><span class="c">%     %|| .samples</span>
+<span class="w">    </span><span class="c">%     %||   [ -1         0         1</span>
+<span class="w">    </span><span class="c">%     %||     -1         0         1</span>
+<span class="w">    </span><span class="c">%     %||     -1         0         1</span>
+<span class="w">    </span><span class="c">%     %||     -1         0         1</span>
+<span class="w">    </span><span class="c">%     %||     -1         0         1 ]</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % use samples 1, 3, and 4 to estimate parameters (&#39;training set&#39;),</span>
+<span class="w">    </span><span class="c">%     % and apply these to samples 2 and 5</span>
+<span class="w">    </span><span class="c">%     ds_train=cosmo_slice(ds,[1 3 4]);</span>
+<span class="w">    </span><span class="c">%     ds_test=cosmo_slice(ds,[2 5]);</span>
+<span class="w">    </span><span class="c">%     [dsn_train,params]=cosmo_normalize(ds_train,&#39;scale_unit&#39;, 1);</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(dsn_train);</span>
+<span class="w">    </span><span class="c">%     %|| .samples</span>
+<span class="w">    </span><span class="c">%     %||   [    -1        -1        -1</span>
+<span class="w">    </span><span class="c">%     %||     0.333     0.333     0.333</span>
+<span class="w">    </span><span class="c">%     %||         1         1         1 ]</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % show estimated parameters (min and max for each column, in this</span>
+<span class="w">    </span><span class="c">%     % case)</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(params);</span>
+<span class="w">    </span><span class="c">%     %|| .method</span>
+<span class="w">    </span><span class="c">%     %||   &#39;scale_unit&#39;</span>
+<span class="w">    </span><span class="c">%     %|| .dim</span>
+<span class="w">    </span><span class="c">%     %||   [ 1 ]</span>
+<span class="w">    </span><span class="c">%     %|| .min</span>
+<span class="w">    </span><span class="c">%     %||   [ 2        12        22 ]</span>
+<span class="w">    </span><span class="c">%     %|| .max</span>
+<span class="w">    </span><span class="c">%     %||   [ 8        18        28 ]</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % apply parameters to test dataset</span>
+<span class="w">    </span><span class="c">%     dsn_test=cosmo_normalize(ds_test,params);</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(dsn_test);</span>
+<span class="w">    </span><span class="c">%     %|| .samples</span>
+<span class="w">    </span><span class="c">%     %||   [ -0.333    -0.333    -0.333</span>
+<span class="w">    </span><span class="c">%     %||       1.67      1.67      1.67 ]</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% #   For CoSMoMVPA&#39;s copyright information and license terms,   #</span>
+<span class="w">    </span><span class="c">% #   see the COPYING file distributed with CoSMoMVPA.           #</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">params</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="nb">ischar</span><span class="p">(</span><span class="n">params</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">strcmp</span><span class="p">(</span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;none&#39;</span><span class="p">))</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">        </span><span class="n">dim</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">apply_params</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">isstruct</span><span class="p">(</span><span class="n">params</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">apply_params</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">dim</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="n">dim</span>
+<span class="w">            </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Dim specified as %d, but estimates used %d&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">dim</span><span class="p">);</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">elseif</span><span class="w"> </span><span class="nb">ischar</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+<span class="w">        </span><span class="n">params</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_params_from_string</span><span class="p">(</span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="p">);</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;norm_spec must be struct or string&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">method</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">method</span><span class="p">;</span>
+<span class="w">    </span><span class="n">dim</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">dim</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">is_ds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">isstruct</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;samples&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">is_ds</span>
+<span class="w">        </span><span class="n">samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="p">;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="n">samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">;</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="n">method</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;demean&#39;</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">apply_params</span>
+<span class="w">                </span><span class="n">mu</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">mu</span><span class="p">;</span>
+<span class="w">            </span><span class="k">else</span>
+<span class="w">                </span><span class="n">mu</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">mean</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="p">);</span>
+<span class="w">                </span><span class="n">params</span><span class="p">.</span><span class="n">mu</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">mu</span><span class="p">;</span>
+<span class="w">            </span><span class="k">end</span>
+<span class="w">            </span><span class="n">samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">bsxfun</span><span class="p">(@</span><span class="n">minus</span><span class="p">,</span><span class="w"> </span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="n">mu</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;zscore&#39;</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">apply_params</span>
+<span class="w">                </span><span class="n">mu</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">mu</span><span class="p">;</span>
+<span class="w">                </span><span class="n">sigma</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">sigma</span><span class="p">;</span>
+<span class="w">            </span><span class="k">else</span>
+<span class="w">                </span><span class="n">n</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="p">);</span>
+<span class="w">                </span><span class="n">mu</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
+<span class="w">                </span><span class="n">params</span><span class="p">.</span><span class="n">mu</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">mu</span><span class="p">;</span>
+<span class="w">            </span><span class="k">end</span>
+
+<span class="w">            </span><span class="n">d</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">bsxfun</span><span class="p">(@</span><span class="n">minus</span><span class="p">,</span><span class="w"> </span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="n">mu</span><span class="p">);</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">apply_params</span>
+<span class="w">                </span><span class="n">sigma</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">d</span><span class="o">.^</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+<span class="w">                </span><span class="n">params</span><span class="p">.</span><span class="n">sigma</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sigma</span><span class="p">;</span>
+<span class="w">            </span><span class="k">end</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">sigma</span><span class="p">)</span>
+<span class="w">                </span><span class="c">% Octave 3.8.2 on Ubuntu gives it the wrong size</span>
+<span class="w">                </span><span class="n">sigma</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">d</span><span class="p">));</span>
+<span class="w">            </span><span class="k">end</span>
+
+<span class="w">            </span><span class="c">% In Octave, std can give non-NaN even with NaN input</span>
+<span class="w">            </span><span class="n">nan_mask</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="nb">isnan</span><span class="p">(</span><span class="n">samples</span><span class="p">),</span><span class="w"> </span><span class="n">dim</span><span class="p">);</span>
+<span class="w">            </span><span class="n">sigma</span><span class="p">(</span><span class="n">nan_mask</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">NaN</span><span class="p">;</span>
+
+<span class="w">            </span><span class="n">samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">bsxfun</span><span class="p">(@</span><span class="n">rdivide</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">sigma</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;scale_unit&#39;</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">apply_params</span>
+<span class="w">                </span><span class="n">min_</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">min</span><span class="p">;</span>
+<span class="w">                </span><span class="n">max_</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">max</span><span class="p">;</span>
+<span class="w">            </span><span class="k">else</span>
+<span class="w">                </span><span class="n">min_</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">min</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="p">[],</span><span class="w"> </span><span class="n">dim</span><span class="p">);</span>
+<span class="w">                </span><span class="n">max_</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="p">[],</span><span class="w"> </span><span class="n">dim</span><span class="p">);</span>
+<span class="w">                </span><span class="n">params</span><span class="p">.</span><span class="n">min</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">min_</span><span class="p">;</span>
+<span class="w">                </span><span class="n">params</span><span class="p">.</span><span class="n">max</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">max_</span><span class="p">;</span>
+
+<span class="w">            </span><span class="k">end</span>
+<span class="w">            </span><span class="n">samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">bsxfun</span><span class="p">(@</span><span class="n">times</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="p">(</span><span class="n">max_</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">min_</span><span class="p">),</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                             </span><span class="nb">bsxfun</span><span class="p">(@</span><span class="n">minus</span><span class="p">,</span><span class="w"> </span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="n">min_</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">otherwise</span>
+<span class="w">            </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Unsupported normalization: %s&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">nan_msk</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">~</span><span class="nb">isfinite</span><span class="p">(</span><span class="n">samples</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="n">nan_msk</span><span class="p">(:))</span>
+<span class="w">        </span><span class="n">cosmo_warning</span><span class="p">(</span><span class="s">&#39;%d samples are NaN or Inf after normalization&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                      </span><span class="nb">sum</span><span class="p">(</span><span class="n">nan_msk</span><span class="p">(:)));</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">is_ds</span>
+<span class="w">        </span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">samples</span><span class="p">;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="n">ds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">samples</span><span class="p">;</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span>params<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">get_params_from_string</span><span class="p">(</span>norm_method, dim_arg<span class="p">)</span>
+<span class="w">    </span><span class="k">persistent</span><span class="w"> </span><span class="n">cached_params</span>
+<span class="w">    </span><span class="k">persistent</span><span class="w"> </span><span class="n">cached_norm_method</span>
+<span class="w">    </span><span class="k">persistent</span><span class="w"> </span><span class="n">cached_dim_arg</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="nb">isequal</span><span class="p">(</span><span class="n">norm_method</span><span class="p">,</span><span class="w"> </span><span class="n">cached_norm_method</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="k">...</span>
+<span class="w">         </span><span class="nb">isequal</span><span class="p">(</span><span class="n">dim_arg</span><span class="p">,</span><span class="w"> </span><span class="n">cached_dim_arg</span><span class="p">))</span>
+
+<span class="w">        </span><span class="nb">assert</span><span class="p">(</span><span class="nb">ischar</span><span class="p">(</span><span class="n">norm_method</span><span class="p">));</span>
+<span class="w">        </span><span class="nb">assert</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">norm_method</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">dim</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span>
+<span class="w">        </span><span class="n">method</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">norm_method</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">dim_arg</span><span class="p">)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+<span class="w">                </span><span class="n">dim</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">            </span><span class="k">end</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+<span class="w">                </span><span class="n">dim</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">dim_arg</span><span class="p">;</span>
+<span class="w">            </span><span class="k">else</span>
+<span class="w">                </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;Cannot have third argument when second argument &#39;</span><span class="k">...</span>
+<span class="w">                       </span><span class="s">&#39;ends with a number&#39;</span><span class="p">]);</span>
+<span class="w">            </span><span class="k">end</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">        </span><span class="n">cached_params</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">        </span><span class="n">cached_params</span><span class="p">.</span><span class="n">method</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">method</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cached_params</span><span class="p">.</span><span class="n">dim</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">dim</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">cached_norm_method</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">norm_method</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cached_dim_arg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">dim_arg</span><span class="p">;</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">params</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cached_params</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="cosmo_nfold_partitioner.html"
+                          title="previous chapter">cosmo nfold partitioner</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cosmo_norminv.html"
+                          title="next chapter">cosmo norminv</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/matlab/cosmo_normalize.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cosmo_norminv.html" title="cosmo norminv"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_nfold_partitioner.html" title="cosmo nfold partitioner"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex.html" >CoSMoMVPA functions</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo normalize</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="../_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

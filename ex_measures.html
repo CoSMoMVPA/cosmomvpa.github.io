@@ -1,0 +1,206 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Using CoSMoMVPA measures &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=279e0f84" />
+    <script src="_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="Using CoSMoMVPA neighborhoods for regions of interest" href="ex_neighborhood.html" />
+    <link rel="prev" title="Double dipping" href="ex_classify_double_dipping.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="ex_neighborhood.html" title="Using CoSMoMVPA neighborhoods for regions of interest"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="ex_classify_double_dipping.html" title="Double dipping"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="nmsm2019_ex_toc.html" accesskey="U">Exercises</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Using CoSMoMVPA <em>measures</em></a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="using-cosmomvpa-measures">
+<span id="ex-measures"></span><h1>Using CoSMoMVPA <em>measures</em><a class="headerlink" href="#using-cosmomvpa-measures" title="Link to this heading">¶</a></h1>
+<section id="rationale">
+<h2>Rationale<a class="headerlink" href="#rationale" title="Link to this heading">¶</a></h2>
+<p>Previous exercises discussed how to compute both split-half correlations (<a class="reference internal" href="ex_splithalf_correlations.html#ex-splithalf-correlations"><span class="std std-ref">Split-half correlation-based MVPA with group analysis</span></a>) and classification accuracies using cross-validation (<a class="reference internal" href="ex_nfold_crossvalidation.html#ex-nfold-crossvalidation"><span class="std std-ref">Classification analysis with cross-validation</span></a>). Both types of analysis share a common input and output pattern:</p>
+<blockquote>
+<div><ul>
+<li><p>The input is a dataset struct (with at least <code class="docutils literal notranslate"><span class="pre">.sa.chunks</span></code> and <code class="docutils literal notranslate"><span class="pre">.sa.targets</span></code> properly set)</p></li>
+<li><p>The output consists of one or more values, which can be stored into a new output dataset</p></li>
+<li><p>Optionally, there may be some miscellaneous options that specify specifics on the operations.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>for split-half correlations, these could be how to normalize the correlations (the default is a Fisher-transform using the <code class="docutils literal notranslate"><span class="pre">atanh</span></code> function)</p></li>
+<li><p>for cross-validation, these are the partitioning scheme for cross-validation (e.g. odd-even or n-fold) and the classifier (e.g. LDA, SVM, or Naive Bayes) to use.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>This pattern is captured by the CoSMoMVPA dataset <a class="reference internal" href="cosmomvpa_concepts.html#cosmomvpa-measure"><span class="std std-ref">measure</span></a> concept. An important reason for using measures is that it allows for a flexible implementation of <a class="reference internal" href="cosmomvpa_concepts.html#searchlight"><span class="std std-ref">searchlights</span></a>, which involve the repeated application of the same measure to subsets of features.</p>
+</section>
+<section id="the-measure-concept">
+<h2>The measure concept<a class="headerlink" href="#the-measure-concept" title="Link to this heading">¶</a></h2>
+<p>A dataset measure is a function with the following signature:</p>
+<blockquote>
+<div><div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">output</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">dataset_measure</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>where:</p>
+<blockquote>
+<div><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">dataset</span></code> is a dataset struct.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">args</span></code> are options specific for that measure.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">output</span></code> must be a <code class="docutils literal notranslate"><span class="pre">struct</span></code> with fields <code class="docutils literal notranslate"><span class="pre">.samples</span></code> (in column vector format) and optionally a field <code class="docutils literal notranslate"><span class="pre">.sa</span></code></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>it should not have fields <code class="docutils literal notranslate"><span class="pre">.fa</span></code>.</p></li>
+<li><p>usually it has no field <code class="docutils literal notranslate"><span class="pre">.a</span></code> (except for some complicated cases where it can have an <code class="docutils literal notranslate"><span class="pre">.a.sdim</span></code> field, if the measure returns data in a dimensional format).</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</section>
+<section id="split-half-correlations-using-a-measure">
+<h2>Split-half correlations using a measure<a class="headerlink" href="#split-half-correlations-using-a-measure" title="Link to this heading">¶</a></h2>
+<p>Before starting this exercise, please make sure you have read about:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="tips.html#matlab-octave-function-handles"><span class="std std-ref">Function handles</span></a></p></li>
+<li><p><a class="reference internal" href="cosmomvpa_concepts.html#cosmomvpa-measure"><span class="std std-ref">Measure</span></a></p></li>
+</ul>
+<p>As a first exercise, load two datasets using subject <code class="docutils literal notranslate"><span class="pre">s01</span></code>’s T-statistics for odd and even runs
+(<code class="docutils literal notranslate"><span class="pre">glm_T_stats_even.nii</span></code> and <code class="docutils literal notranslate"><span class="pre">glm_T_stats_odd.nii</span></code>) and the VT mask.
+Assign targets and chunks, then join the two datasets using <code class="docutils literal notranslate"><span class="pre">cosmo_stack</span></code>. Then use <a class="reference internal" href="matlab/cosmo_correlation_measure.html#cosmo-correlation-measure"><span class="std std-ref">cosmo correlation measure</span></a> to:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>compute the correlation information (Fisher-transformed average of on-diagonal versus off-diagonal elements).</p></li>
+<li><p>the raw correlation matrix.</p></li>
+</ul>
+</div></blockquote>
+<p>Then compute the correlation information for each subject, and perform a t-test against zero over subjects.</p>
+<p>Template: <a class="reference internal" href="matlab/run_correlation_measure_skl.html#run-correlation-measure-skl"><span class="std std-ref">run correlation measure skl</span></a></p>
+<p>Check your answers here: <a class="reference internal" href="matlab/run_correlation_measure.html#run-correlation-measure"><span class="std std-ref">run correlation measure</span></a> / <a class="extlink-pb reference external" href="_static/publish/run_correlation_measure.html">Matlab output: run_correlation_measure</a></p>
+</section>
+<section id="classifier-with-cross-validation-using-a-measure">
+<span id="ex-measures-crossvalidation"></span><h2>Classifier with cross-validation using a measure<a class="headerlink" href="#classifier-with-cross-validation-using-a-measure" title="Link to this heading">¶</a></h2>
+<p>As a second exercise, load a dataset using subject <code class="docutils literal notranslate"><span class="pre">s01</span></code>’s T-statistics for every run
+(<code class="docutils literal notranslate"><span class="pre">glm_T_stats_perrun.nii</span></code>) and the VT mask.</p>
+<p>Assign targets and chunks, then use the LDA classifier (<a class="reference internal" href="matlab/cosmo_classify_lda.html#cosmo-classify-lda"><span class="std std-ref">cosmo classify lda</span></a>) and n-fold partitioning (<a class="reference internal" href="matlab/cosmo_nfold_partitioner.html#cosmo-nfold-partitioner"><span class="std std-ref">cosmo nfold partitioner</span></a>) to compute classification accuracy using n-fold cross-validation, using <a class="reference internal" href="matlab/cosmo_crossvalidation_measure.html#cosmo-crossvalidation-measure"><span class="std std-ref">cosmo crossvalidation measure</span></a>.</p>
+<p>Then compute confusion matrices using different classifiers, such as <a class="reference internal" href="matlab/cosmo_classify_lda.html#cosmo-classify-lda"><span class="std std-ref">cosmo classify lda</span></a>, <a class="reference internal" href="matlab/cosmo_classify_nn.html#cosmo-classify-nn"><span class="std std-ref">cosmo classify nn</span></a>, and <a class="reference internal" href="matlab/cosmo_classify_naive_bayes.html#cosmo-classify-naive-bayes"><span class="std std-ref">cosmo classify naive bayes</span></a>. If LIBSVM or the <cite>Matlab statistics</cite> toolbox are available, you can also use <a class="reference internal" href="matlab/cosmo_classify_svm.html#cosmo-classify-svm"><span class="std std-ref">cosmo classify svm</span></a>.</p>
+<p>Template: <a class="reference internal" href="matlab/run_crossvalidation_measure_skl.html#run-crossvalidation-measure-skl"><span class="std std-ref">run crossvalidation measure skl</span></a></p>
+<p>Check your answers here: <a class="reference internal" href="matlab/run_crossvalidation_measure.html#run-crossvalidation-measure"><span class="std std-ref">run crossvalidation measure</span></a> / <a class="extlink-pb reference external" href="_static/publish/run_crossvalidation_measure.html">Matlab output: run_crossvalidation_measure</a></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Using CoSMoMVPA <em>measures</em></a><ul>
+<li><a class="reference internal" href="#rationale">Rationale</a></li>
+<li><a class="reference internal" href="#the-measure-concept">The measure concept</a></li>
+<li><a class="reference internal" href="#split-half-correlations-using-a-measure">Split-half correlations using a measure</a></li>
+<li><a class="reference internal" href="#classifier-with-cross-validation-using-a-measure">Classifier with cross-validation using a measure</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="ex_classify_double_dipping.html"
+                          title="previous chapter">Double dipping</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="ex_neighborhood.html"
+                          title="next chapter">Using CoSMoMVPA <em>neighborhoods</em> for regions of interest</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/ex_measures.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="ex_neighborhood.html" title="Using CoSMoMVPA neighborhoods for regions of interest"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="ex_classify_double_dipping.html" title="Double dipping"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="nmsm2019_ex_toc.html" >Exercises</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Using CoSMoMVPA <em>measures</em></a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

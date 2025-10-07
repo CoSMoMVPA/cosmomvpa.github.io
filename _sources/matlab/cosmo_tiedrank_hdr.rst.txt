@@ -1,0 +1,7 @@
+.. _cosmo_tiedrank_hdr:
+
+cosmo tiedrank hdr
+==================
+
+.. include :: cosmo_tiedrank_hdr.txt
+

@@ -1,0 +1,7 @@
+.. _cosmo_balance_dataset:
+
+cosmo balance dataset
+=====================
+
+.. include :: cosmo_balance_dataset.txt
+

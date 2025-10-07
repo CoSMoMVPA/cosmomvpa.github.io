@@ -1,0 +1,354 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>cosmo wizard set config skl &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css?v=279e0f84" />
+    <script src="../_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="cosmo align skl" href="cosmo_align_skl.html" />
+    <link rel="prev" title="CoSMoMVPA functions - skeleton files" href="../matindex_skl.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cosmo_align_skl.html" title="cosmo align skl"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../matindex_skl.html" title="CoSMoMVPA functions - skeleton files"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_skl.html" accesskey="U">CoSMoMVPA functions - skeleton files</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo wizard set config skl</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cosmo-wizard-set-config-skl">
+<span id="id1"></span><h1>cosmo wizard set config skl<a class="headerlink" href="#cosmo-wizard-set-config-skl" title="Link to this heading">¶</a></h1>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">cosmo_wizard_set_config</span><span class="p">()</span>
+<span class="w">    </span><span class="c">% GUI-based &#39;wizard&#39; to set CoSMoMVPA configuration file</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% cosmo_wizard_set_config()</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% This &#39;wizard&#39; can be used to set the CoSMoMVPA configuration paths</span>
+<span class="w">    </span><span class="c">% for exercises and demonstration outputs (in CoSMoMVPA&#39;s &#39;examples/&#39;</span>
+<span class="w">    </span><span class="c">% directory).</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% It asks to select the directories for the &#39;tutorial_data_path&#39;</span>
+<span class="w">    </span><span class="c">% and &#39;output_data_path&#39;. The former requires tutorial data, which can be</span>
+<span class="w">    </span><span class="c">% downloaded from cosmomvpa.org/download.html</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% It will store a &#39;.cosmomvpa.cfg&#39; file in either the user&#39;s home directory</span>
+<span class="w">    </span><span class="c">% (on Linux / OSX), or in any available userpath() directory.</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Selecting cancel at any time will close this wizard.</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% #   For CoSMoMVPA&#39;s copyright information and license terms,   #</span>
+<span class="w">    </span><span class="c">% #   see the COPYING file distributed with CoSMoMVPA.           #</span>
+
+<span class="w">    </span><span class="c">% simulate go-to</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="nb">true</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="nb">which</span><span class="p">(</span><span class="s">&#39;cosmo_config&#39;</span><span class="p">))</span>
+<span class="w">            </span><span class="c">% store original path.</span>
+<span class="w">            </span><span class="c">% (should we ask to user whether the path should be set)</span>
+<span class="w">            </span><span class="n">orig_path</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">path</span><span class="p">();</span>
+<span class="w">            </span><span class="n">path_resetter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">onCleanup</span><span class="p">(@()</span><span class="nb">path</span><span class="p">(</span><span class="n">orig_path</span><span class="p">));</span>
+
+<span class="w">            </span><span class="nb">addpath</span><span class="p">(</span><span class="n">get_cosmo_mvpa_dir</span><span class="p">());</span>
+<span class="w">            </span><span class="n">cosmo_set_path</span><span class="p">();</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">        </span><span class="c">% read existing configuration, if it exists</span>
+<span class="w">        </span><span class="p">[</span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="n">fn</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_cosmo_config</span><span class="p">();</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+<span class="w">            </span><span class="c">% no existing configuration, find location where to store it</span>
+<span class="w">            </span><span class="p">[</span><span class="n">fn</span><span class="p">,</span><span class="w"> </span><span class="n">error_msg</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_output_filename</span><span class="p">();</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+<span class="w">                </span><span class="k">break</span>
+<span class="w">            </span><span class="k">end</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">        </span><span class="c">% ask for paths and update configuration</span>
+<span class="w">        </span><span class="p">[</span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="n">error_msg</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">update_config</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+<span class="w">            </span><span class="k">break</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">        </span><span class="c">% store configuration</span>
+<span class="w">        </span><span class="n">error_msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">write_config</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+<span class="w">            </span><span class="k">break</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">        </span><span class="c">% all done without error, quit this function</span>
+<span class="w">        </span><span class="nb">msgbox</span><span class="p">(</span><span class="s">&#39;Done! Happy CoSMoMVPA-ing!&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;%s did not complete, reason: %s&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">mfilename</span><span class="p">(),</span><span class="w"> </span><span class="n">error_msg</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span>mvpa_dir<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">get_cosmo_mvpa_dir</span><span class="p">()</span>
+<span class="w">    </span><span class="n">cur_dir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fileparts</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">(</span><span class="s">&#39;fullpath&#39;</span><span class="p">));</span>
+<span class="w">    </span><span class="n">mvpa_dir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fullfile</span><span class="p">(</span><span class="nb">fileparts</span><span class="p">(</span><span class="n">cur_dir</span><span class="p">),</span><span class="w"> </span><span class="s">&#39;mvpa&#39;</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span>error_msg<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">write_config</span><span class="p">(</span>fn, config<span class="p">)</span>
+<span class="w">    </span><span class="n">config_str</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">config2str</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+
+<span class="w">    </span><span class="nb">title</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;Confirm writing CoSMoMVPA configuration&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">body</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">([</span><span class="s">&#39;The following CoSMoMVPA configuration\n\n%s\n&#39;</span><span class="k">...</span>
+<span class="w">                    </span><span class="s">&#39;will be written in this file:\n\n%s\n\nContinue?&#39;</span><span class="p">],</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                   </span><span class="n">config_str</span><span class="p">,</span><span class="w"> </span><span class="n">fn</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">show_ok_cancel_dialog</span><span class="p">(</span><span class="nb">title</span><span class="p">,</span><span class="w"> </span><span class="n">body</span><span class="p">)</span>
+<span class="w">        </span><span class="n">error_msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cosmo_config</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">error_msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;Writing configuration file was cancelled&#39;</span><span class="p">;</span>
+
+<span class="k">function</span><span class="w"> </span>str<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">config2str</span><span class="p">(</span>config<span class="p">)</span>
+<span class="w">    </span><span class="n">rows</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cellfun</span><span class="p">(@(</span><span class="n">key</span><span class="p">)</span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;%s=%s\n&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">.(</span><span class="n">key</span><span class="p">)),</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                   </span><span class="nb">fieldnames</span><span class="p">(</span><span class="n">config</span><span class="p">),</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                   </span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">false</span><span class="p">);</span>
+<span class="w">    </span><span class="n">str</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;%s&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">rows</span><span class="p">{:});</span>
+
+<span class="k">function</span><span class="w"> </span>response_is_ok<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">show_ok_cancel_dialog</span><span class="p">(</span>title, body<span class="p">)</span>
+<span class="w">    </span><span class="n">response</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">questdlg</span><span class="p">(</span><span class="n">body</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                        </span><span class="nb">title</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                        </span><span class="s">&#39;Cancel&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;OK&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;OK&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">response_is_ok</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">strcmp</span><span class="p">(</span><span class="n">response</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;OK&#39;</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">[config, error_msg] = update_config</span><span class="p">(</span>config<span class="p">)</span>
+<span class="w">    </span><span class="c">% get keys</span>
+<span class="w">    </span><span class="n">path_keys</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_path_keys</span><span class="p">();</span>
+<span class="w">    </span><span class="n">path_key_fields</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fieldnames</span><span class="p">(</span><span class="n">path_keys</span><span class="p">);</span>
+<span class="w">    </span><span class="n">n_paths</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">path_key_fields</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">start_path</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">n_paths</span>
+<span class="w">        </span><span class="n">key</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">path_key_fields</span><span class="p">{</span><span class="n">k</span><span class="p">};</span>
+<span class="w">        </span><span class="n">desc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">path_keys</span><span class="p">.(</span><span class="n">key</span><span class="p">);</span>
+
+<span class="w">        </span><span class="nb">title</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;Set &#39;&#39;%s&#39;&#39;&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">);</span>
+<span class="w">        </span><span class="n">body</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">([</span><span class="s">&#39;In the next dialog, select &#39;</span><span class="k">...</span>
+<span class="w">                        </span><span class="s">&#39;the directory &#39;</span><span class="w"> </span><span class="n">desc</span><span class="p">]);</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">)</span>
+<span class="w">            </span><span class="n">current_config_path</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">config</span><span class="p">.(</span><span class="n">key</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">isdir</span><span class="p">(</span><span class="n">current_config_path</span><span class="p">)</span>
+<span class="w">                </span><span class="c">% if it already has a value, use that as starting value</span>
+<span class="w">                </span><span class="n">start_path</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">current_config_path</span><span class="p">;</span>
+<span class="w">                </span><span class="n">body</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">([</span><span class="s">&#39;%s\n\nThe current setting &#39;</span><span class="k">...</span>
+<span class="w">                                </span><span class="s">&#39;for &#39;&#39;%s&#39;&#39; is:\n%s&#39;</span><span class="p">],</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                               </span><span class="n">body</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">start_path</span><span class="p">);</span>
+<span class="w">            </span><span class="k">end</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">        </span><span class="n">response_is_ok</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">show_ok_cancel_dialog</span><span class="p">(</span><span class="nb">title</span><span class="p">,</span><span class="w"> </span><span class="n">body</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">response_is_ok</span>
+
+<span class="w">            </span><span class="n">result_dir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">uigetdir</span><span class="p">(</span><span class="n">start_path</span><span class="p">,</span><span class="w"> </span><span class="n">desc</span><span class="p">);</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nb">ischar</span><span class="p">(</span><span class="n">result_dir</span><span class="p">)</span>
+<span class="w">                </span><span class="n">start_path</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">result_dir</span><span class="p">;</span>
+<span class="w">                </span><span class="n">config</span><span class="p">.(</span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">result_dir</span><span class="p">;</span>
+<span class="w">                </span><span class="k">continue</span>
+<span class="w">            </span><span class="k">end</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">        </span><span class="c">% no valid response</span>
+<span class="w">        </span><span class="n">error_msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">([</span><span class="s">&#39;Selecting directory for key &#39;&#39;%s&#39;&#39; &#39;</span><span class="k">...</span>
+<span class="w">                             </span><span class="s">&#39;was cancelled&#39;</span><span class="p">],</span><span class="w"> </span><span class="n">key</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">error_msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">;</span>
+
+<span class="k">function</span><span class="w"> </span>path_keys<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">get_path_keys</span><span class="p">()</span>
+<span class="w">    </span><span class="n">path_keys</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">path_keys</span><span class="p">.</span><span class="n">tutorial_data_path</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                    </span><span class="s">&#39;where CoSMoMVPA tutorial and example&#39;</span><span class="k">...</span>
+<span class="w">                                    </span><span class="s">&#39;data is stored. This data is required &#39;</span><span class="k">...</span>
+<span class="w">                                    </span><span class="s">&#39;for running the exercises and &#39;</span><span class="k">...</span>
+<span class="w">                                    </span><span class="s">&#39;demonstrations that come with &#39;</span><span class="k">...</span>
+<span class="w">                                    </span><span class="s">&#39;CoSMoMVPA (in the examples/ &#39;</span><span class="k">...</span>
+<span class="w">                                    </span><span class="s">&#39;directory)\n&#39;</span><span class="k">...</span>
+<span class="w">                                    </span><span class="s">&#39;If you have not &#39;</span><span class="k">...</span>
+<span class="w">                                    </span><span class="s">&#39;downloaded this data, select &#39;&#39;Cancel&#39;&#39; &#39;</span><span class="k">...</span>
+<span class="w">                                    </span><span class="s">&#39;and see the &#39;</span><span class="k">...</span>
+<span class="w">                                    </span><span class="s">&#39;website for download instructions:\n\n&#39;</span><span class="k">...</span>
+<span class="w">                                    </span><span class="s">&#39;    http://cosmomvpa.org/download.html&#39;</span><span class="k">...</span>
+<span class="w">                                    </span><span class="s">&#39;&#39;</span><span class="p">];</span>
+<span class="w">    </span><span class="n">path_keys</span><span class="p">.</span><span class="n">output_data_path</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                  </span><span class="s">&#39;where output from running the exercises and &#39;</span><span class="k">...</span>
+<span class="w">                                  </span><span class="s">&#39;demonstrations (such as fMRI volumes with &#39;</span><span class="k">...</span>
+<span class="w">                                  </span><span class="s">&#39;searchlight result maps) is be stored. This &#39;</span><span class="k">...</span>
+<span class="w">                                  </span><span class="s">&#39;can be &#39;</span><span class="k">...</span>
+<span class="w">                                  </span><span class="s">&#39;any directory of your liking that you have &#39;</span><span class="k">...</span>
+<span class="w">                                  </span><span class="s">&#39;write permissions to&#39;</span><span class="p">];</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">[path_fn, error_msg] = get_output_filename</span><span class="p">()</span>
+<span class="w">    </span><span class="n">fn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;.cosmomvpa.cfg&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">error_msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isunix</span><span class="p">()</span>
+<span class="w">        </span><span class="n">home_directory</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">getenv</span><span class="p">(</span><span class="s">&#39;HOME&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">candidate_paths</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="n">home_directory</span><span class="p">};</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="n">candidate_paths</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{};</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="nb">which</span><span class="p">(</span><span class="s">&#39;userpath&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;builtin&#39;</span><span class="p">))</span>
+<span class="w">        </span><span class="c">% this does not work on GNU Octave</span>
+<span class="w">        </span><span class="n">candidate_paths</span><span class="p">{</span><span class="k">end</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">userpath</span><span class="p">();</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">% not preferred, but no other options available</span>
+<span class="w">    </span><span class="c">% (typically, GNU Octave on Windows)</span>
+<span class="w">    </span><span class="n">candidate_paths</span><span class="p">{</span><span class="k">end</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_cosmo_mvpa_dir</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">sep</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">pathsep</span><span class="p">();</span>
+<span class="w">    </span><span class="n">candidates_strjoined</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_strjoin</span><span class="p">(</span><span class="n">candidate_paths</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="p">);</span>
+<span class="w">    </span><span class="n">candidates_paths</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_strsplit</span><span class="p">(</span><span class="n">candidates_strjoined</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">n_candidates</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">candidates_paths</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">n_candidates</span>
+<span class="w">        </span><span class="n">p</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">candidates_paths</span><span class="p">{</span><span class="n">k</span><span class="p">};</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="w">            </span><span class="k">continue</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">        </span><span class="n">path_fn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fullfile</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">fn</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">can_write</span><span class="p">(</span><span class="n">path_fn</span><span class="p">)</span>
+<span class="w">            </span><span class="k">return</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">path_fn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span>
+<span class="w">    </span><span class="n">error_msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">([</span><span class="s">&#39;No suitable directory found where %s &#39;</span><span class="k">...</span>
+<span class="w">                         </span><span class="s">&#39;could be written. The following directories were &#39;</span><span class="k">...</span>
+<span class="w">                         </span><span class="s">&#39;tried but failed: &#39;&#39;%s&#39;&#39;\n\n&#39;</span><span class="p">],</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                        </span><span class="n">fn</span><span class="p">,</span><span class="w"> </span><span class="n">cosmo_strjoin</span><span class="p">(</span><span class="n">candidates_paths</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;&#39;&#39;, &#39;&#39;&#39;</span><span class="p">));</span>
+
+<span class="k">function</span><span class="w"> </span>tf<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">can_write</span><span class="p">(</span>fn<span class="p">)</span>
+<span class="w">    </span><span class="n">file_existed</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">exist</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;file&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% try to open in append mode</span>
+<span class="w">    </span><span class="n">fid</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fopen</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;a&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">file_closer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">onCleanup</span><span class="p">(@()</span><span class="nb">fclose</span><span class="p">(</span><span class="n">fid</span><span class="p">));</span>
+<span class="w">    </span><span class="n">tf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">fid</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">clear</span><span class="w"> </span><span class="s">file_closer</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">file_existed</span>
+<span class="w">        </span><span class="nb">delete</span><span class="p">(</span><span class="n">fn</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">[config, fn] = get_cosmo_config</span><span class="p">()</span>
+<span class="w">    </span><span class="n">warning_state</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_warning</span><span class="p">();</span>
+<span class="w">    </span><span class="n">cleaner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">onCleanup</span><span class="p">(@()</span><span class="n">cosmo_warning</span><span class="p">(</span><span class="n">warning_state</span><span class="p">));</span>
+<span class="w">    </span><span class="n">cosmo_warning</span><span class="p">(</span><span class="s">&#39;off&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="p">[</span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="n">fn</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_config</span><span class="p">();</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../matindex_skl.html"
+                          title="previous chapter">CoSMoMVPA functions - skeleton files</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cosmo_align_skl.html"
+                          title="next chapter">cosmo align skl</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/matlab/cosmo_wizard_set_config_skl.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cosmo_align_skl.html" title="cosmo align skl"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../matindex_skl.html" title="CoSMoMVPA functions - skeleton files"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_skl.html" >CoSMoMVPA functions - skeleton files</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo wizard set config skl</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="../_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>
