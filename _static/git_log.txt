@@ -1,0 +1,85 @@
+commit fe5acaf3034dbaac6f1a05cc00e969cae8db760b
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@googlemail.com>
+Date:   Sat Oct 25 16:55:58 2025 +0200
+
+    DOC: update datadb links (#221)
+    
+    * DOC: update datadb links
+    
+    * BLD: include codecov config
+
+ codecov.yml                     |  6 ++++++
+ doc/source/cimec2016_intro.rst  |  4 ++--
+ doc/source/conf.py              |  5 +----
+ doc/source/download.rst         | 13 ++++---------
+ doc/source/labman2017_intro.rst |  6 +++---
+ doc/source/nmsm2019_intro.rst   |  6 +++---
+ doc/source/prni2016_intro.rst   |  4 ++--
+ doc/source/quick_download.txt   | 16 +++++++++++-----
+ 8 files changed, 32 insertions(+), 28 deletions(-)
+
+commit 0a12f460613996afd1727db7ccde92281b6ba59d
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@googlemail.com>
+Date:   Sat Oct 25 15:29:53 2025 +0200
+
+    BLD: use multiline statements (#220)
+    
+    * BLD: use multiline statements
+    
+    * DOC: update README with new badges
+
+ .github/workflows/CI_matlab.yml | 26 ++++++++++++++++++++------
+ README.rst                      | 39 ++++++++++++++++++++++++++++-----------
+ 2 files changed, 48 insertions(+), 17 deletions(-)
+
+commit c408cbee10ce021c46e0b75e2950d81dfff76097
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@googlemail.com>
+Date:   Fri Oct 24 19:21:53 2025 +0200
+
+    TST: update tests (documentation & unit) to work with recent versions of FieldTrip (#219)
+    
+    Co-authored-by: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+
+ .github/workflows/CI_matlab.yml           |   3 +
+ mvpa/cosmo_meeg_chantype.m                |   4 +-
+ mvpa/cosmo_meeg_senstype2layout_mapping.m |   4 +-
+ mvpa/cosmo_meeg_senstype_collection.m     |   6 +-
+ tests/test_meeg_chantype.m                |   8 +-
+ tests/test_meeg_senstype_collection.m     | 155 +++++++++++++++---------------
+ 6 files changed, 93 insertions(+), 87 deletions(-)
+
+commit 683acc9529744f502321c9166af4016f30fdb544
+Author: Nikolaas N. Oosterhof <n.n.oosterhof@googlemail.com>
+Date:   Fri Oct 24 19:05:57 2025 +0200
+
+    BLD: support Matlab CI
+    
+    * BLD: add workflow_dispatch
+    
+    * BLD: add matlab-ci
+    
+    * BLD: adapt tests to deal with absent statistics toolbox (CI)
+    
+    ---------
+    
+    Co-authored-by: Nikolaas N. Oosterhof <n.n.oosterhof@gmail.com>
+
+ .github/workflows/CI_matlab.yml                   | 78 +++++++++++++++++++++++
+ .github/workflows/CI_octave.yml                   |  1 +
+ .gitignore                                        |  1 +
+ Makefile                                          |  1 +
+ mvpa/cosmo_check_external.m                       | 23 ++++++-
+ mvpa/cosmo_dim_match.m                            |  1 -
+ mvpa/cosmo_meeg_senstype_collection.m             |  5 +-
+ mvpa/cosmo_singleton_neighborhood.m               |  3 +
+ mvpa/cosmo_stat.m                                 | 12 ++++
+ tests/test_classify.m                             | 14 +++-
+ tests/test_corr.m                                 |  6 ++
+ tests/test_correlation_measure.m                  |  5 ++
+ tests/test_montecarlo_cluster_stat.m              | 65 +++++++++++--------
+ tests/test_montecarlo_cluster_stat_distribution.m |  3 +
+ tests/test_pca.m                                  |  2 +
+ tests/test_pdist.m                                |  3 +
+ tests/test_show_progress.m                        | 12 +++-
+ tests/test_stat.m                                 | 31 +++++++--
+ 18 files changed, 227 insertions(+), 39 deletions(-)

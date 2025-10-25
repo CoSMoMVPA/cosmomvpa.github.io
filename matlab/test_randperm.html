@@ -1,0 +1,272 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>test randperm &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css?v=279e0f84" />
+    <script src="../_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="test remove useless data" href="test_remove_useless_data.html" />
+    <link rel="prev" title="test randomize targets" href="test_randomize_targets.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="test_remove_useless_data.html" title="test remove useless data"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="test_randomize_targets.html" title="test randomize targets"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_test.html" accesskey="U">CoSMoMVPA unit tests</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">test randperm</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="test-randperm">
+<span id="id1"></span><h1>test randperm<a class="headerlink" href="#test-randperm" title="Link to this heading">¶</a></h1>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">test_suite</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">test_randperm</span>
+<span class="w">    </span><span class="c">% tests for cosmo_randperm</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% #   For CoSMoMVPA&#39;s copyright information and license terms,   #</span>
+<span class="w">    </span><span class="c">% #   see the COPYING file distributed with CoSMoMVPA.           #</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="c">% assignment of &#39;localfunctions&#39; is necessary in Matlab &gt;= 2016</span>
+<span class="w">        </span><span class="n">test_functions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">localfunctions</span><span class="p">();</span>
+<span class="w">    </span><span class="k">catch</span><span class="w"> </span><span class="c">% no problem; early Matlab versions can use initTestSuite fine</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">initTestSuite</span><span class="p">;</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">test_randperm_no_seed</span>
+<span class="w">    </span><span class="n">helper_test_deterministic</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">test_randperm_with_seed</span>
+<span class="w">    </span><span class="n">helper_test_deterministic</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">helper_test_deterministic</span><span class="p">(</span>with_seed<span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">with_seed</span>
+<span class="w">        </span><span class="n">seed</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ceil</span><span class="p">(</span><span class="nb">rand</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1e5</span><span class="p">);</span>
+<span class="w">        </span><span class="n">args</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;seed&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="p">};</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="n">args</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{};</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">f</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@(</span><span class="nb">varargin</span><span class="p">)</span><span class="n">cosmo_randperm</span><span class="p">(</span><span class="nb">varargin</span><span class="p">{:},</span><span class="w"> </span><span class="n">args</span><span class="p">{:});</span>
+
+<span class="w">    </span><span class="c">% single input</span>
+<span class="w">    </span><span class="n">n</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">randint</span><span class="p">();</span>
+<span class="w">    </span><span class="n">x1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">x1</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="n">n</span><span class="p">]);</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">sort</span><span class="p">(</span><span class="n">x1</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">x1a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">with_seed</span>
+<span class="w">        </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x1a</span><span class="p">);</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="nb">assert</span><span class="p">(</span><span class="o">~</span><span class="nb">isequal</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x1a</span><span class="p">));</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">% two inputs, select all</span>
+<span class="w">    </span><span class="n">x1a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">with_seed</span>
+<span class="w">        </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x1a</span><span class="p">);</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="nb">assert</span><span class="p">(</span><span class="o">~</span><span class="nb">isequal</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x1a</span><span class="p">));</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">% two inputs, k&lt;n</span>
+<span class="w">    </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">randint</span><span class="p">();</span>
+<span class="w">    </span><span class="n">n</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">randint</span><span class="p">();</span>
+<span class="w">    </span><span class="nb">assert</span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">);</span>
+<span class="w">    </span><span class="n">x2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">x2</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="n">k</span><span class="p">]);</span>
+<span class="w">    </span><span class="n">msk</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">bsxfun</span><span class="p">(@</span><span class="nb">eq</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span><span class="o">&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">x2</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">msk</span><span class="p">(:)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">k</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">msk</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">k</span><span class="p">);</span><span class="w"> </span><span class="c">% each column has one 1</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">msk</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">k</span><span class="p">);</span><span class="w"> </span><span class="c">% each row has one 1</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">with_seed</span>
+<span class="w">        </span><span class="c">% deterministic</span>
+<span class="w">        </span><span class="n">x2a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="n">x2a</span><span class="p">);</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="n">found</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">attempt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="mi">10</span>
+<span class="w">            </span><span class="n">x2a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isequal</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="n">x2a</span><span class="p">)</span>
+<span class="w">                </span><span class="n">found</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">                </span><span class="k">break</span>
+<span class="w">            </span><span class="k">end</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">found</span>
+<span class="w">            </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Different calls do not lead to different outputs&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">x3</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">isempty</span><span class="p">(</span><span class="n">x3</span><span class="p">));</span>
+
+<span class="w">    </span><span class="n">x4</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">x4</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">x5</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">x5</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">test_randperm_different_seeds</span>
+<span class="w">    </span><span class="nb">count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">    </span><span class="n">seed</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="nb">count</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">count</span>
+<span class="w">        </span><span class="n">seed</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">randint</span><span class="p">();</span>
+
+<span class="w">        </span><span class="n">result</span><span class="p">{</span><span class="n">k</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_randperm</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;seed&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="p">);</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nb">j</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:(</span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">            </span><span class="n">assertFalse</span><span class="p">(</span><span class="nb">isequal</span><span class="p">(</span><span class="n">result</span><span class="p">{</span><span class="nb">j</span><span class="p">},</span><span class="w"> </span><span class="n">result</span><span class="p">{</span><span class="n">k</span><span class="p">}));</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">test_randperm_exceptions</span>
+<span class="w">    </span><span class="n">aet</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@(</span><span class="nb">varargin</span><span class="p">)</span><span class="n">assertExceptionThrown</span><span class="p">(@()</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                           </span><span class="n">cosmo_randperm</span><span class="p">(</span><span class="nb">varargin</span><span class="p">{:}),</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">illegal_args</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mf">.5</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="s">&#39;foo&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">struct</span><span class="p">,</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="mi">0</span><span class="p">)};</span>
+<span class="w">    </span><span class="n">narg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">illegal_args</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% illegal first and/or second arguments</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">narg</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">second_arg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="nb">false</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">]</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="nb">j</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">narg</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="n">second_arg</span>
+<span class="w">                    </span><span class="n">args</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">illegal_args</span><span class="p">([</span><span class="n">k</span><span class="w"> </span><span class="nb">j</span><span class="p">]);</span>
+<span class="w">                </span><span class="k">elseif</span><span class="w"> </span><span class="nb">j</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">                    </span><span class="k">continue</span>
+<span class="w">                </span><span class="k">else</span>
+<span class="w">                    </span><span class="c">% single arg if j==1</span>
+<span class="w">                    </span><span class="n">args</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">illegal_args</span><span class="p">(</span><span class="n">k</span><span class="p">);</span>
+<span class="w">                </span><span class="k">end</span>
+<span class="w">                </span><span class="n">aet</span><span class="p">(</span><span class="n">args</span><span class="p">{:});</span>
+<span class="w">            </span><span class="k">end</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">% illegal seed arguments</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">narg</span>
+<span class="w">        </span><span class="n">arg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">illegal_args</span><span class="p">(</span><span class="n">k</span><span class="p">);</span>
+<span class="w">        </span><span class="n">aet</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;seed&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">arg</span><span class="p">{:});</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">% missing seed</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;seed&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% double seed</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;seed&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;seed&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% 3 numeric arguments</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% second argument greater than first</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;seed&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% unknown keyword</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;foo&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;foo&#39;</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span>x<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">randint</span><span class="p">(</span>n<span class="p">)</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ceil</span><span class="p">(</span><span class="mi">10</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">rand</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">50</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="test_randomize_targets.html"
+                          title="previous chapter">test randomize targets</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="test_remove_useless_data.html"
+                          title="next chapter">test remove useless data</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/matlab/test_randperm.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="test_remove_useless_data.html" title="test remove useless data"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="test_randomize_targets.html" title="test randomize targets"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_test.html" >CoSMoMVPA unit tests</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">test randperm</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="../_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

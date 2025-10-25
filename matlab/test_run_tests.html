@@ -1,0 +1,266 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>test run tests &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css?v=279e0f84" />
+    <script src="../_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="test sample unique" href="test_sample_unique.html" />
+    <link rel="prev" title="test remove useless data" href="test_remove_useless_data.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="test_sample_unique.html" title="test sample unique"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="test_remove_useless_data.html" title="test remove useless data"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_test.html" accesskey="U">CoSMoMVPA unit tests</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">test run tests</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="test-run-tests">
+<span id="id1"></span><h1>test run tests<a class="headerlink" href="#test-run-tests" title="Link to this heading">¶</a></h1>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">test_suite</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">test_run_tests</span>
+<span class="w">    </span><span class="c">% tests for cosmo_run_tests</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% #   For CoSMoMVPA&#39;s copyright information and license terms,   #</span>
+<span class="w">    </span><span class="c">% #   see the COPYING file distributed with CoSMoMVPA.           #</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="c">% assignment of &#39;localfunctions&#39; is necessary in Matlab &gt;= 2016</span>
+<span class="w">        </span><span class="n">test_functions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">localfunctions</span><span class="p">();</span>
+<span class="w">    </span><span class="k">catch</span><span class="w"> </span><span class="c">% no problem; early Matlab versions can use initTestSuite fine</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">initTestSuite</span><span class="p">;</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">test_run_tests_passing</span>
+<span class="w">    </span><span class="n">test_content</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;assert(true);&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">[</span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="n">output</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">helper_test_make_and_run</span><span class="p">(</span><span class="n">test_content</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+<span class="w">    </span><span class="nb">assert</span><span class="p">(</span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="nb">strfind</span><span class="p">(</span><span class="n">output</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;OK&#39;</span><span class="p">)));</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">test_run_tests_failing</span>
+<span class="w">    </span><span class="n">test_content</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;assert(false);&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">[</span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="n">output</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">helper_test_make_and_run</span><span class="p">(</span><span class="n">test_content</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertFalse</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+<span class="w">    </span><span class="nb">assert</span><span class="p">(</span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="nb">strfind</span><span class="p">(</span><span class="n">output</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;FAILED&#39;</span><span class="p">)));</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">test_run_tests_no_file_found_absolute_path</span><span class="p">()</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">skip_test_if_octave_package_io_2_4_2_or_later</span><span class="p">()</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">cosmo_test_dir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fileparts</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">(</span><span class="s">&#39;fullpath&#39;</span><span class="p">));</span>
+<span class="w">    </span><span class="n">fn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_make_temp_filename</span><span class="p">(</span><span class="nb">fullfile</span><span class="p">(</span><span class="n">cosmo_test_dir</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;test_&#39;</span><span class="p">),</span><span class="w"> </span><span class="s">&#39;.m&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertExceptionThrown</span><span class="p">(@()</span><span class="n">helper_run_tests</span><span class="p">({</span><span class="n">fn</span><span class="p">}),</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">test_run_tests_no_file_found_relative_path</span><span class="p">()</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">skip_test_if_octave_package_io_2_4_2_or_later</span><span class="p">()</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">fn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_make_temp_filename</span><span class="p">(</span><span class="s">&#39;test_&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;.m&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertExceptionThrown</span><span class="p">(@()</span><span class="n">helper_run_tests</span><span class="p">({</span><span class="n">fn</span><span class="p">}),</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">test_run_tests_missing_logfile_argument</span><span class="p">()</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">skip_test_if_octave_package_io_2_4_2_or_later</span><span class="p">()</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">assertExceptionThrown</span><span class="p">(@()</span><span class="n">helper_run_tests</span><span class="p">({</span><span class="s">&#39;-logfile&#39;</span><span class="p">}),</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">[result, output] = helper_test_make_and_run</span><span class="p">(</span>test_content<span class="p">)</span>
+<span class="w">    </span><span class="n">cosmo_test_dir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fileparts</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">(</span><span class="s">&#39;fullpath&#39;</span><span class="p">));</span>
+
+<span class="w">    </span><span class="n">fn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_make_temp_filename</span><span class="p">(</span><span class="nb">fullfile</span><span class="p">(</span><span class="n">cosmo_test_dir</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;test_&#39;</span><span class="p">),</span><span class="w"> </span><span class="s">&#39;.m&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="p">[</span><span class="n">unused</span><span class="p">,</span><span class="w"> </span><span class="n">test_name</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fileparts</span><span class="p">(</span><span class="n">fn</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">fid</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fopen</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;w&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">cleaner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">onCleanup</span><span class="p">(@()</span><span class="nb">delete</span><span class="p">(</span><span class="n">fn</span><span class="p">));</span>
+<span class="w">    </span><span class="nb">fprintf</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">            </span><span class="p">[</span><span class="s">&#39;function test_suite=%s\n&#39;</span><span class="k">...</span>
+<span class="w">             </span><span class="s">&#39;try \n&#39;</span><span class="k">...</span>
+<span class="w">             </span><span class="s">&#39;    test_functions=localfunctions();\n&#39;</span><span class="k">...</span>
+<span class="w">             </span><span class="s">&#39;catch\n&#39;</span><span class="k">...</span>
+<span class="w">             </span><span class="s">&#39;end\n&#39;</span><span class="k">...</span>
+<span class="w">             </span><span class="s">&#39;initTestSuite;\n&#39;</span><span class="k">...</span>
+<span class="w">             </span><span class="s">&#39;function %s_generated\n&#39;</span><span class="k">...</span>
+<span class="w">             </span><span class="s">&#39;%s&#39;</span><span class="p">],</span><span class="w"> </span><span class="k">...</span>
+<span class="w">            </span><span class="n">test_name</span><span class="p">,</span><span class="w"> </span><span class="n">test_name</span><span class="p">,</span><span class="w"> </span><span class="n">test_content</span><span class="p">);</span>
+<span class="w">    </span><span class="nb">fclose</span><span class="p">(</span><span class="n">fid</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">args</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="n">fn</span><span class="p">};</span>
+<span class="w">    </span><span class="p">[</span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="n">output</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">helper_run_tests</span><span class="p">(</span><span class="n">args</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">[result, output] = helper_run_tests</span><span class="p">(</span>args<span class="p">)</span>
+<span class="w">    </span><span class="n">warning_state</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_warning</span><span class="p">();</span>
+<span class="w">    </span><span class="n">orig_path</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">path</span><span class="p">();</span>
+<span class="w">    </span><span class="n">orig_pwd</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">pwd</span><span class="p">();</span>
+<span class="w">    </span><span class="n">log_fn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">tempname</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">path_cleaner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">onCleanup</span><span class="p">(@()</span><span class="nb">path</span><span class="p">(</span><span class="n">orig_path</span><span class="p">));</span>
+<span class="w">    </span><span class="n">warning_cleaner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">onCleanup</span><span class="p">(@()</span><span class="n">cosmo_warning</span><span class="p">(</span><span class="n">warning_state</span><span class="p">));</span>
+<span class="w">    </span><span class="n">pwd_cleaner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">onCleanup</span><span class="p">(@()</span><span class="nb">cd</span><span class="p">(</span><span class="n">orig_pwd</span><span class="p">));</span>
+<span class="w">    </span><span class="n">log_fn_cleaner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">onCleanup</span><span class="p">(@()</span><span class="n">delete_if_exists</span><span class="p">(</span><span class="n">log_fn</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c">% ensure path is set; disable warnings by cosmo_set_path</span>
+<span class="w">    </span><span class="n">cosmo_warning</span><span class="p">(</span><span class="s">&#39;off&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">more_args</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;-verbose&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;-logfile&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">log_fn</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;-no_doc_test&#39;</span><span class="p">};</span>
+<span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_run_tests</span><span class="p">(</span><span class="n">more_args</span><span class="p">{:},</span><span class="w"> </span><span class="n">args</span><span class="p">{:});</span>
+<span class="w">    </span><span class="n">fid</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fopen</span><span class="p">(</span><span class="n">log_fn</span><span class="p">);</span>
+<span class="w">    </span><span class="n">file_closer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">onCleanup</span><span class="p">(@()</span><span class="nb">fclose</span><span class="p">(</span><span class="n">fid</span><span class="p">));</span>
+
+<span class="w">    </span><span class="n">output</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fread</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span><span class="w"> </span><span class="nb">Inf</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;char=&gt;char&#39;</span><span class="p">)</span><span class="o">&#39;</span><span class="p">;</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">delete_if_exists</span><span class="p">(</span>fn<span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">exist</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;file&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="nb">delete</span><span class="p">(</span><span class="n">fn</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span>is_2_4_2_or_later<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">skip_test_if_octave_package_io_2_4_2_or_later</span><span class="p">()</span>
+<span class="w">    </span><span class="c">% July 2016:</span>
+<span class="w">    </span><span class="c">% Octave package &#39;io&#39; version 2.4.2 gave the following error with</span>
+<span class="w">    </span><span class="c">% three tests:</span>
+<span class="w">    </span><span class="c">% - test_run_tests_no_file_found_absolute_path</span>
+<span class="w">    </span><span class="c">% - test_run_tests_no_file_found_relative_path</span>
+<span class="w">    </span><span class="c">% - test_run_tests_missing_logfile_argument</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">%         failure: &#39;__octave_config_info__&#39; undefined near line 1 column 1</span>
+<span class="w">    </span><span class="c">%   __init_io__:30 (/Users/nick/octave/io-2.4.2/__init_io__.m)</span>
+<span class="w">    </span><span class="c">%   /Users/nick/octave/io-2.4.2/PKG_ADD:2 (/Users/nick/octave/io-2.4.2/PKG_ADD)</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% These tests are disabled for now when using Octave and io 2.4.2.</span>
+<span class="w">    </span><span class="c">% (Version 2.4.0 seems to work fine)</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Update Sept 2016: same issue with io 2.4.3. Updated code to take any</span>
+<span class="w">    </span><span class="c">% version from 2.4.2 or later</span>
+
+<span class="w">    </span><span class="n">is_2_4_2_or_later</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">cosmo_wtf</span><span class="p">(</span><span class="s">&#39;is_octave&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">pkgs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pkg</span><span class="p">(</span><span class="s">&#39;list&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;io&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">pkgs</span><span class="p">)</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="nb">version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pkgs</span><span class="p">{</span><span class="mi">1</span><span class="p">}.</span><span class="n">version</span><span class="p">;</span>
+<span class="w">    </span><span class="n">elem_str</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">regexp</span><span class="p">(</span><span class="nb">version</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;(\d+)\.(\d+)\.(\d+)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;tokens&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;once&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">elem</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cellfun</span><span class="p">(@</span><span class="nb">str2num</span><span class="p">,</span><span class="w"> </span><span class="n">elem_str</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">is_2_4_2_or_later</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">elem</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                        </span><span class="p">(</span><span class="n">elem</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">elem</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                        </span><span class="p">(</span><span class="n">elem</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">elem</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">elem</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">is_2_4_2_or_later</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">reason</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;Octave io package 2.4.2 gives unexpected error &#39;</span><span class="k">...</span>
+<span class="w">              </span><span class="s">&#39;&quot;&#39;&#39;__octave_config_info__&#39;&#39; undefined&quot; in &#39;</span><span class="k">...</span>
+<span class="w">              </span><span class="s">&#39;__init_io__.m:30; therefore &#39;</span><span class="k">...</span>
+<span class="w">              </span><span class="s">&#39;the tests causing this error are temporarily disabled&#39;</span><span class="p">];</span>
+<span class="w">    </span><span class="n">cosmo_notify_test_skipped</span><span class="p">(</span><span class="n">reason</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="test_remove_useless_data.html"
+                          title="previous chapter">test remove useless data</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="test_sample_unique.html"
+                          title="next chapter">test sample unique</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/matlab/test_run_tests.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="test_sample_unique.html" title="test sample unique"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="test_remove_useless_data.html" title="test remove useless data"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_test.html" >CoSMoMVPA unit tests</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">test run tests</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="../_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

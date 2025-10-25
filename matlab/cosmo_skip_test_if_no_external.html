@@ -1,0 +1,178 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>cosmo skip test if no external &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css?v=279e0f84" />
+    <script src="../_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="cosmo slice" href="cosmo_slice.html" />
+    <link rel="prev" title="cosmo singleton neighborhood" href="cosmo_singleton_neighborhood.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cosmo_slice.html" title="cosmo slice"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_singleton_neighborhood.html" title="cosmo singleton neighborhood"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex.html" accesskey="U">CoSMoMVPA functions</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo skip test if no external</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cosmo-skip-test-if-no-external">
+<span id="id1"></span><h1>cosmo skip test if no external<a class="headerlink" href="#cosmo-skip-test-if-no-external" title="Link to this heading">¶</a></h1>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>skip_test<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">cosmo_skip_test_if_no_external</span><span class="p">(</span>external<span class="p">)</span>
+<span class="w">    </span><span class="c">% Notify that test in the test suite is skipped if no external is present</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% skip_test=cosmo_skip_test_if_no_external(external)</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Inputs:</span>
+<span class="w">    </span><span class="c">%   external                Name of external to be checked; see</span>
+<span class="w">    </span><span class="c">%                           cosmo_check_external</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Output:</span>
+<span class="w">    </span><span class="c">%   skip_test               True if the external is not available, false</span>
+<span class="w">    </span><span class="c">%                           otherwise. If the external is not available,</span>
+<span class="w">    </span><span class="c">%                           then the skip of the test is notified through</span>
+<span class="w">    </span><span class="c">%                           cosmo_notify_test_skipped, which (depending on</span>
+<span class="w">    </span><span class="c">%                           the call stack) may raise an exception and/or</span>
+<span class="w">    </span><span class="c">%                           display a warning.</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Notes:</span>
+<span class="w">    </span><span class="c">%   - This function can be used for three different test suite</span>
+<span class="w">    </span><span class="c">%     use case scenarios:</span>
+<span class="w">    </span><span class="c">%     * runtests  (from the xUnit framework):</span>
+<span class="w">    </span><span class="c">%         calling this function shows a warning message and does not raise</span>
+<span class="w">    </span><span class="c">%         an exception.</span>
+<span class="w">    </span><span class="c">%     * cosmo_run_tests (using the xUnit framework):</span>
+<span class="w">    </span><span class="c">%         calling this function does not show a warning message, nor does</span>
+<span class="w">    </span><span class="c">%         it raise an exception. Instead, cosmo_notify_test_skipped is</span>
+<span class="w">    </span><span class="c">%         called, so that after all tests are run, cosmo_run_tests shows a</span>
+<span class="w">    </span><span class="c">%         summary of skipped tests.</span>
+<span class="w">    </span><span class="c">%     * moxunit_runtests (using MOxUnit):</span>
+<span class="w">    </span><span class="c">%         calling this function does not show a warning message, but it</span>
+<span class="w">    </span><span class="c">%         does raise an exception. This exception is caught by MOxUnit,</span>
+<span class="w">    </span><span class="c">%         so that after all tests are run, moxunit_runtests shows a summary</span>
+<span class="w">    </span><span class="c">%         of skipped tests.</span>
+<span class="w">    </span><span class="c">%   - Because xUnit does not support skipping tests directly, recommended</span>
+<span class="w">    </span><span class="c">%     usage within a unit test is:</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">%       if cosmo_skip_test_if_no_external(&#39;fieldtrip&#39;)</span>
+<span class="w">    </span><span class="c">%           return</span>
+<span class="w">    </span><span class="c">%       end</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% See also: cosmo_check_external, cosmo_notify_test_skipped</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% #   For CoSMoMVPA&#39;s copyright information and license terms,   #</span>
+<span class="w">    </span><span class="c">% #   see the COPYING file distributed with CoSMoMVPA.           #</span>
+
+<span class="w">    </span><span class="n">skip_test</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">~</span><span class="n">cosmo_check_external</span><span class="p">(</span><span class="n">external</span><span class="p">,</span><span class="w"> </span><span class="nb">false</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">skip_test</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">external</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&#39;!&#39;</span>
+<span class="w">            </span><span class="n">reason</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;Function %s is absent&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">external</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">));</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="n">reason</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;External &#39;&#39;%s&#39;&#39; is absent&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">external</span><span class="p">);</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">        </span><span class="n">cosmo_notify_test_skipped</span><span class="p">(</span><span class="n">reason</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="cosmo_singleton_neighborhood.html"
+                          title="previous chapter">cosmo singleton neighborhood</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cosmo_slice.html"
+                          title="next chapter">cosmo slice</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/matlab/cosmo_skip_test_if_no_external.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cosmo_slice.html" title="cosmo slice"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_singleton_neighborhood.html" title="cosmo singleton neighborhood"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex.html" >CoSMoMVPA functions</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo skip test if no external</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="../_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+.. _cosmo_phase_stat_skl:
+
+cosmo phase stat skl
+====================
+
+.. include :: cosmo_phase_stat_skl.txt
+

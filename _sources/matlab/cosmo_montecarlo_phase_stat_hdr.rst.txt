@@ -1,0 +1,7 @@
+.. _cosmo_montecarlo_phase_stat_hdr:
+
+cosmo montecarlo phase stat hdr
+===============================
+
+.. include :: cosmo_montecarlo_phase_stat_hdr.txt
+

@@ -1,0 +1,291 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>cosmo phase itc skl &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css?v=279e0f84" />
+    <script src="../_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="cosmo phase stat skl" href="cosmo_phase_stat_skl.html" />
+    <link rel="prev" title="cosmo pdist skl" href="cosmo_pdist_skl.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cosmo_phase_stat_skl.html" title="cosmo phase stat skl"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_pdist_skl.html" title="cosmo pdist skl"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_skl.html" accesskey="U">CoSMoMVPA functions - skeleton files</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo phase itc skl</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cosmo-phase-itc-skl">
+<span id="id1"></span><h1>cosmo phase itc skl<a class="headerlink" href="#cosmo-phase-itc-skl" title="Link to this heading">¶</a></h1>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>itc_ds<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">cosmo_phase_itc</span><span class="p">(</span>ds, varargin<span class="p">)</span>
+<span class="w">    </span><span class="c">% compute phase inter trial coherence</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% itc_ds=cosmo_phase_itc(ds,varargin)</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Inputs:</span>
+<span class="w">    </span><span class="c">%   ds                      dataset struct with fields:</span>
+<span class="w">    </span><span class="c">%       .samples            PxQ complex matrix for P samples (trials,</span>
+<span class="w">    </span><span class="c">%                           observations) and Q features (e.g. combinations</span>
+<span class="w">    </span><span class="c">%                           of time points, frequencies and channels)</span>
+<span class="w">    </span><span class="c">%       .sa.targets         Px1 array with trial conditions. Each condition</span>
+<span class="w">    </span><span class="c">%                           must occur equally often; that is, the</span>
+<span class="w">    </span><span class="c">%                           samples must be balanced.</span>
+<span class="w">    </span><span class="c">%                           In the typical case of two conditions,</span>
+<span class="w">    </span><span class="c">%                           .sa.targets must have exactly two unique</span>
+<span class="w">    </span><span class="c">%                           values.</span>
+<span class="w">    </span><span class="c">%       .sa.chunks          Px1 array indicating which samples can be</span>
+<span class="w">    </span><span class="c">%                           considered to be independent. It is required</span>
+<span class="w">    </span><span class="c">%                           that all samples are independent, therefore</span>
+<span class="w">    </span><span class="c">%                           all values in .sa.chunks must be different from</span>
+<span class="w">    </span><span class="c">%                           each other</span>
+<span class="w">    </span><span class="c">%       .fa                 } optional feature attributes</span>
+<span class="w">    </span><span class="c">%       .a                  } optional sample attributes</span>
+<span class="w">    </span><span class="c">%  &#39;samples_are_unit_length&#39;,u  (optional, default=false)</span>
+<span class="w">    </span><span class="c">%                           If u==true, then all elements in ds.samples</span>
+<span class="w">    </span><span class="c">%                           are assumed to be already of unit length. If</span>
+<span class="w">    </span><span class="c">%                           this is indeed true, this can speed up the</span>
+<span class="w">    </span><span class="c">%                           computation of the output.</span>
+<span class="w">    </span><span class="c">%  &#39;check_dataset&#39;,c        (optional, default=true)</span>
+<span class="w">    </span><span class="c">%                           if c==false, there is no check for consistency</span>
+<span class="w">    </span><span class="c">%                           of the ds input.</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Output:</span>
+<span class="w">    </span><span class="c">%   itc_ds                  dataset struct with fields:</span>
+<span class="w">    </span><span class="c">%       .samples            (N+1)xQ array with inter-trial coherence</span>
+<span class="w">    </span><span class="c">%                           measure, where U=unique(ds.sa.targets) and</span>
+<span class="w">    </span><span class="c">%                           N=numel(U). The first N rows correspond to the</span>
+<span class="w">    </span><span class="c">%                           inter trial coherence for each condition. The</span>
+<span class="w">    </span><span class="c">%                           last row is the inter trial coherence for all</span>
+<span class="w">    </span><span class="c">%                           samples together.</span>
+<span class="w">    </span><span class="c">%       .sa.targets         (N+1)x1 vector containing the values</span>
+<span class="w">    </span><span class="c">%                           [U(:);NaN]&#39; with trial conditions</span>
+<span class="w">    </span><span class="c">%       .a                  } if present in the input, then the output</span>
+<span class="w">    </span><span class="c">%       .fa                 } contains these fields as well</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% #   For CoSMoMVPA&#39;s copyright information and license terms,   #</span>
+<span class="w">    </span><span class="c">% #   see the COPYING file distributed with CoSMoMVPA.           #</span>
+
+<span class="w">    </span><span class="n">defaults</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">defaults</span><span class="p">.</span><span class="n">samples_are_unit_length</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">    </span><span class="n">defaults</span><span class="p">.</span><span class="n">check_dataset</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_structjoin</span><span class="p">(</span><span class="n">defaults</span><span class="p">,</span><span class="w"> </span><span class="nb">varargin</span><span class="p">{:});</span>
+
+<span class="w">    </span><span class="n">check_input</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">samples_are_unit_length</span>
+<span class="w">        </span><span class="n">quick_check_some_samples_being_unit_length</span><span class="p">(</span><span class="n">samples</span><span class="p">);</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="c">% normalize</span>
+<span class="w">        </span><span class="n">samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">samples</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">samples</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">% split based on .sa.targets</span>
+<span class="w">    </span><span class="p">[</span><span class="n">idxs</span><span class="p">,</span><span class="w"> </span><span class="n">classes</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_index_unique</span><span class="p">(</span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="p">);</span>
+<span class="w">    </span><span class="n">nclasses</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">classes</span><span class="p">);</span>
+<span class="w">    </span><span class="n">nfeatures</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% allocate space for output</span>
+<span class="w">    </span><span class="n">itc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="n">nclasses</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nfeatures</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% ITC for each class</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">nclasses</span>
+<span class="w">        </span><span class="n">samples_k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">samples</span><span class="p">(</span><span class="n">idxs</span><span class="p">{</span><span class="n">k</span><span class="p">},</span><span class="w"> </span><span class="p">:);</span>
+<span class="w">        </span><span class="n">itc</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">itc_on_unit_length_elements</span><span class="p">(</span><span class="n">samples_k</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">% overall ITC</span>
+<span class="w">    </span><span class="n">itc</span><span class="p">(</span><span class="n">nclasses</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">itc_on_unit_length_elements</span><span class="p">(</span><span class="n">samples</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% set output</span>
+<span class="w">    </span><span class="n">itc_ds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">set_output</span><span class="p">(</span><span class="n">itc</span><span class="p">,</span><span class="w"> </span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">classes</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span>itc_ds<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">set_output</span><span class="p">(</span>itc, ds, classes<span class="p">)</span>
+<span class="w">    </span><span class="c">% store results</span>
+<span class="w">    </span><span class="n">itc_ds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">itc_ds</span><span class="p">.</span><span class="n">samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">itc</span><span class="p">;</span>
+<span class="w">    </span><span class="n">itc_ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">classes</span><span class="p">(:);</span><span class="w"> </span><span class="nb">NaN</span><span class="p">];</span>
+
+<span class="w">    </span><span class="c">% copy .a and .fa fields, if present</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;a&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">itc_ds</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">.</span><span class="n">a</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">ds</span><span class="p">.</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;sdim&#39;</span><span class="p">)</span>
+<span class="w">            </span><span class="c">% remove sample dimensions if present</span>
+<span class="w">            </span><span class="n">itc_ds</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">rmfield</span><span class="p">(</span><span class="n">itc_ds</span><span class="p">.</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;sdim&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;fa&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">itc_ds</span><span class="p">.</span><span class="n">fa</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">.</span><span class="n">fa</span><span class="p">;</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span>itc<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">itc_on_unit_length_elements</span><span class="p">(</span>samples<span class="p">)</span>
+<span class="w">    </span><span class="c">% computes inter-trial coherence for each column separately</span>
+<span class="w">    </span><span class="n">itc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">quick_check_some_samples_being_unit_length</span><span class="p">(</span>samples<span class="p">)</span>
+<span class="w">    </span><span class="c">% instead of checking all values, only verify for a subset of values.</span>
+<span class="w">    </span><span class="c">% This should prevent most use cases where the user accidentally</span>
+<span class="w">    </span><span class="c">% uses non-normalized data, whereas checking all values would be</span>
+<span class="w">    </span><span class="c">% equivalent to actually computing their length for each of them.</span>
+<span class="w">    </span><span class="n">count_to_check</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c">% generate random positions to check for unit length</span>
+<span class="w">    </span><span class="n">nelem</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">samples</span><span class="p">);</span>
+<span class="w">    </span><span class="n">pos</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ceil</span><span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">count_to_check</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nelem</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">samples_subset</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">samples</span><span class="p">(</span><span class="n">pos</span><span class="p">);</span>
+<span class="w">    </span><span class="n">lengths</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">samples_subset</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% safety margin</span>
+<span class="w">    </span><span class="n">delta</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">eps</span><span class="p">(</span><span class="s">&#39;single&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="n">lengths</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">delta</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">lengths</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">delta</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;.samples input is not of unit length&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">check_input</span><span class="p">(</span>ds, opt<span class="p">)</span>
+<span class="w">    </span><span class="c">% must be a proper dataset</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">check_dataset</span>
+<span class="w">        </span><span class="n">raise_exception</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cosmo_check_dataset</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">raise_exception</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c">% must have targets and chunks</span>
+<span class="w">        </span><span class="n">cosmo_isfield</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;sa.targets&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;sa.chunks&#39;</span><span class="p">},</span><span class="w"> </span><span class="n">raise_exception</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">% all chunks must be unique</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isequal</span><span class="p">(</span><span class="nb">sort</span><span class="p">(</span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">chunks</span><span class="p">),</span><span class="w"> </span><span class="nb">unique</span><span class="p">(</span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">chunks</span><span class="p">))</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;All values in .sa.chunks must be different &#39;</span><span class="k">...</span>
+<span class="w">               </span><span class="s">&#39;from each other&#39;</span><span class="p">]);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">% trial counts must be balanced</span>
+<span class="w">    </span><span class="p">[</span><span class="n">idxs</span><span class="p">,</span><span class="w"> </span><span class="n">classes</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_index_unique</span><span class="p">(</span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="p">);</span>
+<span class="w">    </span><span class="n">class_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cellfun</span><span class="p">(@</span><span class="nb">numel</span><span class="p">,</span><span class="w"> </span><span class="n">idxs</span><span class="p">);</span>
+<span class="w">    </span><span class="n">unequal_pos</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">find</span><span class="p">(</span><span class="n">class_count</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="n">class_count</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">unequal_pos</span><span class="p">)</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;.sa.targets indicates unbalanced targets, with &#39;</span><span class="k">...</span>
+<span class="w">               </span><span class="s">&#39;.sa.targets==%d occurring %d times, and &#39;</span><span class="k">...</span>
+<span class="w">               </span><span class="s">&#39;.sa.targets==%d occurring %d times.\n&#39;</span><span class="k">...</span>
+<span class="w">               </span><span class="s">&#39;To obtain balanced targets, consider &#39;</span><span class="k">...</span>
+<span class="w">               </span><span class="s">&#39;using cosmo_balance_dataset.&#39;</span><span class="p">],</span><span class="w"> </span><span class="k">...</span>
+<span class="w">              </span><span class="n">classes</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">class_count</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="k">...</span>
+<span class="w">              </span><span class="n">classes</span><span class="p">(</span><span class="n">unequal_pos</span><span class="p">),</span><span class="w"> </span><span class="n">class_count</span><span class="p">(</span><span class="n">unequal_pos</span><span class="p">));</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">% input must be complex</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isreal</span><span class="p">(</span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="p">)</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;.samples must be complex&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">v</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">samples_are_unit_length</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="nb">islogical</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="k">...</span>
+<span class="w">         </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">isscalar</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;option &#39;&#39;samples_are_unit_length&#39;&#39; must be logical scalar&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="cosmo_pdist_skl.html"
+                          title="previous chapter">cosmo pdist skl</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cosmo_phase_stat_skl.html"
+                          title="next chapter">cosmo phase stat skl</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/matlab/cosmo_phase_itc_skl.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cosmo_phase_stat_skl.html" title="cosmo phase stat skl"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_pdist_skl.html" title="cosmo pdist skl"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_skl.html" >CoSMoMVPA functions - skeleton files</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo phase itc skl</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="../_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

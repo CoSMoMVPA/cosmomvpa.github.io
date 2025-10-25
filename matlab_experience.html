@@ -1,0 +1,181 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Matlab experience &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=279e0f84" />
+    <script src="_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="Cognitive neuroscience experience" href="cogneuro_experience.html" />
+    <link rel="prev" title="Download instructions" href="download.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cogneuro_experience.html" title="Cognitive neuroscience experience"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="download.html" title="Download instructions"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="get_started.html" accesskey="U">Get Started</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Matlab experience</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="matlab-experience">
+<span id="id1"></span><h1>Matlab experience<a class="headerlink" href="#matlab-experience" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="http://cosmomvpa.org">CoSMoMVPA</a> is written with simplicity in mind, and therefore does not require one to be a Matlab expert. However, some minimal knowledge is required. To assess your knowledge of Matlab, below we describe some (subjectively chosen) criteria.</p>
+<p>Using these criteria, we would argue that <em>using</em> CoSMoMVPA to analyze your data requires at least the <em>advanced beginner</em> level.</p>
+<p>In order to understand implementations, and/or contribute code, the <em>competent</em> level would be required and the <em>proficient</em> level is preferable.</p>
+<section id="advanced-beginner">
+<h2>Advanced beginner<a class="headerlink" href="#advanced-beginner" title="Link to this heading">¶</a></h2>
+<p>The advanced beginner should know be familiar with:</p>
+<ul class="simple">
+<li><p>starting and exiting Matlab.</p></li>
+<li><p>modifying the Matlab path.</p></li>
+<li><p>using the Matlab editor.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">array</span></code>, <code class="docutils literal notranslate"><span class="pre">cell</span></code> and <code class="docutils literal notranslate"><span class="pre">struct</span></code> data objects, and how to store data in and retrieve data from these.</p></li>
+<li><p>the difference between a <code class="docutils literal notranslate"><span class="pre">numeric</span></code>, <code class="docutils literal notranslate"><span class="pre">char</span></code> and <code class="docutils literal notranslate"><span class="pre">logical</span></code> data type.</p></li>
+<li><p>the concepts of a scalar, row vector, column vector, and matrix.</p></li>
+<li><p>difference between a <code class="docutils literal notranslate"><span class="pre">script</span></code> and a <code class="docutils literal notranslate"><span class="pre">function</span></code>.</p></li>
+<li><p>using a <code class="docutils literal notranslate"><span class="pre">function</span></code>, and see the <code class="docutils literal notranslate"><span class="pre">help</span></code> documentation associated with a function.</p></li>
+<li><p>be familiar with <code class="docutils literal notranslate"><span class="pre">for</span></code> and <code class="docutils literal notranslate"><span class="pre">while</span></code> loops.</p></li>
+<li><p>understand the <code class="docutils literal notranslate"><span class="pre">if</span></code> statement.</p></li>
+</ul>
+</section>
+<section id="competent-user">
+<h2>Competent user<a class="headerlink" href="#competent-user" title="Link to this heading">¶</a></h2>
+<p>In addition, the <em>competent</em> user should be familiar with:</p>
+<ul class="simple">
+<li><p>using function handles.</p></li>
+<li><p>allocating memory for data.</p></li>
+<li><p>difference between using a binary mask and indices to access values in a <code class="docutils literal notranslate"><span class="pre">cell</span></code> or <code class="docutils literal notranslate"><span class="pre">struct</span></code>.</p></li>
+<li><p>linear and subscripts to access values in a <code class="docutils literal notranslate"><span class="pre">cell</span></code> or <code class="docutils literal notranslate"><span class="pre">struct</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">varargin</span></code> and <code class="docutils literal notranslate"><span class="pre">nargin</span></code>.</p></li>
+<li><p>perform basic string manipulations.</p></li>
+</ul>
+</section>
+<section id="proficient-user">
+<h2>Proficient user<a class="headerlink" href="#proficient-user" title="Link to this heading">¶</a></h2>
+<p>In addition, the <em>proficient</em> user should be familiar with:</p>
+<ul class="simple">
+<li><p>nested function handles and Currying.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bsxfun</span></code> and <code class="docutils literal notranslate"><span class="pre">cellfun</span></code>.</p></li>
+<li><p>recursion.</p></li>
+<li><p>the debugging mode and using break points.</p></li>
+<li><p>space- and time complexity.</p></li>
+<li><p>data structures.</p></li>
+<li><p>basic linear algebra.</p></li>
+<li><p>linear- and sub-indexing.</p></li>
+<li><p>modular design of functions.</p></li>
+<li><p>namespaces and closures.</p></li>
+<li><p>profiling.</p></li>
+<li><p>unit testing.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span></code>.</p></li>
+</ul>
+<p>(Some other advanced concepts include exceptions and object-oriented programming, but these are, by deliberate decision, not used in <a class="reference external" href="http://cosmomvpa.org">CoSMoMVPA</a>).</p>
+<p>We have no idea what an <em>expert</em> user should be able to do, because we don’t consider ourselves in that category.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Matlab experience</a><ul>
+<li><a class="reference internal" href="#advanced-beginner">Advanced beginner</a></li>
+<li><a class="reference internal" href="#competent-user">Competent user</a></li>
+<li><a class="reference internal" href="#proficient-user">Proficient user</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="download.html"
+                          title="previous chapter">Download instructions</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cogneuro_experience.html"
+                          title="next chapter">Cognitive neuroscience experience</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/matlab_experience.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cogneuro_experience.html" title="Cognitive neuroscience experience"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="download.html" title="Download instructions"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="get_started.html" >Get Started</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Matlab experience</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

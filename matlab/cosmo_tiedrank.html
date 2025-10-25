@@ -1,0 +1,275 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>cosmo tiedrank &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css?v=279e0f84" />
+    <script src="../_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="cosmo type" href="cosmo_type.html" />
+    <link rel="prev" title="cosmo target dsm corr measure" href="cosmo_target_dsm_corr_measure.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cosmo_type.html" title="cosmo type"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_target_dsm_corr_measure.html" title="cosmo target dsm corr measure"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex.html" accesskey="U">CoSMoMVPA functions</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo tiedrank</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cosmo-tiedrank">
+<span id="id1"></span><h1>cosmo tiedrank<a class="headerlink" href="#cosmo-tiedrank" title="Link to this heading">¶</a></h1>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>ranks<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">cosmo_tiedrank</span><span class="p">(</span>data, dim<span class="p">)</span>
+<span class="w">    </span><span class="c">% Compute ranks for the input along the specified dimension</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% ranks=cosmo_tiedrank(data[, dim])</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Inputs:</span>
+<span class="w">    </span><span class="c">%   data                        numeric N-dimensional array</span>
+<span class="w">    </span><span class="c">%   dim                         optional dimension along which the ranks</span>
+<span class="w">    </span><span class="c">%                               are computed (default: 1)</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Output:</span>
+<span class="w">    </span><span class="c">%   ranks                       numeric N-dimensional array with the same</span>
+<span class="w">    </span><span class="c">%                               size as the input containing the rank of</span>
+<span class="w">    </span><span class="c">%                               each vector along the dim-th dimension.</span>
+<span class="w">    </span><span class="c">%                               Equal values have the same rank, which is</span>
+<span class="w">    </span><span class="c">%                               the average of the rank the values would</span>
+<span class="w">    </span><span class="c">%                               have if they differed by a minimal amount.</span>
+<span class="w">    </span><span class="c">%                               NaN values in the input result in a NaN</span>
+<span class="w">    </span><span class="c">%                               values in the output at the corresponding</span>
+<span class="w">    </span><span class="c">%                               locations.</span>
+<span class="w">    </span><span class="c">%                               If dim is greater than the number of</span>
+<span class="w">    </span><span class="c">%                               dimensions in data, then all values in rank</span>
+<span class="w">    </span><span class="c">%                               are one (or NaN of the corresponding value</span>
+<span class="w">    </span><span class="c">%                               in data is NaN).</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Examples:</span>
+<span class="w">    </span><span class="c">%     cosmo_tiedrank([1 2 2],2)</span>
+<span class="w">    </span><span class="c">%     %|| [ 1 2.5 2.5]</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">%     cosmo_tiedrank([NaN 2 2;3 NaN 4],1)</span>
+<span class="w">    </span><span class="c">%     %|| [ NaN     1     1;</span>
+<span class="w">    </span><span class="c">%     %||     1   NaN     2];</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">%     cosmo_tiedrank([NaN 2 2;3 NaN 4],2)</span>
+<span class="w">    </span><span class="c">%     %|| [ NaN   1.5   1.5;</span>
+<span class="w">    </span><span class="c">%     %||     1   NaN     2];</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">%     cosmo_tiedrank([2 4 3 3 3 3 5 5 5],2)</span>
+<span class="w">    </span><span class="c">%     %|| [ 1.0 6.0 3.5 3.5 3.5 3.5 8.0 8.0 8.0 ]</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Notes:</span>
+<span class="w">    </span><span class="c">% - Unlike the Matlab builtin function &#39;tiedrank&#39; (part of the statistics</span>
+<span class="w">    </span><span class="c">%   toolbox), the meaning of the second argument is the dimension along</span>
+<span class="w">    </span><span class="c">%   which the ranks are computed.</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% #   For CoSMoMVPA&#39;s copyright information and license terms,   #</span>
+<span class="w">    </span><span class="c">% #   see the COPYING file distributed with CoSMoMVPA.           #</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">        </span><span class="n">dim</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">check_inputs</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="p">);</span>
+<span class="w">    </span><span class="n">orig_size</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">orig_size</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">dim</span>
+<span class="w">        </span><span class="c">% if the input data does not have enough data, then the output</span>
+<span class="w">        </span><span class="c">% consists of an array with only ones (or NaNs, if present)</span>
+<span class="w">        </span><span class="n">ranks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">singleton_ranks</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="p">[</span><span class="nb">values</span><span class="p">,</span><span class="w"> </span><span class="n">idx</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sort</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">data_is_vector</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">orig_size</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">orig_size</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dim</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">data_is_vector</span>
+<span class="w">        </span><span class="n">ranks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">vector_tied_rank</span><span class="p">(</span><span class="nb">values</span><span class="p">(:),</span><span class="w"> </span><span class="n">idx</span><span class="p">(:));</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">orig_size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="c">% transpose to turn it back into a row vector</span>
+<span class="w">            </span><span class="n">ranks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ranks</span><span class="o">&#39;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">% make the dim-th dimension the first dimension</span>
+<span class="w">    </span><span class="n">values_sh</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">shiftdim</span><span class="p">(</span><span class="nb">values</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">idx_sh</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">shiftdim</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">sh_size</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">values_sh</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">count_along_dim</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">values_sh</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% reshape into a matrix</span>
+<span class="w">    </span><span class="n">values_mat</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="n">values_sh</span><span class="p">,</span><span class="w"> </span><span class="n">count_along_dim</span><span class="p">,</span><span class="w"> </span><span class="p">[]);</span>
+<span class="w">    </span><span class="n">idx_mat</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="n">idx_sh</span><span class="p">,</span><span class="w"> </span><span class="n">count_along_dim</span><span class="p">,</span><span class="w"> </span><span class="p">[]);</span>
+
+<span class="w">    </span><span class="c">% space for output</span>
+<span class="w">    </span><span class="n">ranks_mat</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">idx_mat</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c">% compute for each column vector</span>
+<span class="w">    </span><span class="n">n_col</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">ranks_mat</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">n_col</span>
+<span class="w">        </span><span class="n">ranks_mat</span><span class="p">(:,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">vector_tied_rank</span><span class="p">(</span><span class="n">values_mat</span><span class="p">(:,</span><span class="w"> </span><span class="n">k</span><span class="p">),</span><span class="w"> </span><span class="n">idx_mat</span><span class="p">(:,</span><span class="w"> </span><span class="n">k</span><span class="p">));</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">% put back in shape after shiftdim</span>
+<span class="w">    </span><span class="n">ranks_sh</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="n">ranks_mat</span><span class="p">,</span><span class="w"> </span><span class="n">sh_size</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% undo shiftdim</span>
+<span class="w">    </span><span class="n">unshift_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">orig_size</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dim</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ranks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="nb">shiftdim</span><span class="p">(</span><span class="n">ranks_sh</span><span class="p">,</span><span class="w"> </span><span class="n">unshift_count</span><span class="p">),</span><span class="w"> </span><span class="n">orig_size</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span>ranks<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">vector_tied_rank</span><span class="p">(</span>sorted_values, sort_idx<span class="p">)</span>
+<span class="w">    </span><span class="c">% sorted_values and sort_idx are the output from &#39;sort&#39;</span>
+<span class="w">    </span><span class="c">% it is assumes that sorted_values is a vector</span>
+<span class="w">    </span><span class="n">n_values</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">sorted_values</span><span class="p">);</span>
+<span class="w">    </span><span class="n">nan_msk</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">isnan</span><span class="p">(</span><span class="n">sorted_values</span><span class="p">);</span>
+<span class="w">    </span><span class="n">nan_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="n">nan_msk</span><span class="p">);</span>
+<span class="w">    </span><span class="n">non_nan_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">sorted_values</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">nan_count</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c">% first set ranks for values without ties</span>
+<span class="w">    </span><span class="n">ranks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sort_idx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">NaN</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ranks</span><span class="p">(</span><span class="n">sort_idx</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">non_nan_count</span><span class="p">))</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">non_nan_count</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c">% now deal with ties</span>
+<span class="w">    </span><span class="n">tie_msk</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sorted_values</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">sorted_values</span><span class="p">(</span><span class="mi">1</span><span class="p">:(</span><span class="k">end</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+<span class="w">    </span><span class="n">tie_idx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">find</span><span class="p">(</span><span class="n">tie_msk</span><span class="p">);</span>
+<span class="w">    </span><span class="n">tie_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">tie_idx</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tie_count</span>
+<span class="w">        </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">tie_start</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tie_idx</span><span class="p">(</span><span class="n">k</span><span class="p">);</span>
+<span class="w">        </span><span class="n">tie_end</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tie_start</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="n">tie_end</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n_values</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">sorted_values</span><span class="p">(</span><span class="n">tie_end</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">sorted_values</span><span class="p">(</span><span class="n">tie_end</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">            </span><span class="n">tie_end</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tie_end</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">            </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">        </span><span class="n">tie_value</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="n">tie_start</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">tie_end</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">        </span><span class="n">pos</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tie_start</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">:(</span><span class="n">tie_end</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">tie_start</span><span class="p">));</span>
+<span class="w">        </span><span class="n">ranks</span><span class="p">(</span><span class="n">sort_idx</span><span class="p">(</span><span class="n">pos</span><span class="p">))</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tie_value</span><span class="p">;</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span>ranks<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">singleton_ranks</span><span class="p">(</span>data<span class="p">)</span>
+<span class="w">    </span><span class="c">% all ranks are either NaN or 1</span>
+<span class="w">    </span><span class="n">ranks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ones</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">data</span><span class="p">));</span>
+<span class="w">    </span><span class="n">ranks</span><span class="p">(</span><span class="nb">isnan</span><span class="p">(</span><span class="n">data</span><span class="p">))</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">NaN</span><span class="p">;</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">check_inputs</span><span class="p">(</span>data, dim<span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isnumeric</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;First input must be numeric&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="nb">isnumeric</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span><span class="w"> </span><span class="k">...</span>
+<span class="w">         </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">isscalar</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span><span class="w"> </span><span class="k">...</span>
+<span class="w">         </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">round</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">dim</span><span class="w"> </span><span class="k">...</span>
+<span class="w">         </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">dim</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Second argument must be numeric integer&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="cosmo_target_dsm_corr_measure.html"
+                          title="previous chapter">cosmo target dsm corr measure</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cosmo_type.html"
+                          title="next chapter">cosmo type</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/matlab/cosmo_tiedrank.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cosmo_type.html" title="cosmo type"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_target_dsm_corr_measure.html" title="cosmo target dsm corr measure"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex.html" >CoSMoMVPA functions</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo tiedrank</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="../_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

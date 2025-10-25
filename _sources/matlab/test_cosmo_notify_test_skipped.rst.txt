@@ -1,0 +1,7 @@
+.. _test_cosmo_notify_test_skipped:
+
+test cosmo notify test skipped
+==============================
+
+.. include :: test_cosmo_notify_test_skipped.txt
+

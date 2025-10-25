@@ -1,0 +1,300 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>test index unique &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css?v=279e0f84" />
+    <script src="../_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="test interval neighborhood" href="test_interval_neighborhood.html" />
+    <link rel="prev" title="test independent samples partitioner" href="test_independent_samples_partitioner.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="test_interval_neighborhood.html" title="test interval neighborhood"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="test_independent_samples_partitioner.html" title="test independent samples partitioner"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_test.html" accesskey="U">CoSMoMVPA unit tests</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">test index unique</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="test-index-unique">
+<span id="id1"></span><h1>test index unique<a class="headerlink" href="#test-index-unique" title="Link to this heading">¶</a></h1>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">test_suite</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">test_index_unique</span>
+<span class="w">    </span><span class="c">% tests for cosmo_index_unique</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% #   For CoSMoMVPA&#39;s copyright information and license terms,   #</span>
+<span class="w">    </span><span class="c">% #   see the COPYING file distributed with CoSMoMVPA.           #</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="c">% assignment of &#39;localfunctions&#39; is necessary in Matlab &gt;= 2016</span>
+<span class="w">        </span><span class="n">test_functions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">localfunctions</span><span class="p">();</span>
+<span class="w">    </span><span class="k">catch</span><span class="w"> </span><span class="c">% no problem; early Matlab versions can use initTestSuite fine</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">initTestSuite</span><span class="p">;</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">test_index_unique_</span><span class="p">()</span>
+<span class="w">    </span><span class="n">n</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span>
+<span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">round</span><span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">b</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">round</span><span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">round</span><span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">abc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">a</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="n">c</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">unq1</span><span class="p">,</span><span class="w"> </span><span class="n">unused</span><span class="p">,</span><span class="w"> </span><span class="n">idx1</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">unique</span><span class="p">(</span><span class="n">abc</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;rows&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">[</span><span class="n">idx2</span><span class="p">,</span><span class="w"> </span><span class="n">vals2</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_index_unique</span><span class="p">({</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">});</span>
+
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">unq1</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">vals2</span><span class="p">{:}]);</span>
+
+<span class="w">    </span><span class="n">nunq</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">unq1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="nb">assert</span><span class="p">(</span><span class="n">nunq</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">idx2</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c">% test some random elements</span>
+<span class="w">    </span><span class="n">rp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">randperm</span><span class="p">(</span><span class="n">nunq</span><span class="p">);</span>
+<span class="w">    </span><span class="n">rp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">rp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">10</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nb">j</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">rp</span>
+<span class="w">        </span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">find</span><span class="p">(</span><span class="n">idx1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">j</span><span class="p">),</span><span class="w"> </span><span class="n">idx2</span><span class="p">{</span><span class="nb">j</span><span class="p">});</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">% test with some string labels</span>
+<span class="w">    </span><span class="n">labels</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;bb&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;ccc&#39;</span><span class="p">}</span><span class="s">&#39;;</span>
+
+<span class="s">    [idx3, vals3] = cosmo_index_unique({labels(a), b, labels(c)});</span>
+<span class="s">    assertEqual(idx3, idx2);</span>
+<span class="s">    v2to3 = {labels(vals2{1}), vals2{2}, labels(vals2{3})};</span>
+<span class="s">    assertEqual(vals3, v2to3);</span>
+
+<span class="s">    % test with matrix input</span>
+<span class="s">    [idx4, vals4] = cosmo_index_unique(abc);</span>
+<span class="s">    assertEqual(idx4, idx2);</span>
+<span class="s">    assertEqual(vals4, [vals2{:}]);</span>
+
+<span class="s">    % test vector input</span>
+<span class="s">    rp = randperm(10);</span>
+<span class="s">    [idx5, vals5] = cosmo_index_unique(rp + 20);</span>
+<span class="s">    assertEqual(idx5, {1});</span>
+<span class="s">    assertEqual(vals5, rp + 20);</span>
+
+<span class="s">    [idx6, vals6] = cosmo_index_unique(rp&#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">20</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">cell2mat</span><span class="p">(</span><span class="n">idx6</span><span class="p">(</span><span class="n">rp</span><span class="p">))</span><span class="o">&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">rp</span><span class="p">));</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">vals6</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">rp</span><span class="p">))</span><span class="o">&#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">20</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% test empty input</span>
+
+<span class="w">    </span><span class="c">% test wrong inputs</span>
+<span class="w">    </span><span class="n">n</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span>
+<span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">round</span><span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">b</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">round</span><span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">round</span><span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">abc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">a</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="n">c</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">unq1</span><span class="p">,</span><span class="w"> </span><span class="n">unused</span><span class="p">,</span><span class="w"> </span><span class="n">idx1</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">unique</span><span class="p">(</span><span class="n">abc</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;rows&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">[</span><span class="n">idx2</span><span class="p">,</span><span class="w"> </span><span class="n">vals2</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_index_unique</span><span class="p">({</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">});</span>
+
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">unq1</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">vals2</span><span class="p">{:}]);</span>
+
+<span class="w">    </span><span class="n">nunq</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">unq1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="nb">assert</span><span class="p">(</span><span class="n">nunq</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">idx2</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c">% test some random elements</span>
+<span class="w">    </span><span class="n">rp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">randperm</span><span class="p">(</span><span class="n">nunq</span><span class="p">);</span>
+<span class="w">    </span><span class="n">rp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">rp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">10</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nb">j</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">rp</span>
+<span class="w">        </span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">find</span><span class="p">(</span><span class="n">idx1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">j</span><span class="p">),</span><span class="w"> </span><span class="n">idx2</span><span class="p">{</span><span class="nb">j</span><span class="p">});</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">% test with some string labels</span>
+<span class="w">    </span><span class="n">labels</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;bb&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;ccc&#39;</span><span class="p">}</span><span class="s">&#39;;</span>
+
+<span class="s">    [idx3, vals3] = cosmo_index_unique({labels(a), b, labels(c)});</span>
+<span class="s">    assertEqual(idx3, idx2);</span>
+<span class="s">    v2to3 = {labels(vals2{1}), vals2{2}, labels(vals2{3})};</span>
+<span class="s">    assertEqual(vals3, v2to3);</span>
+
+<span class="s">    % test with matrix input</span>
+<span class="s">    [idx4, vals4] = cosmo_index_unique(abc);</span>
+<span class="s">    assertEqual(idx4, idx2);</span>
+<span class="s">    assertEqual(vals4, [vals2{:}]);</span>
+
+<span class="s">    % test vector input</span>
+<span class="s">    rp = randperm(10);</span>
+<span class="s">    [idx5, vals5] = cosmo_index_unique(rp + 20);</span>
+<span class="s">    assertEqual(idx5, {1});</span>
+<span class="s">    assertEqual(vals5, rp + 20);</span>
+
+<span class="s">    [idx6, vals6] = cosmo_index_unique(rp&#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">20</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">cell2mat</span><span class="p">(</span><span class="n">idx6</span><span class="p">(</span><span class="n">rp</span><span class="p">))</span><span class="o">&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">rp</span><span class="p">));</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">vals6</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">rp</span><span class="p">))</span><span class="o">&#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">20</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% test empty input</span>
+
+<span class="w">    </span><span class="c">% test wrong inputs</span>
+<span class="w">    </span><span class="n">aet</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@(</span><span class="n">x</span><span class="p">)</span><span class="n">assertExceptionThrown</span><span class="p">(@()</span><span class="n">cosmo_index_unique</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">aetp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="n">assertExceptionThrown</span><span class="p">(@()</span><span class="n">cosmo_index_unique</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="w"> </span><span class="n">m</span><span class="p">);</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">({[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">]});</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">({[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="s">&#39;a&#39;</span><span class="p">});</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">cosmo_wtf</span><span class="p">(</span><span class="s">&#39;is_matlab&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">id_different_classes</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;MATLAB:CELL:UNIQUE:InputClass&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span><span class="c">;</span>
+<span class="w">                                </span><span class="s">&#39;MATLAB:UNIQUE:InputClass&#39;</span><span class="p">};</span>
+
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="n">id_different_classes</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">aetp</span><span class="p">({[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">}},</span><span class="w"> </span><span class="n">id_different_classes</span><span class="p">);</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">(</span><span class="nb">ones</span><span class="p">([</span><span class="mi">2</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">2</span><span class="p">]));</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">test_unique_with_nans</span>
+<span class="w">    </span><span class="n">n_rows_half</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">ceil</span><span class="p">(</span><span class="nb">rand</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">20</span><span class="p">);</span>
+<span class="w">    </span><span class="c">% n_rows_half=2;</span>
+<span class="w">    </span><span class="n">n_rows</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">n_rows_half</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ceil</span><span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="n">n_rows</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">n_rows_half</span><span class="p">));</span>
+
+<span class="w">    </span><span class="n">rp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_non_identity_randperm</span><span class="p">(</span><span class="n">n_rows</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">rp1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">rp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n_rows_half</span><span class="p">);</span>
+<span class="w">    </span><span class="n">rp2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">rp</span><span class="p">(</span><span class="n">n_rows_half</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n_rows_half</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c">% first column, half of the rows become NaN</span>
+<span class="w">    </span><span class="n">x</span><span class="p">(</span><span class="n">rp1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">NaN</span><span class="p">;</span>
+<span class="w">    </span><span class="n">x</span><span class="p">(</span><span class="n">rp1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">n_rows_half</span><span class="p">;</span>
+<span class="w">    </span><span class="n">x</span><span class="p">(</span><span class="n">rp2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">n_rows_half</span><span class="p">;</span>
+<span class="w">    </span><span class="n">x</span><span class="p">(</span><span class="n">rp2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">n_rows_half</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">rp_y</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_non_identity_randperm</span><span class="p">(</span><span class="n">n_rows</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">y</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">rp_y</span><span class="p">,</span><span class="w"> </span><span class="p">:);</span>
+
+<span class="w">    </span><span class="c">% test with numeric input</span>
+<span class="w">    </span><span class="p">[</span><span class="n">x_idx</span><span class="p">,</span><span class="w"> </span><span class="n">x_unq</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_index_unique</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="w">    </span><span class="p">[</span><span class="n">y_idx</span><span class="p">,</span><span class="w"> </span><span class="n">y_unq</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_index_unique</span><span class="p">(</span><span class="n">y</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">assertFalse</span><span class="p">(</span><span class="nb">isequal</span><span class="p">(</span><span class="n">x_unq</span><span class="p">,</span><span class="w"> </span><span class="n">y_unq</span><span class="p">));</span>
+<span class="w">    </span><span class="c">% due to NaNs, the indices must be different</span>
+<span class="w">    </span><span class="n">assertFalse</span><span class="p">(</span><span class="nb">isequal</span><span class="p">([</span><span class="n">x_idx</span><span class="p">{:}],</span><span class="w"> </span><span class="n">rp_y</span><span class="p">([</span><span class="n">y_idx</span><span class="p">{:}])));</span>
+
+<span class="w">    </span><span class="c">% test with cell input</span>
+<span class="w">    </span><span class="p">[</span><span class="n">xx_idx</span><span class="p">,</span><span class="w"> </span><span class="n">xx_unq</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_index_unique</span><span class="p">({</span><span class="n">x</span><span class="p">(:,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">x</span><span class="p">(:,</span><span class="w"> </span><span class="mi">2</span><span class="p">)});</span>
+<span class="w">    </span><span class="p">[</span><span class="n">yy_idx</span><span class="p">,</span><span class="w"> </span><span class="n">yy_unq</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_index_unique</span><span class="p">({</span><span class="n">y</span><span class="p">(:,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">y</span><span class="p">(:,</span><span class="w"> </span><span class="mi">2</span><span class="p">)});</span>
+
+<span class="w">    </span><span class="n">assertFalse</span><span class="p">(</span><span class="nb">isequal</span><span class="p">(</span><span class="n">xx_unq</span><span class="p">,</span><span class="w"> </span><span class="n">yy_unq</span><span class="p">));</span>
+<span class="w">    </span><span class="c">% due to NaNs, the indices must be different</span>
+<span class="w">    </span><span class="n">assertFalse</span><span class="p">(</span><span class="nb">isequal</span><span class="p">([</span><span class="n">xx_idx</span><span class="p">{:}],</span><span class="w"> </span><span class="n">rp_y</span><span class="p">([</span><span class="n">yy_idx</span><span class="p">{:}])));</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">test_index_unique_empty</span><span class="p">()</span>
+<span class="w">    </span><span class="n">empty_args</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{{},</span><span class="w"> </span><span class="p">{[],</span><span class="w"> </span><span class="p">{}},</span><span class="w"> </span><span class="p">{[]},</span><span class="w"> </span><span class="p">{{},</span><span class="w"> </span><span class="p">{}}};</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">empty_args</span><span class="p">)</span>
+<span class="w">        </span><span class="n">empty_arg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">empty_args</span><span class="p">{</span><span class="n">k</span><span class="p">};</span>
+
+<span class="w">        </span><span class="p">[</span><span class="n">idxs</span><span class="p">,</span><span class="w"> </span><span class="n">unq</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_index_unique</span><span class="p">(</span><span class="n">empty_arg</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">iscell</span><span class="p">(</span><span class="n">idxs</span><span class="p">));</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">idxs</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">unq</span><span class="p">),</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">empty_arg</span><span class="p">));</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">all</span><span class="p">(</span><span class="nb">cellfun</span><span class="p">(@</span><span class="nb">isempty</span><span class="p">,</span><span class="w"> </span><span class="n">unq</span><span class="p">)));</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span>rp<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">get_non_identity_randperm</span><span class="p">(</span>n<span class="p">)</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="nb">true</span>
+<span class="w">        </span><span class="n">rp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">randperm</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isequal</span><span class="p">(</span><span class="n">rp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span>
+<span class="w">            </span><span class="k">break</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="test_independent_samples_partitioner.html"
+                          title="previous chapter">test independent samples partitioner</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="test_interval_neighborhood.html"
+                          title="next chapter">test interval neighborhood</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/matlab/test_index_unique.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="test_interval_neighborhood.html" title="test interval neighborhood"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="test_independent_samples_partitioner.html" title="test independent samples partitioner"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_test.html" >CoSMoMVPA unit tests</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">test index unique</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="../_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

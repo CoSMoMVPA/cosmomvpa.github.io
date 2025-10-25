@@ -1,0 +1,295 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>test distatis &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css?v=279e0f84" />
+    <script src="../_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="test external neuroelf" href="test_external_neuroelf.html" />
+    <link rel="prev" title="test dissimilarity matrix measure" href="test_dissimilarity_matrix_measure.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="test_external_neuroelf.html" title="test external neuroelf"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="test_dissimilarity_matrix_measure.html" title="test dissimilarity matrix measure"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_test.html" accesskey="U">CoSMoMVPA unit tests</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">test distatis</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="test-distatis">
+<span id="id1"></span><h1>test distatis<a class="headerlink" href="#test-distatis" title="Link to this heading">¶</a></h1>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">test_suite</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">test_distatis</span>
+<span class="w">    </span><span class="c">% tests for cosmo_distatis</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% #   For CoSMoMVPA&#39;s copyright information and license terms,   #</span>
+<span class="w">    </span><span class="c">% #   see the COPYING file distributed with CoSMoMVPA.           #</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="c">% assignment of &#39;localfunctions&#39; is necessary in Matlab &gt;= 2016</span>
+<span class="w">        </span><span class="n">test_functions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">localfunctions</span><span class="p">();</span>
+<span class="w">    </span><span class="k">catch</span><span class="w"> </span><span class="c">% no problem; early Matlab versions can use initTestSuite fine</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">initTestSuite</span><span class="p">;</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">test_statis_</span>
+<span class="w">    </span><span class="c">% using: 1. Abdi, H. &amp; Valentin, D. in Encyclopedia of Measurement</span>
+<span class="w">    </span><span class="c">%        and Statistics (Salkind, N.) 42?42 (SAGE Publications, 2007).</span>
+
+<span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="c">% note: element [1,3] is reported as .148, for symmetry use .146</span>
+<span class="w">    </span><span class="n">d</span><span class="p">{</span><span class="mi">1</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="w">    </span><span class="mf">0.1120</span><span class="w">    </span><span class="mf">0.1460</span><span class="w">    </span><span class="mf">0.0830</span><span class="w">    </span><span class="mf">0.1860</span><span class="w">    </span><span class="mf">0.1100</span>
+<span class="w">            </span><span class="mf">0.1120</span><span class="w">         </span><span class="mi">0</span><span class="w">    </span><span class="mf">0.1520</span><span class="w">    </span><span class="mf">0.0980</span><span class="w">    </span><span class="mf">0.1580</span><span class="w">    </span><span class="mf">0.1340</span>
+<span class="w">            </span><span class="mf">0.1460</span><span class="w">    </span><span class="mf">0.1520</span><span class="w">         </span><span class="mi">0</span><span class="w">    </span><span class="mf">0.2020</span><span class="w">    </span><span class="mf">0.2850</span><span class="w">    </span><span class="mf">0.2490</span>
+<span class="w">            </span><span class="mf">0.0830</span><span class="w">    </span><span class="mf">0.0980</span><span class="w">    </span><span class="mf">0.2020</span><span class="w">         </span><span class="mi">0</span><span class="w">    </span><span class="mf">0.1310</span><span class="w">    </span><span class="mf">0.1100</span>
+<span class="w">            </span><span class="mf">0.1860</span><span class="w">    </span><span class="mf">0.1580</span><span class="w">    </span><span class="mf">0.2850</span><span class="w">    </span><span class="mf">0.1310</span><span class="w">         </span><span class="mi">0</span><span class="w">    </span><span class="mf">0.1550</span>
+<span class="w">            </span><span class="mf">0.1100</span><span class="w">    </span><span class="mf">0.1340</span><span class="w">    </span><span class="mf">0.2490</span><span class="w">    </span><span class="mf">0.1100</span><span class="w">    </span><span class="mf">0.1550</span><span class="w">         </span><span class="mi">0</span><span class="p">];</span>
+
+<span class="w">    </span><span class="n">d</span><span class="p">{</span><span class="mi">2</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="w">    </span><span class="mf">0.6000</span><span class="w">    </span><span class="mf">1.9800</span><span class="w">    </span><span class="mf">0.4200</span><span class="w">    </span><span class="mf">0.1400</span><span class="w">    </span><span class="mf">0.5800</span>
+<span class="w">            </span><span class="mf">0.6000</span><span class="w">         </span><span class="mi">0</span><span class="w">    </span><span class="mf">2.1000</span><span class="w">    </span><span class="mf">0.7800</span><span class="w">    </span><span class="mf">0.4200</span><span class="w">    </span><span class="mf">1.3400</span>
+<span class="w">            </span><span class="mf">1.9800</span><span class="w">    </span><span class="mf">2.1000</span><span class="w">         </span><span class="mi">0</span><span class="w">    </span><span class="mf">2.0200</span><span class="w">    </span><span class="mf">1.7200</span><span class="w">    </span><span class="mf">2.0600</span>
+<span class="w">            </span><span class="mf">0.4200</span><span class="w">    </span><span class="mf">0.7800</span><span class="w">    </span><span class="mf">2.0200</span><span class="w">         </span><span class="mi">0</span><span class="w">    </span><span class="mf">0.5000</span><span class="w">    </span><span class="mf">0.8800</span>
+<span class="w">            </span><span class="mf">0.1400</span><span class="w">    </span><span class="mf">0.4200</span><span class="w">    </span><span class="mf">1.7200</span><span class="w">    </span><span class="mf">0.5000</span><span class="w">         </span><span class="mi">0</span><span class="w">    </span><span class="mf">0.3000</span>
+<span class="w">            </span><span class="mf">0.5800</span><span class="w">    </span><span class="mf">1.3400</span><span class="w">    </span><span class="mf">2.0600</span><span class="w">    </span><span class="mf">0.8800</span><span class="w">    </span><span class="mf">0.3000</span><span class="w">         </span><span class="mi">0</span><span class="p">];</span>
+
+<span class="w">    </span><span class="n">d</span><span class="p">{</span><span class="mi">3</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="w">    </span><span class="mf">0.5400</span><span class="w">    </span><span class="mf">1.3900</span><span class="w">    </span><span class="mf">5.7800</span><span class="w">   </span><span class="mf">10.2800</span><span class="w">    </span><span class="mf">6.7700</span>
+<span class="w">            </span><span class="mf">0.5400</span><span class="w">         </span><span class="mi">0</span><span class="w">    </span><span class="mf">1.0600</span><span class="w">    </span><span class="mf">3.8000</span><span class="w">    </span><span class="mf">6.8300</span><span class="w">    </span><span class="mf">4.7100</span>
+<span class="w">            </span><span class="mf">1.3900</span><span class="w">    </span><span class="mf">1.0600</span><span class="w">         </span><span class="mi">0</span><span class="w">    </span><span class="mf">8.0100</span><span class="w">   </span><span class="mf">11.0300</span><span class="w">    </span><span class="mf">5.7200</span>
+<span class="w">            </span><span class="mf">5.7800</span><span class="w">    </span><span class="mf">3.8000</span><span class="w">    </span><span class="mf">8.0100</span><span class="w">         </span><span class="mi">0</span><span class="w">    </span><span class="mf">2.5800</span><span class="w">    </span><span class="mf">6.0900</span>
+<span class="w">            </span><span class="mf">10.2800</span><span class="w">    </span><span class="mf">6.8300</span><span class="w">   </span><span class="mf">11.0300</span><span class="w">    </span><span class="mf">2.5800</span><span class="w">         </span><span class="mi">0</span><span class="w">    </span><span class="mf">3.5300</span>
+<span class="w">            </span><span class="mf">6.7700</span><span class="w">    </span><span class="mf">4.7100</span><span class="w">    </span><span class="mf">5.7200</span><span class="w">    </span><span class="mf">6.0900</span><span class="w">    </span><span class="mf">3.5300</span><span class="w">         </span><span class="mi">0</span><span class="p">];</span>
+<span class="w">    </span><span class="n">d</span><span class="p">{</span><span class="mi">4</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="w">    </span><span class="mf">0.0140</span><span class="w">    </span><span class="mf">0.1590</span><span class="w">    </span><span class="mf">0.0040</span><span class="w">    </span><span class="mf">0.0010</span><span class="w">    </span><span class="mf">0.0020</span>
+<span class="w">            </span><span class="mf">0.0140</span><span class="w">         </span><span class="mi">0</span><span class="w">    </span><span class="mf">0.0180</span><span class="w">    </span><span class="mf">0.0530</span><span class="w">    </span><span class="mf">0.0240</span><span class="w">    </span><span class="mf">0.0040</span>
+<span class="w">            </span><span class="mf">0.1590</span><span class="w">    </span><span class="mf">0.0180</span><span class="w">         </span><span class="mi">0</span><span class="w">    </span><span class="mf">0.2710</span><span class="w">    </span><span class="mf">0.0670</span><span class="w">    </span><span class="mf">0.0530</span>
+<span class="w">            </span><span class="mf">0.0040</span><span class="w">    </span><span class="mf">0.0530</span><span class="w">    </span><span class="mf">0.2710</span><span class="w">         </span><span class="mi">0</span><span class="w">    </span><span class="mf">0.0010</span><span class="w">    </span><span class="mf">0.0080</span>
+<span class="w">            </span><span class="mf">0.0010</span><span class="w">    </span><span class="mf">0.0240</span><span class="w">    </span><span class="mf">0.0670</span><span class="w">    </span><span class="mf">0.0010</span><span class="w">         </span><span class="mi">0</span><span class="w">    </span><span class="mf">0.0070</span>
+<span class="w">            </span><span class="mf">0.0020</span><span class="w">    </span><span class="mf">0.0040</span><span class="w">    </span><span class="mf">0.0530</span><span class="w">    </span><span class="mf">0.0080</span><span class="w">    </span><span class="mf">0.0070</span><span class="w">         </span><span class="mi">0</span><span class="p">];</span>
+
+<span class="w">    </span><span class="n">ds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_distance_dataset</span><span class="p">(</span><span class="n">d</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_stack</span><span class="p">({</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">ds</span><span class="p">},</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"> </span><span class="c">% features</span>
+
+<span class="w">    </span><span class="n">cosmo_check_dataset</span><span class="p">(</span><span class="n">ds</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">split_by</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;subject&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">return</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;crossproduct&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">progress</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">    </span><span class="n">res</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_distatis</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% note: S_{[+]}[6,2] is reported as -0.01, should be -.100</span>
+<span class="w">    </span><span class="n">s</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mf">.176</span><span class="w"> </span><span class="mf">.004</span><span class="w"> </span><span class="o">-</span><span class="mf">.058</span><span class="w"> </span><span class="mf">.014</span><span class="w"> </span><span class="o">-</span><span class="mf">.100</span><span class="w"> </span><span class="o">-</span><span class="mf">.036</span>
+<span class="w">         </span><span class="mf">.004</span><span class="w"> </span><span class="mf">.178</span><span class="w"> </span><span class="mf">.022</span><span class="w"> </span><span class="o">-</span><span class="mf">.038</span><span class="w"> </span><span class="o">-</span><span class="mf">.068</span><span class="w"> </span><span class="o">-</span><span class="mf">.100</span>
+<span class="w">         </span><span class="o">-</span><span class="mf">.058</span><span class="w"> </span><span class="mf">.022</span><span class="w"> </span><span class="mf">.579</span><span class="w"> </span><span class="o">-</span><span class="mf">.243</span><span class="w"> </span><span class="o">-</span><span class="mf">.186</span><span class="w"> </span><span class="o">-</span><span class="mf">.115</span>
+<span class="w">         </span><span class="mf">.014</span><span class="w"> </span><span class="o">-</span><span class="mf">.038</span><span class="w"> </span><span class="o">-</span><span class="mf">.243</span><span class="w"> </span><span class="mf">.240</span><span class="w"> </span><span class="mf">.054</span><span class="w"> </span><span class="o">-</span><span class="mf">.027</span>
+<span class="w">         </span><span class="o">-</span><span class="mf">.100</span><span class="w"> </span><span class="o">-</span><span class="mf">.068</span><span class="w"> </span><span class="o">-</span><span class="mf">.186</span><span class="w"> </span><span class="mf">.054</span><span class="w"> </span><span class="mf">.266</span><span class="w"> </span><span class="mf">.034</span>
+<span class="w">         </span><span class="o">-</span><span class="mf">.036</span><span class="w"> </span><span class="o">-</span><span class="mf">.100</span><span class="w"> </span><span class="o">-</span><span class="mf">.115</span><span class="w"> </span><span class="o">-</span><span class="mf">.027</span><span class="w"> </span><span class="mf">.034</span><span class="w"> </span><span class="mf">.243</span><span class="p">];</span>
+
+<span class="w">    </span><span class="n">u</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_unflatten</span><span class="p">(</span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">assertElementsAlmostEqual</span><span class="p">(</span><span class="nb">repmat</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">]),</span><span class="w"> </span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;absolute&#39;</span><span class="p">,</span><span class="w"> </span><span class="mf">.001</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertElementsAlmostEqual</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">fa</span><span class="p">.</span><span class="n">quality</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="mf">.6551</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;absolute&#39;</span><span class="p">,</span><span class="w"> </span><span class="mf">.001</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">return</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;distance&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">shape</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;square&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">res</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_distatis</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+<span class="w">    </span><span class="n">u</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_unflatten</span><span class="p">(</span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">sq</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_squareform</span><span class="p">(</span><span class="n">u</span><span class="p">(:,</span><span class="w"> </span><span class="p">:,</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+<span class="w">    </span><span class="n">assertElementsAlmostEqual</span><span class="p">(</span><span class="n">sq</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mf">0.3452</span><span class="w">    </span><span class="mf">0.8710</span><span class="w">    </span><span class="mf">0.3888</span><span class="w">    </span><span class="mf">0.6419</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                   </span><span class="mf">0.4911</span><span class="w">    </span><span class="mf">0.7112</span><span class="w">    </span><span class="mf">0.4919</span><span class="w">    </span><span class="mf">0.5789</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                   </span><span class="mf">0.6203</span><span class="w">    </span><span class="mf">1.3049</span><span class="w">    </span><span class="mf">1.2163</span><span class="w">    </span><span class="mf">1.0512</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                   </span><span class="mf">0.3996</span><span class="w">  </span><span class="mf">0.5354</span><span class="w"> </span><span class="mf">0.4400</span><span class="p">],</span><span class="w"> </span><span class="s">&#39;absolute&#39;</span><span class="p">,</span><span class="w"> </span><span class="mf">.001</span><span class="p">);</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">shape</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;triangle&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">resvec</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_distatis</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertElementsAlmostEqual</span><span class="p">(</span><span class="n">resvec</span><span class="p">.</span><span class="n">samples</span><span class="p">(:,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">sq</span><span class="o">&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% test numeric input</span>
+<span class="w">    </span><span class="n">vec_samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">mat2cell</span><span class="p">(</span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="p">(:,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="nb">ones</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">resvec2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_distatis</span><span class="p">(</span><span class="n">vec_samples</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertElementsAlmostEqual</span><span class="p">(</span><span class="n">resvec2</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="n">resvec</span><span class="p">.</span><span class="n">samples</span><span class="p">(:,</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">cellfun</span><span class="p">(@</span><span class="nb">numel</span><span class="p">,</span><span class="w"> </span><span class="n">resvec2</span><span class="p">.</span><span class="n">a</span><span class="p">.</span><span class="n">sdim</span><span class="p">.</span><span class="n">values</span><span class="p">),</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                </span><span class="nb">cellfun</span><span class="p">(@</span><span class="nb">numel</span><span class="p">,</span><span class="w"> </span><span class="n">resvec</span><span class="p">.</span><span class="n">a</span><span class="p">.</span><span class="n">sdim</span><span class="p">.</span><span class="n">values</span><span class="p">));</span>
+<span class="w">    </span><span class="n">resvec2</span><span class="p">.</span><span class="n">a</span><span class="p">.</span><span class="n">sdim</span><span class="p">.</span><span class="n">values</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">resvec</span><span class="p">.</span><span class="n">a</span><span class="p">.</span><span class="n">sdim</span><span class="p">.</span><span class="n">values</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">resvec_single_feature</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_slice</span><span class="p">(</span><span class="n">resvec</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertElementsAlmostEqual</span><span class="p">(</span><span class="n">resvec_single_feature</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                              </span><span class="n">resvec2</span><span class="p">.</span><span class="n">samples</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertElementsAlmostEqual</span><span class="p">(</span><span class="n">resvec_single_feature</span><span class="p">.</span><span class="n">fa</span><span class="p">.</span><span class="n">quality</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                              </span><span class="n">resvec2</span><span class="p">.</span><span class="n">fa</span><span class="p">.</span><span class="n">quality</span><span class="p">);</span>
+<span class="w">    </span><span class="n">resvec2</span><span class="p">.</span><span class="n">samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">resvec_single_feature</span><span class="p">.</span><span class="n">samples</span><span class="p">;</span>
+<span class="w">    </span><span class="n">resvec2</span><span class="p">.</span><span class="n">fa</span><span class="p">.</span><span class="n">quality</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">resvec_single_feature</span><span class="p">.</span><span class="n">fa</span><span class="p">.</span><span class="n">quality</span><span class="p">;</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">resvec2</span><span class="p">,</span><span class="w"> </span><span class="n">resvec_single_feature</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">weights</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">resvec</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_distatis</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertElementsAlmostEqual</span><span class="p">(</span><span class="n">resvec</span><span class="p">.</span><span class="n">samples</span><span class="p">(:,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                              </span><span class="p">[</span><span class="mf">0.3156</span><span class="w"> </span><span class="mf">0.8625</span><span class="w"> </span><span class="mf">0.3704</span><span class="w"> </span><span class="mf">0.6043</span><span class="w"> </span><span class="mf">0.4646</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                               </span><span class="mf">0.6572</span><span class="w"> </span><span class="mf">0.4788</span><span class="w"> </span><span class="mf">0.5489</span><span class="w"> </span><span class="mf">0.5783</span><span class="w"> </span><span class="mf">1.3221</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                               </span><span class="mf">1.1576</span><span class="w"> </span><span class="mf">0.9885</span><span class="w"> </span><span class="mf">0.3644</span><span class="w"> </span><span class="mf">0.5068</span><span class="w"> </span><span class="mf">0.4037</span><span class="p">],</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                              </span><span class="s">&#39;absolute&#39;</span><span class="p">,</span><span class="w"> </span><span class="mf">.001</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% test exceptions</span>
+<span class="w">    </span><span class="n">aet</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@(</span><span class="nb">varargin</span><span class="p">)</span><span class="n">assertExceptionThrown</span><span class="p">(@()</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                           </span><span class="n">cosmo_distatis</span><span class="p">(</span><span class="nb">varargin</span><span class="p">{:},</span><span class="w"> </span><span class="s">&#39;progress&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">false</span><span class="p">),</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% no compromise possible</span>
+<span class="w">    </span><span class="n">d2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">d</span><span class="p">;</span>
+<span class="w">    </span><span class="n">d2</span><span class="p">{</span><span class="mi">4</span><span class="p">}(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+<span class="w">    </span><span class="n">d2</span><span class="p">{</span><span class="mi">4</span><span class="p">}(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">weights</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;eig&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ds2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_distance_dataset</span><span class="p">(</span><span class="n">d2</span><span class="p">);</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">(</span><span class="n">ds2</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% illegal arguments</span>
+<span class="w">    </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">chunks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">subject</span><span class="p">;</span>
+<span class="w">    </span><span class="n">opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">shape</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;foo&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">weights</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;foo&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">return</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;foo&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="c">% cannot deal with empty input</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">({},</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% needs dataset or numeric input</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">({</span><span class="nb">false</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">},</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% cannot take non-matrix input</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">({</span><span class="nb">zeros</span><span class="p">([</span><span class="mi">2</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">2</span><span class="p">])},</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% illegal field in dataset</span>
+<span class="w">    </span><span class="n">ds_bad</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ds_bad</span><span class="p">.</span><span class="n">foo</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">    </span><span class="n">opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">(</span><span class="n">ds_bad</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span>ds<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">get_distance_dataset</span><span class="p">(</span>d<span class="p">)</span>
+<span class="w">    </span><span class="n">nsubj</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">d</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ds_all</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="n">nsubj</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">nsubj</span>
+<span class="w">        </span><span class="n">ds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">        </span><span class="n">sq</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_squareform</span><span class="p">(</span><span class="n">d</span><span class="p">{</span><span class="n">k</span><span class="p">});</span>
+<span class="w">        </span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sq</span><span class="p">(:);</span>
+<span class="w">        </span><span class="n">nd</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">d</span><span class="p">{</span><span class="n">k</span><span class="p">},</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">ns</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">subject</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">ones</span><span class="p">(</span><span class="n">ns</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">        </span><span class="p">[</span><span class="nb">i</span><span class="p">,</span><span class="w"> </span><span class="nb">j</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">find</span><span class="p">(</span><span class="nb">triu</span><span class="p">(</span><span class="nb">repmat</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nd</span><span class="p">,</span><span class="w"> </span><span class="n">nd</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">&#39;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">i</span><span class="p">;</span>
+<span class="w">        </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">j</span><span class="p">;</span>
+<span class="w">        </span><span class="n">faces</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;f1&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;f2&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;f3&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;f4&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;f5&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;f6&#39;</span><span class="p">}</span><span class="s">&#39;;</span>
+<span class="s">        ds.a.sdim.values = {faces, faces};</span>
+<span class="s">        ds.a.sdim.labels = {&#39;</span><span class="n">targets1</span><span class="o">&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;targets2&#39;</span><span class="p">};</span>
+
+<span class="w">        </span><span class="n">ds_all</span><span class="p">{</span><span class="n">k</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">;</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">ds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_stack</span><span class="p">(</span><span class="n">ds_all</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="test_dissimilarity_matrix_measure.html"
+                          title="previous chapter">test dissimilarity matrix measure</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="test_external_neuroelf.html"
+                          title="next chapter">test external neuroelf</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/matlab/test_distatis.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="test_external_neuroelf.html" title="test external neuroelf"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="test_dissimilarity_matrix_measure.html" title="test dissimilarity matrix measure"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_test.html" >CoSMoMVPA unit tests</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">test distatis</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="../_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

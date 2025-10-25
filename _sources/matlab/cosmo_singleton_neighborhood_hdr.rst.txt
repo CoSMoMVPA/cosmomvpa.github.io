@@ -1,0 +1,7 @@
+.. _cosmo_singleton_neighborhood_hdr:
+
+cosmo singleton neighborhood hdr
+================================
+
+.. include :: cosmo_singleton_neighborhood_hdr.txt
+

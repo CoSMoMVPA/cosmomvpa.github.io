@@ -1,0 +1,197 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Royal Holloway University of London CoSMoMVPA workshop &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=279e0f84" />
+    <script src="_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="Introduction" href="rhul2016_intro.html" />
+    <link rel="prev" title="Exercises" href="cimec2014_ex_toc.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="rhul2016_intro.html" title="Introduction"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cimec2014_ex_toc.html" title="Exercises"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="documentation.html" accesskey="U">Documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Royal Holloway University of London CoSMoMVPA workshop</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="royal-holloway-university-of-london-cosmomvpa-workshop">
+<span id="rhul2016"></span><h1>Royal Holloway University of London CoSMoMVPA workshop<a class="headerlink" href="#royal-holloway-university-of-london-cosmomvpa-workshop" title="Link to this heading">¶</a></h1>
+<p><em>presented by Nick Oosterhof, supported by Raffaele Tucciarelli and Giacomo Ariani</em>, February 2016.</p>
+<p>hosted by Angelika Lingnau</p>
+<p>History of exercises:</p>
+<ul class="simple">
+<li><p>2019  <a class="reference internal" href="nmsm2019.html#nmsm2019"><span class="std std-ref">NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</span></a>.</p></li>
+<li><p>2017  <a class="reference internal" href="labman2017.html#labman2017"><span class="std std-ref">LABMAN 2017, the second Latin American Brain Mapping Network Meeting</span></a>.</p></li>
+<li><p>2016  <a class="reference internal" href="prni2016.html#prni2016"><span class="std std-ref">PRNI 2016, the 6th International Workshop on Pattern Recognition in Neuroimaging workshop</span></a>.</p></li>
+<li><p>2016  <a class="reference internal" href="cimec2016.html#cimec2016"><span class="std std-ref">CIMeC 2016 Hands-on Methods</span></a>.</p></li>
+<li><p>2016  <a class="reference internal" href="#rhul2016"><span class="std std-ref">Royal Holloway University of London CoSMoMVPA workshop</span></a>.</p></li>
+<li><p>2014  <a class="reference internal" href="cimec2014.html#cimec2014"><span class="std std-ref">CIMeC 2014 Advanced Neural Decoding</span></a>.</p></li>
+<li><p>2013  <a class="reference internal" href="cosmo2013.html#cosmo2013"><span class="std std-ref">2013 Summer School in Computational Sensory-Motor Neuroscience</span></a>.</p></li>
+</ul>
+<section id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="rhul2016_intro.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rhul2016_intro.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rhul2016_intro.html#goals-of-this-course">Goals of this course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rhul2016_intro.html#sample-dataset">Sample Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rhul2016_intro.html#to-cover-in-this-workshop">To cover in this workshop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rhul2016_intro.html#tentative-schedule">Tentative schedule</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="rhul2016_ex_toc.html">Exercises</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_dataset_basics.html">Dataset basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_splithalf_correlations.html">Split-half correlation-based MVPA with group analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_classify_lda.html">Classification analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_nfold_crossvalidation.html">Classification analysis with cross-validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_measures.html">Using CoSMoMVPA <em>measures</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_neighborhood.html">Using CoSMoMVPA <em>neighborhoods</em> for regions of interest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_searchlight_measure.html">Use the searchlight with a neighborhood and a measure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_rsa_tutorial.html">Representational similarity analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_multiple_comparisons.html">Using CoSMoMVPA multiple-comparison correction</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="matindex.html">CoSMoMVPA functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matindex_hdr.html">CoSMoMVPA functions - header signature files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matindex_skl.html">CoSMoMVPA functions - skeleton files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matindex_run.html">Runnable examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matindex_skl_run.html">Runnable examples - skeleton files</a></li>
+</ul>
+</div>
+<p>Matlab outputs: <a class="reference external" href="_static/publish/index.html">matlab_pb_toc</a></p>
+</section>
+<section id="miscellaneous">
+<h2>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="matindex_test.html">CoSMoMVPA unit tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matindex_demo.html">Demonstrations</a></li>
+</ul>
+</div>
+</section>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="matindex.html#matindex"><span class="std std-ref">CoSMoMVPA functions</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Royal Holloway University of London CoSMoMVPA workshop</a><ul>
+<li><a class="reference internal" href="#contents">Contents</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#miscellaneous">Miscellaneous</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="cimec2014_ex_toc.html"
+                          title="previous chapter">Exercises</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="rhul2016_intro.html"
+                          title="next chapter">Introduction</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/rhul2016.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="rhul2016_intro.html" title="Introduction"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cimec2014_ex_toc.html" title="Exercises"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="documentation.html" >Documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Royal Holloway University of London CoSMoMVPA workshop</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

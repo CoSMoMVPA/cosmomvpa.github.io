@@ -1,0 +1,7 @@
+.. _cosmo_montecarlo_phase_stat:
+
+cosmo montecarlo phase stat
+===========================
+
+.. include :: cosmo_montecarlo_phase_stat.txt
+

@@ -1,0 +1,216 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>cosmo pdist skl &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css?v=279e0f84" />
+    <script src="../_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="cosmo phase itc skl" href="cosmo_phase_itc_skl.html" />
+    <link rel="prev" title="cosmo pca skl" href="cosmo_pca_skl.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cosmo_phase_itc_skl.html" title="cosmo phase itc skl"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_pca_skl.html" title="cosmo pca skl"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_skl.html" accesskey="U">CoSMoMVPA functions - skeleton files</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo pdist skl</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cosmo-pdist-skl">
+<span id="id1"></span><h1>cosmo pdist skl<a class="headerlink" href="#cosmo-pdist-skl" title="Link to this heading">¶</a></h1>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>d<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">cosmo_pdist</span><span class="p">(</span>x, distance<span class="p">)</span>
+<span class="w">    </span><span class="c">% compute pair-wise distance between samples in a matrix</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% d=cosmo_pdist(x[, distance])</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Inputs:</span>
+<span class="w">    </span><span class="c">%   x            PxM matrix for P samples and M features</span>
+<span class="w">    </span><span class="c">%   distance     distance metric: one of &#39;euclidean&#39; (default),</span>
+<span class="w">    </span><span class="c">%                &#39;correlation&#39; (computing one-minus-correlation), or any</span>
+<span class="w">    </span><span class="c">%                other metric supported by matlab&#39;s built-in &#39;pdist&#39;</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Outputs:</span>
+<span class="w">    </span><span class="c">%   d            1xN row vector with pairwise distances, where N=M*(M-1),</span>
+<span class="w">    </span><span class="c">%                containing the distances of the lower triangle of the</span>
+<span class="w">    </span><span class="c">%                distance matrix</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Examples:</span>
+<span class="w">    </span><span class="c">%     data=[1 4 3; 2 2 3; 4 2 0;0 1 1];</span>
+<span class="w">    </span><span class="c">%     % compute pair-wise distances with euclidean distance metric.</span>
+<span class="w">    </span><span class="c">%     % since there are 4 samples, there are 4*3/2=6 pairs of samples.</span>
+<span class="w">    </span><span class="c">%     d=cosmo_pdist(data);</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(d);</span>
+<span class="w">    </span><span class="c">%     %|| [ 2.24      4.69      3.74      3.61         3      4.24 ]</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % this gives the same output</span>
+<span class="w">    </span><span class="c">%     d=cosmo_pdist(data,&#39;euclidean&#39;);</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(d);</span>
+<span class="w">    </span><span class="c">%     %|| [ 2.24      4.69      3.74      3.61         3      4.24 ]</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % compute distances with one-minus-correlation distance metric</span>
+<span class="w">    </span><span class="c">%     d_c=cosmo_pdist(data,&#39;correlation&#39;);</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(d_c);</span>
+<span class="w">    </span><span class="c">%     %|| [ 0.811      1.65    0.0551      1.87       0.5      1.87 ]</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Notes:</span>
+<span class="w">    </span><span class="c">%   - this function provides a native implementation for &#39;euclidean&#39; and</span>
+<span class="w">    </span><span class="c">%     &#39;correlation&#39;; other distance metrics require the pdist function</span>
+<span class="w">    </span><span class="c">%     supplied in the matlab stats toolbox, or the octave statistics</span>
+<span class="w">    </span><span class="c">%     package</span>
+<span class="w">    </span><span class="c">%   - the rationale for providing this function is to support pair-wise</span>
+<span class="w">    </span><span class="c">%     distances on platforms without the stats toolbox</span>
+<span class="w">    </span><span class="c">%   - to compute pair-wise distances on a dataset struct, use</span>
+<span class="w">    </span><span class="c">%     cosmo_dissimilarity_matrix_measure</span>
+<span class="w">    </span><span class="c">%   - the output of this function can be given to [cosmo_]squareform to</span>
+<span class="w">    </span><span class="c">%     recreate a PxP distance matrix</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% See also: cosmo_dissimilarity_matrix_measure, cosmo_squareform</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% #   For CoSMoMVPA&#39;s copyright information and license terms,   #</span>
+<span class="w">    </span><span class="c">% #   see the COPYING file distributed with CoSMoMVPA.           #</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">distance</span><span class="p">)</span>
+<span class="w">        </span><span class="n">distance</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;euclidean&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">ns</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ns</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">ns</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="n">distance</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;euclidean&#39;</span>
+<span class="w">            </span><span class="n">pos</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">ns</span>
+<span class="w">                </span><span class="n">ji</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">((</span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">):</span><span class="n">ns</span><span class="p">);</span>
+<span class="w">                </span><span class="n">nj</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">ji</span><span class="p">);</span>
+<span class="w">                </span><span class="n">idxs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nj</span><span class="p">);</span>
+
+<span class="w">                </span><span class="n">delta</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">bsxfun</span><span class="p">(@</span><span class="n">minus</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">ji</span><span class="p">,</span><span class="w"> </span><span class="p">:));</span>
+<span class="w">                </span><span class="n">d_idxs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">delta</span><span class="o">.^</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">));</span>
+
+<span class="w">                </span><span class="n">d</span><span class="p">(</span><span class="n">idxs</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">d_idxs</span><span class="p">;</span>
+<span class="w">                </span><span class="n">pos</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nj</span><span class="p">;</span>
+<span class="w">            </span><span class="k">end</span>
+
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;correlation&#39;</span>
+<span class="w">            </span><span class="c">% it&#39;s faster to compute all correlations that just the lower</span>
+<span class="w">            </span><span class="c">% diagonal</span>
+<span class="w">            </span><span class="n">dfull</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_corr</span><span class="p">(</span><span class="n">x</span><span class="o">&#39;</span><span class="p">);</span>
+<span class="w">            </span><span class="n">ns_rng</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">ns</span><span class="p">;</span>
+
+<span class="w">            </span><span class="c">% make diagonal mask</span>
+<span class="w">            </span><span class="n">msk</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">bsxfun</span><span class="p">(@</span><span class="n">gt</span><span class="p">,</span><span class="w"> </span><span class="n">ns_rng</span><span class="o">&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">ns_rng</span><span class="p">);</span>
+<span class="w">            </span><span class="n">d</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dfull</span><span class="p">(</span><span class="n">msk</span><span class="p">)</span><span class="o">&#39;</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">otherwise</span>
+<span class="w">            </span><span class="n">is_octave</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_wtf</span><span class="p">(</span><span class="s">&#39;is_octave&#39;</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">is_octave</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">cosmo_check_external</span><span class="p">(</span><span class="s">&#39;@stats&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">false</span><span class="p">)</span>
+<span class="w">                </span><span class="n">d</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pdist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">distance</span><span class="p">);</span>
+<span class="w">            </span><span class="k">else</span>
+<span class="w">                </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;Matlab requires the stats toolbox for distance &#39;</span><span class="k">...</span>
+<span class="w">                       </span><span class="s">&#39;metric %s&#39;</span><span class="p">],</span><span class="w"> </span><span class="n">distance</span><span class="p">);</span>
+<span class="w">            </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">end</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="cosmo_pca_skl.html"
+                          title="previous chapter">cosmo pca skl</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cosmo_phase_itc_skl.html"
+                          title="next chapter">cosmo phase itc skl</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/matlab/cosmo_pdist_skl.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cosmo_phase_itc_skl.html" title="cosmo phase itc skl"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_pca_skl.html" title="cosmo pca skl"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_skl.html" >CoSMoMVPA functions - skeleton files</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo pdist skl</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="../_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

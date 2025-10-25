@@ -1,0 +1,199 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>test cosmo notify test skipped &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css?v=279e0f84" />
+    <script src="../_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="test cosmo skip test if no external" href="test_cosmo_skip_test_if_no_external.html" />
+    <link rel="prev" title="test cosmo fmri dataset" href="test_cosmo_fmri_dataset.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="test_cosmo_skip_test_if_no_external.html" title="test cosmo skip test if no external"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="test_cosmo_fmri_dataset.html" title="test cosmo fmri dataset"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_test.html" accesskey="U">CoSMoMVPA unit tests</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">test cosmo notify test skipped</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="test-cosmo-notify-test-skipped">
+<span id="id1"></span><h1>test cosmo notify test skipped<a class="headerlink" href="#test-cosmo-notify-test-skipped" title="Link to this heading">¶</a></h1>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">test_suite</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">test_cosmo_notify_test_skipped</span>
+<span class="w">    </span><span class="c">% tests for cosmo_align</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% #   For CoSMoMVPA&#39;s copyright information and license terms,   #</span>
+<span class="w">    </span><span class="c">% #   see the COPYING file distributed with CoSMoMVPA.           #</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="c">% assignment of &#39;localfunctions&#39; is necessary in Matlab &gt;= 2016</span>
+<span class="w">        </span><span class="n">test_functions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">localfunctions</span><span class="p">();</span>
+<span class="w">    </span><span class="k">catch</span><span class="w"> </span><span class="c">% no problem; early Matlab versions can use initTestSuite fine</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">initTestSuite</span><span class="p">;</span>
+
+<span class="k">function</span><span class="w"> </span>s<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">randstr</span><span class="p">()</span>
+<span class="w">    </span><span class="n">s</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">char</span><span class="p">(</span><span class="nb">ceil</span><span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">26</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">64</span><span class="p">));</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">test_cosmo_notify_test_skipped_basics</span><span class="p">()</span>
+<span class="w">    </span><span class="n">notify_state</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_notify_test_skipped</span><span class="p">();</span>
+<span class="w">    </span><span class="n">warning_state</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">warning</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">notify_resetter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">onCleanup</span><span class="p">(@()</span><span class="n">cosmo_notify_test_skipped</span><span class="p">(</span><span class="n">notify_state</span><span class="p">));</span>
+<span class="w">    </span><span class="n">warning_resetter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">onCleanup</span><span class="p">(@()</span><span class="nb">warning</span><span class="p">(</span><span class="n">warning_state</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c">% empty notified tests</span>
+<span class="w">    </span><span class="n">cosmo_notify_test_skipped</span><span class="p">(</span><span class="s">&#39;on&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">s</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_notify_test_skipped</span><span class="p">();</span>
+<span class="w">    </span><span class="nb">assert</span><span class="p">(</span><span class="nb">isempty</span><span class="p">(</span><span class="n">s</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c">% switch of warnings</span>
+<span class="w">    </span><span class="nb">warning</span><span class="p">(</span><span class="s">&#39;off&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">db</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">dbstack</span><span class="p">();</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">is_moxunit</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+<span class="w">        </span><span class="k">try</span>
+<span class="w">            </span><span class="n">moxunit_throw_test_skipped_exception</span><span class="p">(</span><span class="s">&#39;foo&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">catch</span>
+<span class="w">            </span><span class="n">e</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">lasterror</span><span class="p">();</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">        </span><span class="n">identifier</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">identifier</span><span class="p">;</span>
+<span class="w">        </span><span class="n">caller</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@(</span><span class="nb">varargin</span><span class="p">)</span><span class="n">assertExceptionThrown</span><span class="p">(@()</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                                  </span><span class="n">cosmo_notify_test_skipped</span><span class="p">(</span><span class="nb">varargin</span><span class="p">{:}),</span><span class="w"> </span><span class="n">identifier</span><span class="p">);</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="n">caller</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@(</span><span class="nb">varargin</span><span class="p">)</span><span class="n">cosmo_notify_test_skipped</span><span class="p">(</span><span class="nb">varargin</span><span class="p">{:});</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">% one notification</span>
+<span class="w">    </span><span class="n">reason1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="w"> </span><span class="n">randstr</span><span class="p">()];</span>
+<span class="w">    </span><span class="n">caller</span><span class="p">(</span><span class="n">reason1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">s</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_notify_test_skipped</span><span class="p">();</span>
+<span class="w">    </span><span class="n">assert_has_substrings</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="n">reason1</span><span class="p">});</span>
+
+<span class="w">    </span><span class="n">reason2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;b&#39;</span><span class="w"> </span><span class="n">randstr</span><span class="p">()];</span>
+<span class="w">    </span><span class="n">caller</span><span class="p">(</span><span class="n">reason2</span><span class="p">);</span>
+<span class="w">    </span><span class="n">s</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_notify_test_skipped</span><span class="p">();</span>
+<span class="w">    </span><span class="n">assert_has_substrings</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="n">reason1</span><span class="p">,</span><span class="w"> </span><span class="n">reason2</span><span class="p">});</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">assert_has_substrings</span><span class="p">(</span>haystack, needle<span class="p">)</span>
+<span class="w">    </span><span class="n">n</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">haystack</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">needle</span><span class="p">));</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">n</span>
+<span class="w">        </span><span class="nb">assert</span><span class="p">(</span><span class="nb">any</span><span class="p">(</span><span class="nb">strfind</span><span class="p">(</span><span class="n">haystack</span><span class="p">{</span><span class="n">k</span><span class="p">},</span><span class="w"> </span><span class="n">needle</span><span class="p">{</span><span class="n">k</span><span class="p">})));</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span>tf<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">is_moxunit</span><span class="p">(</span>db<span class="p">)</span>
+<span class="w">    </span><span class="n">tf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">nm</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;initTestSuite&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">main</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;moxunit_runtests&#39;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">strmatch</span><span class="p">(</span><span class="n">nm</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="n">db</span><span class="p">.</span><span class="n">name</span><span class="p">},</span><span class="w"> </span><span class="s">&#39;exact&#39;</span><span class="p">))</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">rootdir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fileparts</span><span class="p">(</span><span class="nb">which</span><span class="p">(</span><span class="n">nm</span><span class="p">));</span>
+<span class="w">    </span><span class="n">pth</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fullfile</span><span class="p">(</span><span class="n">rootdir</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">main</span><span class="w"> </span><span class="s">&#39;.m&#39;</span><span class="p">]);</span>
+
+<span class="w">    </span><span class="n">tf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">isequal</span><span class="p">(</span><span class="nb">which</span><span class="p">(</span><span class="n">main</span><span class="p">),</span><span class="w"> </span><span class="n">pth</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="test_cosmo_fmri_dataset.html"
+                          title="previous chapter">test cosmo fmri dataset</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="test_cosmo_skip_test_if_no_external.html"
+                          title="next chapter">test cosmo skip test if no external</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/matlab/test_cosmo_notify_test_skipped.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="test_cosmo_skip_test_if_no_external.html" title="test cosmo skip test if no external"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="test_cosmo_fmri_dataset.html" title="test cosmo fmri dataset"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_test.html" >CoSMoMVPA unit tests</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">test cosmo notify test skipped</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="../_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

@@ -1,0 +1,192 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>cosmo set path &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css?v=279e0f84" />
+    <script src="../_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="cosmo show progress" href="cosmo_show_progress.html" />
+    <link rel="prev" title="cosmo searchlight" href="cosmo_searchlight.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cosmo_show_progress.html" title="cosmo show progress"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_searchlight.html" title="cosmo searchlight"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex.html" accesskey="U">CoSMoMVPA functions</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo set path</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cosmo-set-path">
+<span id="id1"></span><h1>cosmo set path<a class="headerlink" href="#cosmo-set-path" title="Link to this heading">¶</a></h1>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">cosmo_set_path</span><span class="p">()</span>
+<span class="w">    </span><span class="c">% set the matlab path for CoSMoMVPA</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% cosmo_set_path()</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Notes:</span>
+<span class="w">    </span><span class="c">%  - if $ROOT is the root directory of CoSMoMVPA, then this function adds</span>
+<span class="w">    </span><span class="c">%    the paths $ROOT/{mvpa,external}, and their subdirectories, to the</span>
+<span class="w">    </span><span class="c">%    matlab path. It removes $ROOT{doc,examples,tests}.</span>
+<span class="w">    </span><span class="c">%  - A warning message is given if an unexpected directory structure is</span>
+<span class="w">    </span><span class="c">%    encountered.</span>
+<span class="w">    </span><span class="c">%  - To store the path, run savepath after calling this function.</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Example:</span>
+<span class="w">    </span><span class="c">%   cosmo_set_path();</span>
+<span class="w">    </span><span class="c">%   savepath();</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% #   For CoSMoMVPA&#39;s copyright information and license terms,   #</span>
+<span class="w">    </span><span class="c">% #   see the COPYING file distributed with CoSMoMVPA.           #</span>
+
+<span class="w">    </span><span class="c">% directories to be added and removed from the path</span>
+<span class="w">    </span><span class="n">remove_subdirs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;doc&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;examples&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;tests&#39;</span><span class="p">};</span>
+<span class="w">    </span><span class="n">add_subdirs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;mvpa&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;external&#39;</span><span class="p">};</span>
+
+<span class="w">    </span><span class="n">remove_add_subdirs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="n">remove_subdirs</span><span class="p">,</span><span class="w"> </span><span class="n">add_subdirs</span><span class="p">};</span>
+
+<span class="w">    </span><span class="c">% get path of this very function</span>
+<span class="w">    </span><span class="n">me_pth</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fileparts</span><span class="p">(</span><span class="nb">which</span><span class="p">(</span><span class="nb">mfilename</span><span class="p">()));</span>
+
+<span class="w">    </span><span class="c">% get CoSMoMVPA root path</span>
+<span class="w">    </span><span class="n">root_pth</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fileparts</span><span class="p">(</span><span class="n">me_pth</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% get matlab path, each path in a cell</span>
+<span class="w">    </span><span class="n">pathsep_</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">pathsep</span><span class="p">();</span><span class="w"> </span><span class="c">% store path separator</span>
+<span class="w">    </span><span class="n">matlab_pth</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_strsplit</span><span class="p">(</span><span class="nb">path</span><span class="p">(),</span><span class="w"> </span><span class="n">pathsep_</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nb">add</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span>
+<span class="w">        </span><span class="n">subdirs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">remove_add_subdirs</span><span class="p">{</span><span class="nb">add</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">};</span>
+
+<span class="w">        </span><span class="n">n</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">subdirs</span><span class="p">);</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">n</span>
+<span class="w">            </span><span class="n">subdir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">subdirs</span><span class="p">{</span><span class="n">k</span><span class="p">};</span>
+<span class="w">            </span><span class="n">full_pth</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fullfile</span><span class="p">(</span><span class="n">root_pth</span><span class="p">,</span><span class="w"> </span><span class="n">subdir</span><span class="p">);</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nb">exist</span><span class="p">(</span><span class="n">full_pth</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;file&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">isdir</span><span class="p">(</span><span class="n">full_pth</span><span class="p">)</span>
+<span class="w">                </span><span class="c">% generate all subdirectories</span>
+<span class="w">                </span><span class="n">all_pths</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_strsplit</span><span class="p">(</span><span class="nb">genpath</span><span class="p">(</span><span class="n">full_pth</span><span class="p">),</span><span class="w"> </span><span class="n">pathsep_</span><span class="p">);</span>
+
+<span class="w">                </span><span class="c">% see which ones are in the matlab path</span>
+<span class="w">                </span><span class="n">in_matlab_pth</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_match</span><span class="p">(</span><span class="n">all_pths</span><span class="p">,</span><span class="w"> </span><span class="n">matlab_pth</span><span class="p">);</span>
+
+<span class="w">                </span><span class="k">for</span><span class="w"> </span><span class="nb">j</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">all_pths</span><span class="p">)</span>
+<span class="w">                    </span><span class="n">pth</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">all_pths</span><span class="p">{</span><span class="nb">j</span><span class="p">};</span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="nb">add</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">~</span><span class="n">in_matlab_pth</span><span class="p">(</span><span class="nb">j</span><span class="p">)</span>
+<span class="w">                        </span><span class="nb">addpath</span><span class="p">(</span><span class="n">pth</span><span class="p">);</span>
+<span class="w">                    </span><span class="k">elseif</span><span class="w"> </span><span class="o">~</span><span class="nb">add</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">in_matlab_pth</span><span class="p">(</span><span class="nb">j</span><span class="p">)</span>
+<span class="w">                        </span><span class="nb">rmpath</span><span class="p">(</span><span class="n">pth</span><span class="p">);</span>
+<span class="w">                    </span><span class="k">else</span>
+<span class="w">                        </span><span class="c">% do nothing</span>
+<span class="w">                    </span><span class="k">end</span>
+<span class="w">                </span><span class="k">end</span>
+<span class="w">            </span><span class="k">else</span>
+<span class="w">                </span><span class="n">cosmo_warning</span><span class="p">([</span><span class="s">&#39;Path &#39;&#39;%s&#39;&#39; not found - this is an &#39;</span><span class="k">...</span>
+<span class="w">                               </span><span class="s">&#39;unexpected directory structure. &#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                               </span><span class="s">&#39;Please check your path settings&#39;</span><span class="p">],</span><span class="w"> </span><span class="n">full_pth</span><span class="p">);</span>
+<span class="w">            </span><span class="k">end</span>
+
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="cosmo_searchlight.html"
+                          title="previous chapter">cosmo searchlight</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cosmo_show_progress.html"
+                          title="next chapter">cosmo show progress</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/matlab/cosmo_set_path.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cosmo_show_progress.html" title="cosmo show progress"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_searchlight.html" title="cosmo searchlight"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex.html" >CoSMoMVPA functions</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo set path</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="../_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

@@ -1,0 +1,469 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>cosmo crossvalidation measure skl &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css?v=279e0f84" />
+    <script src="../_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="cosmo dataset slice fa skl" href="cosmo_dataset_slice_fa_skl.html" />
+    <link rel="prev" title="cosmo crossvalidate skl" href="cosmo_crossvalidate_skl.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cosmo_dataset_slice_fa_skl.html" title="cosmo dataset slice fa skl"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_crossvalidate_skl.html" title="cosmo crossvalidate skl"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_skl.html" accesskey="U">CoSMoMVPA functions - skeleton files</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo crossvalidation measure skl</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cosmo-crossvalidation-measure-skl">
+<span id="id1"></span><h1>cosmo crossvalidation measure skl<a class="headerlink" href="#cosmo-crossvalidation-measure-skl" title="Link to this heading">¶</a></h1>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>ds_sa<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">cosmo_crossvalidation_measure</span><span class="p">(</span>ds, varargin<span class="p">)</span>
+<span class="w">    </span><span class="c">% performs cross-validation using a classifier</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% accuracy = cosmo_cross_validation_accuracy_measure(dataset, args)</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Inputs:</span>
+<span class="w">    </span><span class="c">%   dataset             struct with fields .samples (PxQ for P samples and</span>
+<span class="w">    </span><span class="c">%                       Q features) and .sa.targets (Px1 labels of samples)</span>
+<span class="w">    </span><span class="c">%   args                struct containing classifier, partitions, and</span>
+<span class="w">    </span><span class="c">%                       possibly other fields that are given to the</span>
+<span class="w">    </span><span class="c">%                       classifier.</span>
+<span class="w">    </span><span class="c">%   args.classifier     function handle to classifier, e.g.</span>
+<span class="w">    </span><span class="c">%                       @cosmo_classify_lda</span>
+<span class="w">    </span><span class="c">%   args.partitions     Partition scheme, for example the output from</span>
+<span class="w">    </span><span class="c">%                       cosmo_nfold_partitioner</span>
+<span class="w">    </span><span class="c">%   args.output         One of:</span>
+<span class="w">    </span><span class="c">%                       - &#39;accuracy&#39;:           overall classificationa</span>
+<span class="w">    </span><span class="c">%                                               accuracy (default)</span>
+<span class="w">    </span><span class="c">%                       - &#39;balanced_accuracy&#39;   classificationa accuracy is</span>
+<span class="w">    </span><span class="c">%                                               computed for each class,</span>
+<span class="w">    </span><span class="c">%                                               then averaged</span>
+<span class="w">    </span><span class="c">%                       - &#39;fold_accuracy&#39;       classification accuracy is</span>
+<span class="w">    </span><span class="c">%                                               computed for each fold</span>
+<span class="w">    </span><span class="c">%                       - &#39;winner_predictions&#39;  class that was predicted</span>
+<span class="w">    </span><span class="c">%                                               for each sample in the test</span>
+<span class="w">    </span><span class="c">%                                               set; in the case of</span>
+<span class="w">    </span><span class="c">%                                               multiple predictions, ties</span>
+<span class="w">    </span><span class="c">%                                               are decided in</span>
+<span class="w">    </span><span class="c">%                                               pseudo-random fashion by</span>
+<span class="w">    </span><span class="c">%                                               cosmo_winner_indices. The</span>
+<span class="w">    </span><span class="c">%                                               output .samples field</span>
+<span class="w">    </span><span class="c">%                                               contains predicted labels.</span>
+<span class="w">    </span><span class="c">%                       - &#39;fold_predictions&#39;    prediction for each sample</span>
+<span class="w">    </span><span class="c">%                                               in each fold. The</span>
+<span class="w">    </span><span class="c">%                                               output .samples field</span>
+<span class="w">    </span><span class="c">%                                               contains predicted labels.</span>
+<span class="w">    </span><span class="c">%                                               With this option, the</span>
+<span class="w">    </span><span class="c">%                                               output has a field</span>
+<span class="w">    </span><span class="c">%                                               .sa.folds</span>
+<span class="w">    </span><span class="c">%   args.check_partitions  optional (default: true). If set to false then</span>
+<span class="w">    </span><span class="c">%                          partitions are not checked for being set</span>
+<span class="w">    </span><span class="c">%                          properly.</span>
+<span class="w">    </span><span class="c">%   args.normalization  optional, one of &#39;zscore&#39;,&#39;demean&#39;,&#39;scale_unit&#39;</span>
+<span class="w">    </span><span class="c">%                       to normalize the data prior to classification using</span>
+<span class="w">    </span><span class="c">%                       zscoring, demeaning or scaling to [-1,1] along the</span>
+<span class="w">    </span><span class="c">%                       first dimension of ds. Normalization parameters are</span>
+<span class="w">    </span><span class="c">%                       estimated using the training data and applied to</span>
+<span class="w">    </span><span class="c">%                       the testing data (for each feature separately).</span>
+<span class="w">    </span><span class="c">%     .pca_explained_count   optional, transform the data with PCA prior to</span>
+<span class="w">    </span><span class="c">%                            classification, and retain this number of</span>
+<span class="w">    </span><span class="c">%                            components</span>
+<span class="w">    </span><span class="c">%     .pca_explained_ratio   optional, transform the data with PCA prior to</span>
+<span class="w">    </span><span class="c">%                            classification, and retain the components that</span>
+<span class="w">    </span><span class="c">%                            explain this percentage of the variance</span>
+<span class="w">    </span><span class="c">%                            (value between 0-1)</span>
+<span class="w">    </span><span class="c">%   args.average_train_X  average the samples in the train set using</span>
+<span class="w">    </span><span class="c">%                       cosmo_average_samples. For X, use any parameter</span>
+<span class="w">    </span><span class="c">%                       supported by cosmo_average_samples, i.e. either</span>
+<span class="w">    </span><span class="c">%                       &#39;count&#39; or &#39;ratio&#39;, and optionally, &#39;resamplings&#39;</span>
+<span class="w">    </span><span class="c">%                       or &#39;repeats&#39;.</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Output:</span>
+<span class="w">    </span><span class="c">%    ds_sa        Struct with fields:</span>
+<span class="w">    </span><span class="c">%      .samples   Scalar with classification accuracy, or vector with</span>
+<span class="w">    </span><span class="c">%                 predictions for the input samples.</span>
+<span class="w">    </span><span class="c">%      .sa        Struct with field:</span>
+<span class="w">    </span><span class="c">%                 - if args.output==&#39;accuracy&#39;:</span>
+<span class="w">    </span><span class="c">%                       .labels  =={&#39;accuracy&#39;}</span>
+<span class="w">    </span><span class="c">%                 - if args.output==&#39;predictions&#39;</span>
+<span class="w">    </span><span class="c">%                       .targets     } Px1 true and predicted labels of</span>
+<span class="w">    </span><span class="c">%                       .predictions } each sample</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Examples:</span>
+<span class="w">    </span><span class="c">%     ds=cosmo_synthetic_dataset(&#39;ntargets&#39;,3,&#39;nchunks&#39;,4);</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % use take-1-chunk for testing crossvalidation</span>
+<span class="w">    </span><span class="c">%     opt=struct();</span>
+<span class="w">    </span><span class="c">%     opt.partitions=cosmo_nfold_partitioner(ds);</span>
+<span class="w">    </span><span class="c">%     opt.classifier=@cosmo_classify_naive_bayes;</span>
+<span class="w">    </span><span class="c">%     % run crossvalidation and return accuracy (the default)</span>
+<span class="w">    </span><span class="c">%     acc_ds=cosmo_crossvalidation_measure(ds,opt);</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(acc_ds);</span>
+<span class="w">    </span><span class="c">%     %|| .samples</span>
+<span class="w">    </span><span class="c">%     %||   [ 0.917 ]</span>
+<span class="w">    </span><span class="c">%     %|| .sa</span>
+<span class="w">    </span><span class="c">%     %||   .labels</span>
+<span class="w">    </span><span class="c">%     %||     { &#39;accuracy&#39; }</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">%     % let the measure return predictions instead of accuracy,</span>
+<span class="w">    </span><span class="c">%     % and use take-1-chunks out for testing crossvalidation;</span>
+<span class="w">    </span><span class="c">%     % use LDA classifier and let targets be in range 7..9</span>
+<span class="w">    </span><span class="c">%     ds=cosmo_synthetic_dataset(&#39;ntargets&#39;,3,&#39;nchunks&#39;,4,&#39;target1&#39;,7);</span>
+<span class="w">    </span><span class="c">%     opt=struct();</span>
+<span class="w">    </span><span class="c">%     opt.partitions=cosmo_nchoosek_partitioner(ds,1);</span>
+<span class="w">    </span><span class="c">%     opt.output=&#39;winner_predictions&#39;;</span>
+<span class="w">    </span><span class="c">%     opt.classifier=@cosmo_classify_lda;</span>
+<span class="w">    </span><span class="c">%     pred_ds=cosmo_crossvalidation_measure(ds,opt);</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % show results. Because each sample was predicted just once,</span>
+<span class="w">    </span><span class="c">%     % .sa.chunks contains the chunks of the original input</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(pred_ds);</span>
+<span class="w">    </span><span class="c">%     %|| .samples</span>
+<span class="w">    </span><span class="c">%     %||   [ 9</span>
+<span class="w">    </span><span class="c">%     %||     8</span>
+<span class="w">    </span><span class="c">%     %||     9</span>
+<span class="w">    </span><span class="c">%     %||     :</span>
+<span class="w">    </span><span class="c">%     %||     7</span>
+<span class="w">    </span><span class="c">%     %||     9</span>
+<span class="w">    </span><span class="c">%     %||     7 ]@12x1</span>
+<span class="w">    </span><span class="c">%     %|| .sa</span>
+<span class="w">    </span><span class="c">%     %||   .targets</span>
+<span class="w">    </span><span class="c">%     %||     [ 7</span>
+<span class="w">    </span><span class="c">%     %||       8</span>
+<span class="w">    </span><span class="c">%     %||       9</span>
+<span class="w">    </span><span class="c">%     %||       :</span>
+<span class="w">    </span><span class="c">%     %||       7</span>
+<span class="w">    </span><span class="c">%     %||       8</span>
+<span class="w">    </span><span class="c">%     %||       9 ]@12x1</span>
+<span class="w">    </span><span class="c">%     %||</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % return accuracy, but use z-scoring on each training set</span>
+<span class="w">    </span><span class="c">%     % and apply the estimated mean and std to the test set.</span>
+<span class="w">    </span><span class="c">%     % Use take-2-chunks out for corssvalidation</span>
+<span class="w">    </span><span class="c">%     ds=cosmo_synthetic_dataset(&#39;ntargets&#39;,3,&#39;nchunks&#39;,4);</span>
+<span class="w">    </span><span class="c">%     opt=struct();</span>
+<span class="w">    </span><span class="c">%     opt.output=&#39;accuracy&#39;;</span>
+<span class="w">    </span><span class="c">%     opt.normalization=&#39;zscore&#39;;</span>
+<span class="w">    </span><span class="c">%     opt.classifier=@cosmo_classify_lda;</span>
+<span class="w">    </span><span class="c">%     opt.partitions=cosmo_nchoosek_partitioner(ds,2);</span>
+<span class="w">    </span><span class="c">%     z_acc_ds=cosmo_crossvalidation_measure(ds,opt);</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(z_acc_ds);</span>
+<span class="w">    </span><span class="c">%     %|| .samples</span>
+<span class="w">    </span><span class="c">%     %||   [ 0.75 ]</span>
+<span class="w">    </span><span class="c">%     %|| .sa</span>
+<span class="w">    </span><span class="c">%     %||   .labels</span>
+<span class="w">    </span><span class="c">%     %||     { &#39;accuracy&#39; }</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">%     % illustrate accuracy for partial test set</span>
+<span class="w">    </span><span class="c">%     ds=cosmo_synthetic_dataset(&#39;ntargets&#39;,2,&#39;nchunks&#39;,5);</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % use take-1-chunk out for testing crossvalidation, but only test on</span>
+<span class="w">    </span><span class="c">%     % chunks 2 and 4</span>
+<span class="w">    </span><span class="c">%     opt=struct();</span>
+<span class="w">    </span><span class="c">%     opt.partitions=cosmo_nchoosek_partitioner(ds,1,&#39;chunks&#39;,[2 4]);</span>
+<span class="w">    </span><span class="c">%     opt.classifier=@cosmo_classify_naive_bayes;</span>
+<span class="w">    </span><span class="c">%     % run crossvalidation and return accuracy (the default)</span>
+<span class="w">    </span><span class="c">%     acc_ds=cosmo_crossvalidation_measure(ds,opt);</span>
+<span class="w">    </span><span class="c">%     % show accuracy</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(acc_ds.samples)</span>
+<span class="w">    </span><span class="c">%     %|| 0.75</span>
+<span class="w">    </span><span class="c">%     % show predictions</span>
+<span class="w">    </span><span class="c">%     opt.output=&#39;winner_predictions&#39;;</span>
+<span class="w">    </span><span class="c">%     pred_ds=cosmo_crossvalidation_measure(ds,opt);</span>
+<span class="w">    </span><span class="c">%     cosmo_disp([pred_ds.samples pred_ds.sa.targets],&#39;threshold&#39;,inf);</span>
+<span class="w">    </span><span class="c">%     %|| [ NaN         1</span>
+<span class="w">    </span><span class="c">%     %||   NaN         2</span>
+<span class="w">    </span><span class="c">%     %||     1         1</span>
+<span class="w">    </span><span class="c">%     %||     2         2</span>
+<span class="w">    </span><span class="c">%     %||   NaN         1</span>
+<span class="w">    </span><span class="c">%     %||   NaN         2</span>
+<span class="w">    </span><span class="c">%     %||     1         1</span>
+<span class="w">    </span><span class="c">%     %||     1         2</span>
+<span class="w">    </span><span class="c">%     %||   NaN         1</span>
+<span class="w">    </span><span class="c">%     %||   NaN         2 ]</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">%     % return predictions for each fold, using output=&#39;fold_predictions&#39;.</span>
+<span class="w">    </span><span class="c">%     % The output has now multiple predictions for each original input</span>
+<span class="w">    </span><span class="c">%     % sample.</span>
+<span class="w">    </span><span class="c">%     ds=cosmo_synthetic_dataset(&#39;ntargets&#39;,3,&#39;nchunks&#39;,4,&#39;target1&#39;,7);</span>
+<span class="w">    </span><span class="c">%     opt=struct();</span>
+<span class="w">    </span><span class="c">%     % use take-two-chunks-for-testing crossvalidation, resulting in</span>
+<span class="w">    </span><span class="c">%     % nchoosek(4,2)=6 folds</span>
+<span class="w">    </span><span class="c">%     opt.partitions=cosmo_nchoosek_partitioner(ds,2);</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(opt.partitions);</span>
+<span class="w">    </span><span class="c">%     %|| .train_indices</span>
+<span class="w">    </span><span class="c">%     %||   { [  7    [  4    [ 4    [  1    [ 1    [ 1</span>
+<span class="w">    </span><span class="c">%     %||        8       5      5       2      2      2</span>
+<span class="w">    </span><span class="c">%     %||        9       6      6       3      3      3</span>
+<span class="w">    </span><span class="c">%     %||       10      10      7      10      7      4</span>
+<span class="w">    </span><span class="c">%     %||       11      11      8      11      8      5</span>
+<span class="w">    </span><span class="c">%     %||       12 ]    12 ]    9 ]    12 ]    9 ]    6 ] }</span>
+<span class="w">    </span><span class="c">%     %|| .test_indices</span>
+<span class="w">    </span><span class="c">%     %||   { [ 1    [ 1    [  1    [ 4    [  4    [  7</span>
+<span class="w">    </span><span class="c">%     %||       2      2       2      5       5       8</span>
+<span class="w">    </span><span class="c">%     %||       3      3       3      6       6       9</span>
+<span class="w">    </span><span class="c">%     %||       4      7      10      7      10      10</span>
+<span class="w">    </span><span class="c">%     %||       5      8      11      8      11      11</span>
+<span class="w">    </span><span class="c">%     %||       6 ]    9 ]    12 ]    9 ]    12 ]    12 ] }</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % set output to return predictions for each fold</span>
+<span class="w">    </span><span class="c">%     opt.output=&#39;fold_predictions&#39;;</span>
+<span class="w">    </span><span class="c">%     opt.classifier=@cosmo_classify_lda;</span>
+<span class="w">    </span><span class="c">%     pred_ds=cosmo_crossvalidation_measure(ds,opt);</span>
+<span class="w">    </span><span class="c">%     to_show={pred_ds.samples,pred_ds.sa.targets,pred_ds.sa.folds};</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(to_show,&#39;edgeitems&#39;,8)</span>
+<span class="w">    </span><span class="c">%     %|| { [ 9         [ 7         [ 1</span>
+<span class="w">    </span><span class="c">%     %||     8           8           1</span>
+<span class="w">    </span><span class="c">%     %||     9           9           1</span>
+<span class="w">    </span><span class="c">%     %||     7           7           1</span>
+<span class="w">    </span><span class="c">%     %||     8           8           1</span>
+<span class="w">    </span><span class="c">%     %||     9           9           1</span>
+<span class="w">    </span><span class="c">%     %||     9           7           2</span>
+<span class="w">    </span><span class="c">%     %||     8           8           2</span>
+<span class="w">    </span><span class="c">%     %||     :           :           :</span>
+<span class="w">    </span><span class="c">%     %||     8           8           5</span>
+<span class="w">    </span><span class="c">%     %||     7           9           5</span>
+<span class="w">    </span><span class="c">%     %||     7           7           6</span>
+<span class="w">    </span><span class="c">%     %||     8           8           6</span>
+<span class="w">    </span><span class="c">%     %||     9           9           6</span>
+<span class="w">    </span><span class="c">%     %||     7           7           6</span>
+<span class="w">    </span><span class="c">%     %||     9           8           6</span>
+<span class="w">    </span><span class="c">%     %||     7 ]@36x1    9 ]@36x1    6 ]@36x1 }</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Notes:</span>
+<span class="w">    </span><span class="c">%   - using this function, crossvalidation can be run using a searchlight</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% See also: cosmo_searchlight, cosmo_average_samples</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% #   For CoSMoMVPA&#39;s copyright information and license terms,   #</span>
+<span class="w">    </span><span class="c">% #   see the COPYING file distributed with CoSMoMVPA.           #</span>
+
+<span class="w">    </span><span class="c">% deal with input arguments</span>
+<span class="w">    </span><span class="n">params</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_structjoin</span><span class="p">(</span><span class="s">&#39;output&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;accuracy&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span><span class="c"> % default output</span>
+<span class="w">                              </span><span class="nb">varargin</span><span class="p">);</span><span class="w"> </span><span class="c">% use input arguments</span>
+
+<span class="w">    </span><span class="c">% Run cross validation to get the accuracy (see the help of</span>
+<span class="w">    </span><span class="c">% cosmo_crossvalidate)</span>
+<span class="w">    </span><span class="c">%%%% &gt;&gt;&gt; Your code here &lt;&lt;&lt; %%%%</span>
+<span class="w">    </span><span class="n">ds_sa</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">output</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">output</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="n">output</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;accuracy&#39;</span>
+<span class="w">            </span><span class="n">ds_sa</span><span class="p">.</span><span class="n">samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">accuracy</span><span class="p">;</span>
+<span class="w">            </span><span class="n">ds_sa</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">labels</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;accuracy&#39;</span><span class="p">};</span>
+
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;balanced_accuracy&#39;</span>
+<span class="w">            </span><span class="n">ds_sa</span><span class="p">.</span><span class="n">samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">compute_balanced_accuracy</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span><span class="w"> </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="p">);</span>
+<span class="w">            </span><span class="n">ds_sa</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">labels</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;balanced_accuracy&#39;</span><span class="p">};</span>
+
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;predictions&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;raw&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;winner_predictions&#39;</span><span class="p">}</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">cosmo_match</span><span class="p">({</span><span class="n">output</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;predictions&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;raw&#39;</span><span class="p">})</span>
+<span class="w">                </span><span class="n">cosmo_warning</span><span class="p">(</span><span class="s">&#39;CoSMoMVPA:deprecated&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                              </span><span class="nb">sprintf</span><span class="p">(</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                      </span><span class="p">[</span><span class="s">&#39;Output option &#39;&#39;%s&#39;&#39; is deprecated and will &#39;</span><span class="k">...</span>
+<span class="w">                                       </span><span class="s">&#39;be removed from a future release. Please use &#39;</span><span class="k">...</span>
+<span class="w">                                       </span><span class="s">&#39;output=&#39;&#39;winner_predictions&#39;&#39; instead, or use &#39;</span><span class="k">...</span>
+<span class="w">                                       </span><span class="s">&#39;output=&#39;&#39;fold_predictions&#39;&#39; to get &#39;</span><span class="k">...</span>
+<span class="w">                                       </span><span class="s">&#39;predictions for each fold&#39;</span><span class="p">],</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                      </span><span class="n">output</span><span class="p">));</span>
+<span class="w">            </span><span class="k">end</span>
+
+<span class="w">            </span><span class="n">ds_sa</span><span class="p">.</span><span class="n">samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">compute_winner_predictions</span><span class="p">(</span><span class="n">pred</span><span class="p">);</span>
+<span class="w">            </span><span class="n">ds_sa</span><span class="p">.</span><span class="n">sa</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">rmfield</span><span class="p">(</span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;chunks&#39;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;fold_accuracy&#39;</span>
+<span class="w">            </span><span class="p">[</span><span class="n">ds_sa</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="n">ds_sa</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">folds</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">compute_fold_accuracy</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                                                    </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;fold_predictions&#39;</span>
+<span class="w">            </span><span class="n">ds_sa</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">            </span><span class="p">[</span><span class="n">ds_sa</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                    </span><span class="n">ds_sa</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">folds</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                    </span><span class="n">ds_sa</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">compute_fold_predictions</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                                                 </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;accuracy_by_chunk&#39;</span>
+<span class="w">            </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;Output &#39;&#39;%s&#39;&#39; is not supported anymore. Consider &#39;</span><span class="k">...</span>
+<span class="w">                   </span><span class="s">&#39;using &#39;&#39;fold_predictions&#39;&#39; whenever this is &#39;</span><span class="k">...</span>
+<span class="w">                   </span><span class="s">&#39;implemented&#39;</span><span class="p">],</span><span class="w"> </span><span class="n">output</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">otherwise</span>
+<span class="w">            </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Illegal output parameter %s&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">output</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">[accs, folds] = compute_fold_accuracy</span><span class="p">(</span>pred, targets<span class="p">)</span>
+<span class="w">    </span><span class="n">is_correct</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">bsxfun</span><span class="p">(@</span><span class="nb">eq</span><span class="p">,</span><span class="w"> </span><span class="n">pred</span><span class="p">,</span><span class="w"> </span><span class="n">targets</span><span class="p">);</span>
+<span class="w">    </span><span class="n">has_pred</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">~</span><span class="nb">isnan</span><span class="p">(</span><span class="n">pred</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">accs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">is_correct</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="n">has_pred</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="o">&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">folds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">accs</span><span class="p">))</span><span class="o">&#39;</span><span class="p">;</span>
+
+<span class="k">function</span><span class="err"> [</span><span class="nf">fold_pred</span><span class="p">,</span><span class="w"> </span><span class="n">folds</span><span class="p">,</span><span class="w"> </span><span class="n">fold_targets</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">compute_fold_predictions</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                                                     </span><span class="n">targets</span><span class="p">)</span>
+<span class="w">    </span><span class="n">nfolds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">pred_cell</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="n">nfolds</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">fold_cell</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="n">nfolds</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">target_cell</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="n">nfolds</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">has_pred</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">~</span><span class="nb">isnan</span><span class="p">(</span><span class="n">pred</span><span class="p">);</span>
+<span class="w">    </span><span class="n">fold_pred_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="n">has_pred</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">i_fold</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">nfolds</span>
+<span class="w">        </span><span class="n">msk</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">has_pred</span><span class="p">(:,</span><span class="w"> </span><span class="n">i_fold</span><span class="p">);</span>
+<span class="w">        </span><span class="n">pred_cell</span><span class="p">{</span><span class="n">i_fold</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pred</span><span class="p">(</span><span class="n">msk</span><span class="p">,</span><span class="w"> </span><span class="n">i_fold</span><span class="p">);</span>
+<span class="w">        </span><span class="n">fold_cell</span><span class="p">{</span><span class="n">i_fold</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="n">fold_pred_count</span><span class="p">(</span><span class="n">i_fold</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i_fold</span><span class="p">;</span>
+<span class="w">        </span><span class="n">target_cell</span><span class="p">{</span><span class="n">i_fold</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">targets</span><span class="p">(</span><span class="n">msk</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">fold_pred</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cat</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">pred_cell</span><span class="p">{:});</span>
+<span class="w">    </span><span class="n">folds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cat</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">fold_cell</span><span class="p">{:});</span>
+<span class="w">    </span><span class="n">fold_targets</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cat</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">target_cell</span><span class="p">{:});</span>
+
+<span class="w">    </span><span class="mi">2</span><span class="p">;</span>
+
+<span class="k">function</span><span class="w"> </span>winner_pred<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">compute_winner_predictions</span><span class="p">(</span>pred<span class="p">)</span>
+<span class="w">    </span><span class="p">[</span><span class="n">winner_pred</span><span class="p">,</span><span class="w"> </span><span class="n">classes</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_winner_indices</span><span class="p">(</span><span class="n">pred</span><span class="p">);</span>
+<span class="w">    </span><span class="n">has_pred</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">~</span><span class="nb">isnan</span><span class="p">(</span><span class="n">winner_pred</span><span class="p">);</span>
+<span class="w">    </span><span class="n">winner_pred</span><span class="p">(</span><span class="n">has_pred</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">classes</span><span class="p">(</span><span class="n">winner_pred</span><span class="p">(</span><span class="n">has_pred</span><span class="p">));</span>
+
+<span class="k">function</span><span class="w"> </span>acc<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">compute_balanced_accuracy</span><span class="p">(</span>pred, targets<span class="p">)</span>
+<span class="w">    </span><span class="p">[</span><span class="n">class_idx</span><span class="p">,</span><span class="w"> </span><span class="n">classes</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_index_unique</span><span class="p">(</span><span class="n">targets</span><span class="p">);</span>
+<span class="w">    </span><span class="n">nclasses</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">classes</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">each_class_acc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="n">nclasses</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% some samples may be without predictions (and are set to NaN</span>
+<span class="w">    </span><span class="c">% by cosmo_crossvalidate). Consider only the samples with</span>
+<span class="w">    </span><span class="c">% predictions, and compute for each class the classification</span>
+<span class="w">    </span><span class="c">% accuracy</span>
+<span class="w">    </span><span class="n">has_prediction</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">~</span><span class="nb">isnan</span><span class="p">(</span><span class="n">pred</span><span class="p">);</span>
+<span class="w">    </span><span class="n">has_any_prediction</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="n">has_prediction</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">nclasses</span>
+<span class="w">        </span><span class="n">idx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">class_idx</span><span class="p">{</span><span class="n">c</span><span class="p">};</span>
+<span class="w">        </span><span class="n">keep_idx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">idx</span><span class="p">(</span><span class="n">has_any_prediction</span><span class="p">(</span><span class="n">idx</span><span class="p">));</span>
+
+<span class="w">        </span><span class="n">n_in_class</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">keep_idx</span><span class="p">);</span>
+<span class="w">        </span><span class="n">class_accs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">NaN</span><span class="p">(</span><span class="n">n_in_class</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nb">j</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">n_in_class</span>
+<span class="w">            </span><span class="n">row</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">keep_idx</span><span class="p">(</span><span class="nb">j</span><span class="p">);</span>
+<span class="w">            </span><span class="n">has_row_prediction</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">has_prediction</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="p">:);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">any</span><span class="p">(</span><span class="n">has_row_prediction</span><span class="p">)</span>
+<span class="w">                </span><span class="k">continue</span>
+<span class="w">            </span><span class="k">end</span>
+
+<span class="w">            </span><span class="n">is_correct</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pred</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">targets</span><span class="p">(</span><span class="n">row</span><span class="p">);</span>
+<span class="w">            </span><span class="n">class_accs</span><span class="p">(</span><span class="nb">j</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="n">is_correct</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="n">has_row_prediction</span><span class="p">);</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">        </span><span class="n">non_nan</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">~</span><span class="nb">isnan</span><span class="p">(</span><span class="n">class_accs</span><span class="p">);</span>
+<span class="w">        </span><span class="n">each_class_acc</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="n">class_accs</span><span class="p">(</span><span class="n">non_nan</span><span class="p">))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="n">non_nan</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">acc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">mean</span><span class="p">(</span><span class="n">each_class_acc</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="cosmo_crossvalidate_skl.html"
+                          title="previous chapter">cosmo crossvalidate skl</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cosmo_dataset_slice_fa_skl.html"
+                          title="next chapter">cosmo dataset slice fa skl</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/matlab/cosmo_crossvalidation_measure_skl.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cosmo_dataset_slice_fa_skl.html" title="cosmo dataset slice fa skl"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_crossvalidate_skl.html" title="cosmo crossvalidate skl"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_skl.html" >CoSMoMVPA functions - skeleton files</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo crossvalidation measure skl</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="../_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

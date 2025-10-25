@@ -1,0 +1,161 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Using CoSMoMVPA multiple-comparison correction &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=279e0f84" />
+    <script src="_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="CoSMoMVPA functions" href="matindex.html" />
+    <link rel="prev" title="Surface-based fMRI searchlight" href="ex_surface_searchlight.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="matindex.html" title="CoSMoMVPA functions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="ex_surface_searchlight.html" title="Surface-based fMRI searchlight"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="nmsm2019_ex_toc.html" accesskey="U">Exercises</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Using CoSMoMVPA multiple-comparison correction</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="using-cosmomvpa-multiple-comparison-correction">
+<span id="ex-multiple-comparisons"></span><h1>Using CoSMoMVPA multiple-comparison correction<a class="headerlink" href="#using-cosmomvpa-multiple-comparison-correction" title="Link to this heading">¶</a></h1>
+<section id="rationale">
+<h2>Rationale<a class="headerlink" href="#rationale" title="Link to this heading">¶</a></h2>
+<p>A <a class="reference internal" href="ex_searchlight.html#ex-searchlight"><span class="std std-ref">previous exercise</span></a> showed how to generate a whole-brain map. How do we know which features (voxels) show a significant effect?</p>
+<p>A few approaches for whole-brain multiple-comparison methods have been proposed in the literature, but are <em>not</em> used in CoSMoMVPA:</p>
+<ul class="simple">
+<li><p>Bonferroni correction; typically too conservative.</p></li>
+<li><p>FDR: can lead to invalid inferences.</p></li>
+<li><p>Parametric cluster-based methods (SPM, AFNI, FSL): can be too liberal.</p></li>
+<li><p>Fixed-treshold cluster-based approach: requires choosing an uncorrected (feature-wise) threshold.</p></li>
+</ul>
+<p>In CoSMoMVPA we supply an implementation for Threshold-Free Cluster Enhancement (<span id="id1">[<a class="reference internal" href="references.html#id27" title="Smith, S. M. and Nichols, T. E. Threshold-free cluster enhancement: addressing problems of smoothing, threshold dependence and localisation in cluster inference. NeuroImage, 44(1):83–98, 2009.">SN09</a>]</span>). Optionally this can also be used with first-level null-data (<span id="id2">[<a class="reference internal" href="references.html#id28" title="Stelzer, J., Chen, Y., and Turner, R. Statistical inference and multiple testing correction in classification-based multi-voxel pattern analysis (MVPA): Random permutations and cluster size control. NeuroImage, 65(C):69–82, January 2013.">SCT13</a>]</span>), although that is not done in this exercise.</p>
+</section>
+<section id="exercise-with-fmri-data">
+<h2>Exercise with fMRI data<a class="headerlink" href="#exercise-with-fmri-data" title="Link to this heading">¶</a></h2>
+<p>Note: Since data in the ak6 dataset is not in MNI space, we cannot do group analysis. This exercise therefore considers data from one subject using data in ten chunks corresponding to ten runs.
+However, the approach can also be used (in exactly the same way) for group analysis, where each chunk corresponds to one subject.</p>
+<p>In this exercise, load data from ten runs from the <code class="docutils literal notranslate"><span class="pre">ak6</span></code> datasets. Compute, for each chunk, the effect of stimulus presentation versus baseline. Then, using <a class="reference internal" href="matlab/cosmo_cluster_neighborhood.html#cosmo-cluster-neighborhood"><span class="std std-ref">cosmo cluster neighborhood</span></a> and <a class="reference internal" href="matlab/cosmo_montecarlo_cluster_stat.html#cosmo-montecarlo-cluster-stat"><span class="std std-ref">cosmo montecarlo cluster stat</span></a>, compute a TFCE zscore map corrected for multiple comparisons.</p>
+<p>Extra exercise: do the same analysis for primates versus insects.</p>
+<p>Template: <a class="reference internal" href="matlab/run_multiple_comparison_correction_skl.html#run-multiple-comparison-correction-skl"><span class="std std-ref">run multiple comparison correction skl</span></a></p>
+<p>Check your answers here: <a class="reference internal" href="matlab/run_multiple_comparison_correction.html#run-multiple-comparison-correction"><span class="std std-ref">run multiple comparison correction</span></a> / <a class="extlink-pb reference external" href="_static/publish/run_multiple_comparison_correction.html">Matlab output: run_multiple_comparison_correction</a></p>
+</section>
+<section id="exercise-with-time-generalization-data">
+<h2>Exercise with time-generalization data<a class="headerlink" href="#exercise-with-time-generalization-data" title="Link to this heading">¶</a></h2>
+<p>In the MEG datasets coming with CoSMoMVPA there is only data from one participant. For this exercise we split the data in ten parts and treat each as coming from one pseudo-participant.</p>
+<p>After splitting the data in ten parts, run the time generalization measure on each part, looking for pairs of time points from which the data shows category information. After the necessary transpositions run cosmo_montecarlo_cluster_stat to obtain a group map corrected for multiple comparisons.</p>
+<p>Template: <a class="reference internal" href="matlab/run_meeg_time_generalization_mcc_skl.html#run-meeg-time-generalization-mcc-skl"><span class="std std-ref">run meeg time generalization mcc skl</span></a></p>
+<p>Check your answers here: <a class="reference internal" href="matlab/run_meeg_time_generalization_mcc.html#run-meeg-time-generalization-mcc"><span class="std std-ref">run meeg time generalization mcc</span></a> / <a class="extlink-pb reference external" href="_static/publish/run_run_meeg_time_generalization_mcc.html">Matlab output: run_run_meeg_time_generalization_mcc</a></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Using CoSMoMVPA multiple-comparison correction</a><ul>
+<li><a class="reference internal" href="#rationale">Rationale</a></li>
+<li><a class="reference internal" href="#exercise-with-fmri-data">Exercise with fMRI data</a></li>
+<li><a class="reference internal" href="#exercise-with-time-generalization-data">Exercise with time-generalization data</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="ex_surface_searchlight.html"
+                          title="previous chapter">Surface-based fMRI searchlight</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="matindex.html"
+                          title="next chapter">CoSMoMVPA functions</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/ex_multiple_comparisons.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="matindex.html" title="CoSMoMVPA functions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="ex_surface_searchlight.html" title="Surface-based fMRI searchlight"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="nmsm2019_ex_toc.html" >Exercises</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Using CoSMoMVPA multiple-comparison correction</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

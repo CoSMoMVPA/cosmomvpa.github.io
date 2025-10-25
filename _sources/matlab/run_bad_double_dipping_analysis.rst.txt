@@ -1,0 +1,9 @@
+.. _run_bad_double_dipping_analysis:
+
+run bad double dipping analysis
+===============================
+
+:run_up: run_bad_double_dipping_analysis 
+
+.. include :: run_bad_double_dipping_analysis.txt
+

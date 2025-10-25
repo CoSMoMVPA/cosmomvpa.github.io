@@ -1,0 +1,7 @@
+.. _cosmo_norminv_hdr:
+
+cosmo norminv hdr
+=================
+
+.. include :: cosmo_norminv_hdr.txt
+

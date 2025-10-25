@@ -1,0 +1,7 @@
+.. _cosmo_singleton_neighborhood_skl:
+
+cosmo singleton neighborhood skl
+================================
+
+.. include :: cosmo_singleton_neighborhood_skl.txt
+

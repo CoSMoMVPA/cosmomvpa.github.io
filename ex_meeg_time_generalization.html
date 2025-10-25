@@ -1,0 +1,152 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>MEEG time generalization &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=279e0f84" />
+    <script src="_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="Representational similarity analysis" href="ex_rsa_tutorial.html" />
+    <link rel="prev" title="General MEEG analysis toolboxes" href="ex_meeg_searchlight.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="ex_rsa_tutorial.html" title="Representational similarity analysis"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="ex_meeg_searchlight.html" title="General MEEG analysis toolboxes"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="nmsm2019_ex_toc.html" accesskey="U">Exercises</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">MEEG time generalization</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="meeg-time-generalization">
+<span id="ex-meeg-time-generalization"></span><h1>MEEG time generalization<a class="headerlink" href="#meeg-time-generalization" title="Link to this heading">¶</a></h1>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading">¶</a></h2>
+<p>This exercise requires a separate dataset named <cite>meg-obj6</cite>; see <a class="reference internal" href="download.html#download"><span class="std std-ref">download</span></a> section.
+It also requires a working installation of <a class="reference external" href="http://fieldtrip.fcdonders.nl">FieldTrip</a>.</p>
+</section>
+<section id="reading-material">
+<h2>Reading material<a class="headerlink" href="#reading-material" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><span id="id1">[<a class="reference internal" href="references.html#id12" title="King, J.-R. and Dehaene, S. Characterizing the dynamics of mental representations: the temporal generalization method. Trends in cognitive sciences, 2014.">KD14</a>]</span>: Description of the time generalization method.</p></li>
+<li><p><span id="id2">[<a class="reference internal" href="references.html#id15" title="Kaiser, D., Oosterhof, N. N., and Peelen, M. V. The neural dynamics of attentional selection in natural scenes. Journal of neuroscience, 36(41):10522–10528, 2016.">KOP16</a>]</span>: Paper using the time generalization method.</p></li>
+</ul>
+</section>
+<section id="the-time-generalization-method">
+<h2>The time generalization method<a class="headerlink" href="#the-time-generalization-method" title="Link to this heading">¶</a></h2>
+<p>Load the <cite>meg-obj6</cite> data. Assign targets and chunks, then select only posterior gradiometer sensors in the time interval between 0 and 300 ms relative to stimulus onset. Then reduce the number of chunks to two (using <a class="reference internal" href="matlab/cosmo_chunkize.html#cosmo-chunkize"><span class="std std-ref">cosmo chunkize</span></a>) to get a train and test set.
+Use <a class="reference internal" href="matlab/cosmo_dim_generalization_measure.html#cosmo-dim-generalization-measure"><span class="std std-ref">cosmo dim generalization measure</span></a> for the <code class="docutils literal notranslate"><span class="pre">time</span></code> dimension, together with <a class="reference internal" href="matlab/cosmo_classify_lda.html#cosmo-classify-lda"><span class="std std-ref">cosmo classify lda</span></a> and <a class="reference internal" href="matlab/cosmo_crossvalidation_measure.html#cosmo-crossvalidation-measure"><span class="std std-ref">cosmo crossvalidation measure</span></a> to train for all time points in the 0-300 ms interval, and for each time point, test the classifier for each time point in the same interval. Display the resulting time-by-time classification accuracy matrix using <code class="docutils literal notranslate"><span class="pre">imagesc</span></code></p>
+<p>Template: <a class="reference internal" href="matlab/run_meeg_time_generalization_skl.html#run-meeg-time-generalization-skl"><span class="std std-ref">run meeg time generalization skl</span></a></p>
+<p>Check your answers here: <a class="reference internal" href="matlab/run_meeg_time_generalization.html#run-meeg-time-generalization"><span class="std std-ref">run meeg time generalization</span></a> / <a class="extlink-pb reference external" href="_static/publish/run_meeg_time_generalization.html">Matlab output: run_meeg_time_generalization</a></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">MEEG time generalization</a><ul>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#reading-material">Reading material</a></li>
+<li><a class="reference internal" href="#the-time-generalization-method">The time generalization method</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="ex_meeg_searchlight.html"
+                          title="previous chapter">General MEEG analysis toolboxes</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="ex_rsa_tutorial.html"
+                          title="next chapter">Representational similarity analysis</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/ex_meeg_time_generalization.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="ex_rsa_tutorial.html" title="Representational similarity analysis"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="ex_meeg_searchlight.html" title="General MEEG analysis toolboxes"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="nmsm2019_ex_toc.html" >Exercises</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">MEEG time generalization</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

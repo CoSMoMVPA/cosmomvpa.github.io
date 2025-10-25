@@ -1,0 +1,434 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>cosmo montecarlo phase stat &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css?v=279e0f84" />
+    <script src="../_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="cosmo naive bayes classifier searchlight" href="cosmo_naive_bayes_classifier_searchlight.html" />
+    <link rel="prev" title="cosmo montecarlo cluster stat" href="cosmo_montecarlo_cluster_stat.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cosmo_naive_bayes_classifier_searchlight.html" title="cosmo naive bayes classifier searchlight"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_montecarlo_cluster_stat.html" title="cosmo montecarlo cluster stat"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex.html" accesskey="U">CoSMoMVPA functions</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo montecarlo phase stat</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cosmo-montecarlo-phase-stat">
+<span id="id1"></span><h1>cosmo montecarlo phase stat<a class="headerlink" href="#cosmo-montecarlo-phase-stat" title="Link to this heading">¶</a></h1>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>ds_stat<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">cosmo_montecarlo_phase_stat</span><span class="p">(</span>ds, varargin<span class="p">)</span>
+<span class="w">    </span><span class="c">% compute phase statistics based on Monte Carlo simulation</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% ds_stat=cosmo_montecarlo_phase_stat(ds,...)</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Inputs:</span>
+<span class="w">    </span><span class="c">%   ds                      dataset struct with fields:</span>
+<span class="w">    </span><span class="c">%       .samples            PxQ complex matrix for P samples (trials,</span>
+<span class="w">    </span><span class="c">%                           observations) and Q features (e.g. combinations</span>
+<span class="w">    </span><span class="c">%                           of time points, frequencies and channels)</span>
+<span class="w">    </span><span class="c">%       .sa.targets         Px1 array with trial conditions.</span>
+<span class="w">    </span><span class="c">%                           There must be exactly two conditions, thus</span>
+<span class="w">    </span><span class="c">%                           .sa.targets must have exactly two unique</span>
+<span class="w">    </span><span class="c">%                           values. A balanced number of samples is</span>
+<span class="w">    </span><span class="c">%                           requires, i.e. each of the two unique values in</span>
+<span class="w">    </span><span class="c">%                           .sa.targets must occur equally often.</span>
+<span class="w">    </span><span class="c">%       .sa.chunks          Px1 array indicating which samples can be</span>
+<span class="w">    </span><span class="c">%                           considered to be independent. It is required</span>
+<span class="w">    </span><span class="c">%                           that all samples are independent, therefore</span>
+<span class="w">    </span><span class="c">%                           all values in .sa.chunks must be different from</span>
+<span class="w">    </span><span class="c">%                           each other</span>
+<span class="w">    </span><span class="c">%       .fa                 } optional feature attributes</span>
+<span class="w">    </span><span class="c">%       .a                  } optional sample attributes</span>
+<span class="w">    </span><span class="c">%  &#39;output&#39;,p               Return statistic, one of the following:</span>
+<span class="w">    </span><span class="c">%                           - &#39;pbi&#39;: phase bifurcation index</span>
+<span class="w">    </span><span class="c">%                           - &#39;pos&#39;: phase opposition sum</span>
+<span class="w">    </span><span class="c">%                           - &#39;pop&#39;: phase opposition product</span>
+<span class="w">    </span><span class="c">%  &#39;niter&#39;,niter            Generate niter null datasets by random</span>
+<span class="w">    </span><span class="c">%                           shuffling the targets.</span>
+<span class="w">    </span><span class="c">%                           If you have no idea what value to use, consider</span>
+<span class="w">    </span><span class="c">%                           using niter=1000.</span>
+<span class="w">    </span><span class="c">%  &#39;zscore&#39;,z               (optional, default=&#39;non_parametric&#39;)</span>
+<span class="w">    </span><span class="c">%                           Compute z-score using either:</span>
+<span class="w">    </span><span class="c">%                           &#39;non_parametric&#39;: non-parametric approach based</span>
+<span class="w">    </span><span class="c">%                                             on how many values in the</span>
+<span class="w">    </span><span class="c">%                                             original dataset show an</span>
+<span class="w">    </span><span class="c">%                                             output greater than the</span>
+<span class="w">    </span><span class="c">%                                             null data.</span>
+<span class="w">    </span><span class="c">%                           &#39;parametric&#39;    : parametric approach based on</span>
+<span class="w">    </span><span class="c">%                                             mean and standard deviation</span>
+<span class="w">    </span><span class="c">%                                             of the null data. This would</span>
+<span class="w">    </span><span class="c">%                                             assume normality of the</span>
+<span class="w">    </span><span class="c">%                                             computed output statistic.</span>
+<span class="w">    </span><span class="c">%  &#39;extreme_tail_set_nan&#39;,n (optional, default=true)</span>
+<span class="w">    </span><span class="c">%                           If n==true and all the output value in the</span>
+<span class="w">    </span><span class="c">%                           original dataset for a particular feature i is</span>
+<span class="w">    </span><span class="c">%                           less than or greater than all output values for</span>
+<span class="w">    </span><span class="c">%                           that feature in the null datasets, set the</span>
+<span class="w">    </span><span class="c">%                           output in stat.samples(i) to NaN.</span>
+<span class="w">    </span><span class="c">%                           If n==false, the p value corresponding to the</span>
+<span class="w">    </span><span class="c">%                           output is limited to the range</span>
+<span class="w">    </span><span class="c">%                               [1/niter,1-1/niter]</span>
+<span class="w">    </span><span class="c">%  &#39;progress&#39;,p             (optional,default=1)</span>
+<span class="w">    </span><span class="c">%                           Show progress every p null datasets.</span>
+<span class="w">    </span><span class="c">%  &#39;permuter_func&#39;,f        (optional, default is function defined in</span>
+<span class="w">    </span><span class="c">%                            this function&#39;s body)</span>
+<span class="w">    </span><span class="c">%                           Function handle with signature</span>
+<span class="w">    </span><span class="c">%                             idxs=f(iter)</span>
+<span class="w">    </span><span class="c">%                           which returns permuted indices in the range</span>
+<span class="w">    </span><span class="c">%                           1:nsamples for the iter-th iteration with that</span>
+<span class="w">    </span><span class="c">%                           seed value. The targets are resamples using</span>
+<span class="w">    </span><span class="c">%                           these permuted indices.</span>
+<span class="w">    </span><span class="c">%  &#39;seed&#39;,s                 (optional, default=1)</span>
+<span class="w">    </span><span class="c">%                           Use seed s when generating pseudo-random</span>
+<span class="w">    </span><span class="c">%                           permutations for null distribution.</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Output:</span>
+<span class="w">    </span><span class="c">%   stat_ds                 Dataset with field</span>
+<span class="w">    </span><span class="c">%       .samples            1xQ z-scores indicating the probability of the</span>
+<span class="w">    </span><span class="c">%                           observed data in ds.samples, under the null</span>
+<span class="w">    </span><span class="c">%                           hypothesis of no phase difference. z-scores are</span>
+<span class="w">    </span><span class="c">%                           not corrected for multiple comparisons.</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Notes:</span>
+<span class="w">    </span><span class="c">%   - this function computes phase statistics for each feature separately;</span>
+<span class="w">    </span><span class="c">%     it does not correct for multiple comparisons</span>
+<span class="w">    </span><span class="c">%   - p-values are computed by dividing as (r+1) / (niter+1), with r the</span>
+<span class="w">    </span><span class="c">%     number of times that the original data as less then the null</span>
+<span class="w">    </span><span class="c">%     distributions. This follows the recommendation of North et al (2002).</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Reference</span>
+<span class="w">    </span><span class="c">%   - North, Bernard V., David Curtis, and Pak C. Sham. &quot;A note on the</span>
+<span class="w">    </span><span class="c">%     calculation of empirical P values from Monte Carlo procedures.&quot; The</span>
+<span class="w">    </span><span class="c">%     American Journal of Human Genetics 71.2 (2002): 439-441.</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% See also: cosmo_phase_stat, cosmo_phase_itc</span>
+
+<span class="w">    </span><span class="n">defaults</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">defaults</span><span class="p">.</span><span class="n">progress</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">    </span><span class="n">defaults</span><span class="p">.</span><span class="n">permuter_func</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[];</span>
+<span class="w">    </span><span class="n">defaults</span><span class="p">.</span><span class="n">zscore</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;non_parametric&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">defaults</span><span class="p">.</span><span class="n">extreme_tail_set_nan</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">    </span><span class="n">defaults</span><span class="p">.</span><span class="n">seed</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_structjoin</span><span class="p">(</span><span class="n">defaults</span><span class="p">,</span><span class="w"> </span><span class="nb">varargin</span><span class="p">{:});</span>
+<span class="w">    </span><span class="n">check_inputs</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">progress_func</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_progress_func</span><span class="p">(</span><span class="n">opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="p">[</span><span class="n">nsamples</span><span class="p">,</span><span class="w"> </span><span class="n">nfeatures</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% normalize dataset here. This is more efficient than letting</span>
+<span class="w">    </span><span class="c">% cosmo_phase_stat normalize the data for each null dataset separately.</span>
+<span class="w">    </span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="p">);</span>
+<span class="w">    </span><span class="n">phase_opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">phase_opt</span><span class="p">.</span><span class="n">output</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">output</span><span class="p">;</span>
+<span class="w">    </span><span class="n">phase_opt</span><span class="p">.</span><span class="n">samples_are_unit_length</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">    </span><span class="n">phase_opt</span><span class="p">.</span><span class="n">check_dataset</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">phase_func</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@(</span><span class="n">phase_ds</span><span class="p">)</span><span class="w"> </span><span class="n">cosmo_phase_stat</span><span class="p">(</span><span class="n">phase_ds</span><span class="p">,</span><span class="w"> </span><span class="n">phase_opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% compute statistic for original dataset</span>
+<span class="w">    </span><span class="n">stat_orig</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">phase_func</span><span class="p">(</span><span class="n">ds</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% indicate progress</span>
+<span class="w">    </span><span class="n">progress_func</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">%     % set permutation function</span>
+<span class="w">    </span><span class="n">permuter_func</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_permuter_func</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span><span class="w"> </span><span class="n">nsamples</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">zscore_func</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_zscore_func</span><span class="p">(</span><span class="n">opt</span><span class="p">.</span><span class="n">zscore</span><span class="p">);</span>
+<span class="w">    </span><span class="n">z</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">zscore_func</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">stat_orig</span><span class="p">,</span><span class="w"> </span><span class="n">phase_func</span><span class="p">,</span><span class="w"> </span><span class="n">progress_func</span><span class="p">,</span><span class="w"> </span><span class="n">permuter_func</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">ds_stat</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">stat_orig</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ds_stat</span><span class="p">.</span><span class="n">samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">z</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">progress_func</span><span class="p">(</span><span class="n">opt</span><span class="p">.</span><span class="n">niter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">cosmo_check_dataset</span><span class="p">(</span><span class="n">ds_stat</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span>permuter_func<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">get_permuter_func</span><span class="p">(</span>opt, nsamples<span class="p">)</span>
+<span class="w">    </span><span class="n">permuter_func</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">permuter_func</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">permuter_func</span><span class="p">)</span>
+<span class="w">        </span><span class="n">permuter_func</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@(</span><span class="n">iter</span><span class="p">)</span><span class="n">default_permute</span><span class="p">(</span><span class="n">nsamples</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                               </span><span class="n">opt</span><span class="p">.</span><span class="n">seed</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">niter</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                               </span><span class="n">iter</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span>zscore_func<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">get_zscore_func</span><span class="p">(</span>zscore_name<span class="p">)</span>
+<span class="w">    </span><span class="n">funcs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">funcs</span><span class="p">.</span><span class="n">non_parametric</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@</span><span class="n">compute_zscore_non_parametric</span><span class="p">;</span>
+<span class="w">    </span><span class="n">funcs</span><span class="p">.</span><span class="n">parametric</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@</span><span class="n">compute_zscore_parametric</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="nb">ischar</span><span class="p">(</span><span class="n">zscore_name</span><span class="p">)</span><span class="w"> </span><span class="k">...</span>
+<span class="w">         </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">funcs</span><span class="p">,</span><span class="w"> </span><span class="n">zscore_name</span><span class="p">))</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Illegal &#39;&#39;zscore&#39;&#39; option, allowed are: &#39;&#39;%s&#39;&#39;&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">              </span><span class="n">cosmo_strjoin</span><span class="p">(</span><span class="nb">fieldnames</span><span class="p">(</span><span class="n">funcs</span><span class="p">),</span><span class="w"> </span><span class="s">&#39;&#39;&#39;, &#39;&#39;&#39;</span><span class="p">));</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">zscore_func</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">funcs</span><span class="p">.(</span><span class="n">zscore_name</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">z</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">compute_zscore_parametric</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">stat_orig</span><span class="p">,</span><span class="w"> </span><span class="n">phase_func</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                       </span><span class="n">progress_func</span><span class="p">,</span><span class="w"> </span><span class="n">permuter_func</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">)</span>
+<span class="w">    </span><span class="n">niter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">niter</span><span class="p">;</span>
+<span class="w">    </span><span class="n">nfeatures</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">null_data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="n">niter</span><span class="p">,</span><span class="w"> </span><span class="n">nfeatures</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">iter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">niter</span>
+<span class="w">        </span><span class="n">ds_null</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">;</span>
+<span class="w">        </span><span class="n">ds_null</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="p">(</span><span class="n">permuter_func</span><span class="p">(</span><span class="n">iter</span><span class="p">));</span>
+<span class="w">        </span><span class="n">stat_null</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">phase_func</span><span class="p">(</span><span class="n">ds_null</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">null_data</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">stat_null</span><span class="p">.</span><span class="n">samples</span><span class="p">;</span>
+<span class="w">        </span><span class="n">progress_func</span><span class="p">(</span><span class="n">iter</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">mu</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">mean</span><span class="p">(</span><span class="n">null_data</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">sd</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">std</span><span class="p">(</span><span class="n">null_data</span><span class="p">,</span><span class="w"> </span><span class="p">[],</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">z</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="n">stat_orig</span><span class="p">.</span><span class="n">samples</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">mu</span><span class="p">)</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="n">sd</span><span class="p">;</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">z</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">compute_zscore_non_parametric</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">stat_orig</span><span class="p">,</span><span class="w"> </span><span class="n">phase_func</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                           </span><span class="n">progress_func</span><span class="p">,</span><span class="w"> </span><span class="n">permuter_func</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">)</span>
+<span class="w">    </span><span class="c">% compute z-score non-parametrically</span>
+<span class="w">    </span><span class="c">% number of times the original data is less than (leading to negative</span>
+<span class="w">    </span><span class="c">% values) or greater than (leading to positive values) the null data.</span>
+<span class="w">    </span><span class="c">% After running all iterations, values in exceed_count range from</span>
+<span class="w">    </span><span class="c">% -opt.niter to +opt.niter.</span>
+<span class="w">    </span><span class="n">nfeatures</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exceed_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nfeatures</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">niter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">niter</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">iter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">niter</span>
+<span class="w">        </span><span class="n">ds_null</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">sample_idxs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">permuter_func</span><span class="p">(</span><span class="n">iter</span><span class="p">);</span>
+<span class="w">        </span><span class="n">ds_null</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="p">(</span><span class="n">sample_idxs</span><span class="p">);</span>
+<span class="w">        </span><span class="n">stat_null</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">phase_func</span><span class="p">(</span><span class="n">ds_null</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">msk_gt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">stat_orig</span><span class="p">.</span><span class="n">samples</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">stat_null</span><span class="p">.</span><span class="n">samples</span><span class="p">;</span>
+<span class="w">        </span><span class="n">msk_lt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">stat_orig</span><span class="p">.</span><span class="n">samples</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">stat_null</span><span class="p">.</span><span class="n">samples</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">exceed_count</span><span class="p">(</span><span class="n">msk_gt</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">exceed_count</span><span class="p">(</span><span class="n">msk_gt</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="n">exceed_count</span><span class="p">(</span><span class="n">msk_lt</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">exceed_count</span><span class="p">(</span><span class="n">msk_lt</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">progress_func</span><span class="p">(</span><span class="n">iter</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">% Note that exceed_count is even if niter is even.</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% if exceed_count==-niter,     p=1/(niter+1)</span>
+<span class="w">    </span><span class="c">% if             ==-(niter+2), p=2/(niter+1)</span>
+<span class="w">    </span><span class="c">% if             ==-(niter+4), p=3/(niter+1)</span>
+<span class="w">    </span><span class="c">% ...</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% if exceed_count==niter,      p=niter/(niter+1)</span>
+<span class="w">    </span><span class="c">% if exceed_count==niter-2,    p=(niter-1)/(niter+1)</span>
+<span class="w">    </span><span class="c">% if exceed_count==niter-4,    p=(niter-2)/(niter+1)</span>
+<span class="w">    </span><span class="n">p</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">.5</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nfeatures</span><span class="p">);</span>
+<span class="w">    </span><span class="n">neg_msk</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">exceed_count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="n">p</span><span class="p">(</span><span class="n">neg_msk</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">((</span><span class="n">exceed_count</span><span class="p">(</span><span class="n">neg_msk</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">niter</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">niter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">pos_msk</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">exceed_count</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="n">p</span><span class="p">(</span><span class="n">pos_msk</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">((</span><span class="n">niter</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">exceed_count</span><span class="p">(</span><span class="n">pos_msk</span><span class="p">))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">niter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">    </span><span class="nb">tail</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">niter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1e-7</span><span class="p">;</span>
+<span class="w">    </span><span class="nb">assert</span><span class="p">(</span><span class="nb">all</span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nb">tail</span><span class="p">));</span>
+<span class="w">    </span><span class="nb">assert</span><span class="p">(</span><span class="nb">all</span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">tail</span><span class="p">));</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">extreme_tail_set_nan</span>
+<span class="w">        </span><span class="n">p</span><span class="p">(</span><span class="n">exceed_count</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="o">-</span><span class="n">niter</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">exceed_count</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">niter</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">NaN</span><span class="p">;</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">z</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_norminv</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span>func<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">get_progress_func</span><span class="p">(</span>opt<span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="n">opt</span><span class="p">.</span><span class="n">progress</span><span class="p">)</span>
+<span class="w">        </span><span class="n">func</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@</span><span class="n">do_nothing</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">func</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@(</span><span class="n">iter</span><span class="p">)</span><span class="n">show_progress</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">progress</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">niter</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">show_progress</span><span class="p">(</span>iter, progress_step, niter<span class="p">)</span>
+<span class="w">    </span><span class="k">persistent</span><span class="w"> </span><span class="n">prev_msg</span>
+<span class="w">    </span><span class="k">persistent</span><span class="w"> </span><span class="n">clock_start</span>
+
+<span class="w">    </span><span class="n">reset_state</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">clock_start</span><span class="p">)</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                    </span><span class="o">||</span><span class="w"> </span><span class="n">iter</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                    </span><span class="o">||</span><span class="w"> </span><span class="o">~</span><span class="nb">ischar</span><span class="p">(</span><span class="n">prev_msg</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">reset_state</span>
+<span class="w">        </span><span class="n">clock_start</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">clock</span><span class="p">();</span>
+<span class="w">        </span><span class="n">prev_msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="n">progress_step</span><span class="p">)</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">progress</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="n">iter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">niter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">prev_msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_show_progress</span><span class="p">(</span><span class="n">clock_start</span><span class="p">,</span><span class="w"> </span><span class="n">progress</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="n">prev_msg</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">do_nothing</span><span class="p">(</span>varargin<span class="p">)</span>
+<span class="w">    </span><span class="c">% This is used in case of no progress reporting.</span>
+<span class="w">    </span><span class="c">% This function does absolutely nothing</span>
+
+<span class="k">function</span><span class="w"> </span>idxs<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">default_permute</span><span class="p">(</span>nsamples, seed, niter, iter<span class="p">)</span>
+<span class="w">    </span><span class="k">persistent</span><span class="w"> </span><span class="n">cached_args</span>
+<span class="w">    </span><span class="k">persistent</span><span class="w"> </span><span class="n">cached_rand_vals</span>
+
+<span class="w">    </span><span class="n">args</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="n">nsamples</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="p">,</span><span class="w"> </span><span class="n">niter</span><span class="p">,</span><span class="w"> </span><span class="n">iter</span><span class="p">};</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isequal</span><span class="p">(</span><span class="n">cached_args</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+<span class="w">            </span><span class="n">rand_args</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{};</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="n">rand_args</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;seed&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="p">};</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">        </span><span class="c">% compute once for all possible iterations</span>
+<span class="w">        </span><span class="n">cached_rand_vals</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_rand</span><span class="p">(</span><span class="n">nsamples</span><span class="p">,</span><span class="w"> </span><span class="n">niter</span><span class="p">,</span><span class="w"> </span><span class="n">rand_args</span><span class="p">{:});</span>
+<span class="w">        </span><span class="n">cached_args</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">args</span><span class="p">;</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="p">[</span><span class="n">unused</span><span class="p">,</span><span class="w"> </span><span class="n">idxs</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sort</span><span class="p">(</span><span class="n">cached_rand_vals</span><span class="p">(:,</span><span class="w"> </span><span class="n">iter</span><span class="p">));</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">check_inputs</span><span class="p">(</span>ds, opt<span class="p">)</span>
+<span class="w">    </span><span class="n">raise_exception</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cosmo_check_dataset</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">raise_exception</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isfield</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;niter&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;The option &#39;&#39;niter&#39;&#39; is required. If you have &#39;</span><span class="k">...</span>
+<span class="w">               </span><span class="s">&#39;absolutely no idea what value to use, consider &#39;</span><span class="k">...</span>
+<span class="w">               </span><span class="s">&#39;using niter=10000&#39;</span><span class="p">]);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isfield</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;output&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;The option &#39;&#39;output&#39;&#39; is required. Use one of &#39;</span><span class="k">...</span>
+<span class="w">               </span><span class="s">&#39;&#39;&#39;pos&#39;&#39;,&#39;&#39;pop&#39;&#39;, or &#39;&#39;pos&#39;&#39;&#39;</span><span class="p">]);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">verify_positive_scalar_int</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;niter&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isequal</span><span class="p">(</span><span class="n">opt</span><span class="p">.</span><span class="n">progress</span><span class="p">,</span><span class="w"> </span><span class="nb">false</span><span class="p">)</span>
+<span class="w">        </span><span class="n">verify_positive_scalar_int</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;progress&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">extreme_tail_set_nan</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">extreme_tail_set_nan</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="nb">islogical</span><span class="p">(</span><span class="n">extreme_tail_set_nan</span><span class="p">)</span><span class="w"> </span><span class="k">...</span>
+<span class="w">         </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">isscalar</span><span class="p">(</span><span class="n">extreme_tail_set_nan</span><span class="p">))</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;option &#39;&#39;extreme_tail_set_nan&#39;&#39; must be logical scalar&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">verify_positive_scalar_int</span><span class="p">(</span>opt, name<span class="p">)</span>
+<span class="w">    </span><span class="n">v</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.(</span><span class="n">name</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="nb">isnumeric</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="k">...</span>
+<span class="w">         </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">isscalar</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="k">...</span>
+<span class="w">         </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="k">...</span>
+<span class="w">         </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;option &#39;&#39;%s&#39;&#39; must be a positive scalar integer&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="cosmo_montecarlo_cluster_stat.html"
+                          title="previous chapter">cosmo montecarlo cluster stat</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cosmo_naive_bayes_classifier_searchlight.html"
+                          title="next chapter">cosmo naive bayes classifier searchlight</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/matlab/cosmo_montecarlo_phase_stat.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cosmo_naive_bayes_classifier_searchlight.html" title="cosmo naive bayes classifier searchlight"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_montecarlo_cluster_stat.html" title="cosmo montecarlo cluster stat"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex.html" >CoSMoMVPA functions</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo montecarlo phase stat</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="../_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

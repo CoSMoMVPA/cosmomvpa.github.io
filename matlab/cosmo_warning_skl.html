@@ -1,0 +1,289 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>cosmo warning skl &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css?v=279e0f84" />
+    <script src="../_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="cosmo winner indices skl" href="cosmo_winner_indices_skl.html" />
+    <link rel="prev" title="cosmo vol grid convert skl" href="cosmo_vol_grid_convert_skl.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cosmo_winner_indices_skl.html" title="cosmo winner indices skl"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_vol_grid_convert_skl.html" title="cosmo vol grid convert skl"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_skl.html" accesskey="U">CoSMoMVPA functions - skeleton files</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo warning skl</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cosmo-warning-skl">
+<span id="id1"></span><h1>cosmo warning skl<a class="headerlink" href="#cosmo-warning-skl" title="Link to this heading">¶</a></h1>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>varargout<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">cosmo_warning</span><span class="p">(</span>message, varargin<span class="p">)</span>
+<span class="w">    </span><span class="c">% show a warning message; by default just once for each message</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% cosmo_warning(message, ...)</span>
+<span class="w">    </span><span class="c">% cosmo_warning(state)</span>
+<span class="w">    </span><span class="c">% state=cosmo_warning()</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Inputs:</span>
+<span class="w">    </span><span class="c">%   message      warning message to be shown, or one of:</span>
+<span class="w">    </span><span class="c">%                &#39;on&#39;   : show all warning messages</span>
+<span class="w">    </span><span class="c">%                &#39;off&#39;  : show no warning messages</span>
+<span class="w">    </span><span class="c">%                &#39;once&#39; : show each warning message once [default]</span>
+<span class="w">    </span><span class="c">%                &#39;reset&#39;:</span>
+<span class="w">    </span><span class="c">%   ...          if a warning message is provided according with</span>
+<span class="w">    </span><span class="c">%                placeholders as used in sprintf, then the subsequent</span>
+<span class="w">    </span><span class="c">%                arguments should contain their values</span>
+<span class="w">    </span><span class="c">%   state        if a struct, then this queries or sets the state of</span>
+<span class="w">    </span><span class="c">%                cosmo_warning.</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Notes:</span>
+<span class="w">    </span><span class="c">%   - this function works more or less like matlab&#39;s warning function,</span>
+<span class="w">    </span><span class="c">%     except that by default each warning is just shown once.</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% #   For CoSMoMVPA&#39;s copyright information and license terms,   #</span>
+<span class="w">    </span><span class="c">% #   see the COPYING file distributed with CoSMoMVPA.           #</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">get_from_state</span><span class="p">(</span><span class="s">&#39;when&#39;</span><span class="p">))</span>
+<span class="w">        </span><span class="n">set_default_state</span><span class="p">();</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="nb">varargout</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="n">get_state</span><span class="p">()};</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isstruct</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<span class="w">        </span><span class="n">set_state</span><span class="p">(</span><span class="n">message</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">lmessage</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">lower</span><span class="p">(</span><span class="n">message</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="n">lmessage</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;on&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;off&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;once&#39;</span><span class="p">}</span>
+<span class="w">            </span><span class="n">update_state</span><span class="p">(</span><span class="s">&#39;when&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">lmessage</span><span class="p">);</span>
+<span class="w">            </span><span class="k">return</span>
+
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;reset&#39;</span>
+<span class="w">            </span><span class="n">set_default_state</span><span class="p">();</span>
+<span class="w">            </span><span class="k">return</span>
+
+<span class="w">        </span><span class="k">otherwise</span>
+<span class="w">            </span><span class="n">show_warning</span><span class="p">(</span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="nb">varargin</span><span class="p">{:});</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">show_warning</span><span class="p">(</span>message, varargin<span class="p">)</span>
+<span class="w">    </span><span class="p">[</span><span class="n">identifier</span><span class="p">,</span><span class="w"> </span><span class="n">full_message</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_identifier_and_message</span><span class="p">(</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                                            </span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="nb">varargin</span><span class="p">{:});</span>
+
+<span class="w">    </span><span class="n">shown_warnings</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_from_state</span><span class="p">(</span><span class="s">&#39;shown_warnings&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">has_warning</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_match</span><span class="p">({</span><span class="n">full_message</span><span class="p">},</span><span class="w"> </span><span class="n">shown_warnings</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">has_warning</span>
+<span class="w">        </span><span class="n">shown_warnings</span><span class="p">{</span><span class="k">end</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">full_message</span><span class="p">;</span>
+<span class="w">        </span><span class="n">update_state</span><span class="p">(</span><span class="s">&#39;shown_warnings&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">shown_warnings</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">when</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_from_state</span><span class="p">(</span><span class="s">&#39;when&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="n">when</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;once&#39;</span>
+<span class="w">            </span><span class="n">do_show_warning</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">~</span><span class="n">has_warning</span><span class="p">;</span>
+
+<span class="w">            </span><span class="n">me</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">mfilename</span><span class="p">();</span>
+<span class="w">            </span><span class="n">postfix</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">([</span><span class="s">&#39;\n\nThis warning is shown only once, &#39;</span><span class="k">...</span>
+<span class="w">                               </span><span class="s">&#39;but the underlying issue may occur &#39;</span><span class="k">...</span>
+<span class="w">                               </span><span class="s">&#39;multiple times. To show each warning:\n&#39;</span><span class="k">...</span>
+<span class="w">                               </span><span class="s">&#39; - every time:   %s(&#39;&#39;on&#39;&#39;)\n&#39;</span><span class="k">...</span>
+<span class="w">                               </span><span class="s">&#39; - once:         %s(&#39;&#39;once&#39;&#39;)\n&#39;</span><span class="k">...</span>
+<span class="w">                               </span><span class="s">&#39; - never:        %s(&#39;&#39;off&#39;&#39;)\n&#39;</span><span class="p">],</span><span class="w"> </span><span class="n">me</span><span class="p">,</span><span class="w"> </span><span class="n">me</span><span class="p">,</span><span class="w"> </span><span class="n">me</span><span class="p">);</span>
+<span class="w">            </span><span class="n">full_message</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">full_message</span><span class="w"> </span><span class="n">postfix</span><span class="p">];</span>
+
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;off&#39;</span>
+<span class="w">            </span><span class="n">do_show_warning</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="s">&#39;on&#39;</span>
+<span class="w">            </span><span class="n">do_show_warning</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">        </span><span class="k">otherwise</span>
+<span class="w">            </span><span class="nb">assert</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">do_show_warning</span>
+<span class="w">        </span><span class="n">state</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">warning</span><span class="p">();</span><span class="w"> </span><span class="c">% store state</span>
+<span class="w">        </span><span class="n">state_resetter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">onCleanup</span><span class="p">(@()</span><span class="nb">warning</span><span class="p">(</span><span class="n">state</span><span class="p">));</span>
+
+<span class="w">        </span><span class="nb">warning</span><span class="p">(</span><span class="s">&#39;on&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;all&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="c">% avoid extra entry on the stack</span>
+<span class="w">        </span><span class="n">has_identifier</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">identifier</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">has_identifier</span>
+<span class="w">            </span><span class="nb">warning</span><span class="p">(</span><span class="n">identifier</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;%s&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">full_message</span><span class="p">);</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="nb">warning</span><span class="p">(</span><span class="s">&#39;%s&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">full_message</span><span class="p">);</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="err"> [</span><span class="nf">identifier</span><span class="p">,</span><span class="w"> </span><span class="n">full_message</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_identifier_and_message</span><span class="p">(</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                                                 </span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="nb">varargin</span><span class="p">)</span>
+<span class="w">    </span><span class="n">args</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">varargin</span><span class="p">;</span>
+<span class="w">    </span><span class="n">has_identifier</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">has_warning_identifier</span><span class="p">(</span><span class="n">message</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">has_identifier</span>
+<span class="w">        </span><span class="n">identifier</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">message</span><span class="p">;</span>
+<span class="w">        </span><span class="n">message</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">args</span><span class="p">{</span><span class="mi">1</span><span class="p">};</span>
+<span class="w">        </span><span class="n">args</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">args</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">);</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="n">identifier</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="n">full_message</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p">{:});</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="n">full_message</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">message</span><span class="p">;</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span>tf<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">has_warning_identifier</span><span class="p">(</span>s<span class="p">)</span>
+<span class="w">    </span><span class="n">alpha_num</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;([a-z_A-Z0-9]+)&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">pat</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;^%s(:%s)?:%s$&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">alpha_num</span><span class="p">,</span><span class="w"> </span><span class="n">alpha_num</span><span class="p">,</span><span class="w"> </span><span class="n">alpha_num</span><span class="p">);</span>
+<span class="w">    </span><span class="n">tf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="nb">regexp</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">pat</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;once&#39;</span><span class="p">));</span>
+
+<span class="k">function</span><span class="w"> </span>s<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">get_state</span><span class="p">()</span>
+<span class="w">    </span><span class="n">s</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_or_set_state</span><span class="p">();</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">set_state</span><span class="p">(</span>s<span class="p">)</span>
+<span class="w">    </span><span class="n">get_or_set_state</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">set_default_state</span><span class="p">()</span>
+<span class="w">    </span><span class="n">s</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">s</span><span class="p">.</span><span class="n">when</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;once&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">s</span><span class="p">.</span><span class="n">shown_warnings</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">set_state</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span>value<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">get_from_state</span><span class="p">(</span>key<span class="p">)</span>
+<span class="w">    </span><span class="n">s</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_state</span><span class="p">();</span>
+<span class="w">    </span><span class="n">value</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">s</span><span class="p">.(</span><span class="n">key</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">update_state</span><span class="p">(</span>key, value<span class="p">)</span>
+<span class="w">    </span><span class="n">s</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_state</span><span class="p">();</span>
+<span class="w">    </span><span class="n">s</span><span class="p">.(</span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">    </span><span class="n">set_state</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span>varargout<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">get_or_set_state</span><span class="p">(</span>s<span class="p">)</span>
+<span class="w">    </span><span class="k">persistent</span><span class="w"> </span><span class="n">state</span>
+<span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="nb">nargin</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="c">% get state</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<span class="w">                </span><span class="n">set_default_state</span><span class="p">();</span>
+<span class="w">            </span><span class="k">end</span>
+
+<span class="w">            </span><span class="nb">varargout</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="n">state</span><span class="p">};</span>
+
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="c">% set state</span>
+<span class="w">            </span><span class="n">state</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">s</span><span class="p">;</span>
+<span class="w">            </span><span class="nb">varargout</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{};</span>
+
+<span class="w">        </span><span class="k">otherwise</span>
+<span class="w">            </span><span class="nb">assert</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="cosmo_vol_grid_convert_skl.html"
+                          title="previous chapter">cosmo vol grid convert skl</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cosmo_winner_indices_skl.html"
+                          title="next chapter">cosmo winner indices skl</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/matlab/cosmo_warning_skl.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cosmo_winner_indices_skl.html" title="cosmo winner indices skl"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_vol_grid_convert_skl.html" title="cosmo vol grid convert skl"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_skl.html" >CoSMoMVPA functions - skeleton files</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo warning skl</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="../_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

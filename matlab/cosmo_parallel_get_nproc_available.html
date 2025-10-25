@@ -1,0 +1,330 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>cosmo parallel get nproc available &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css?v=279e0f84" />
+    <script src="../_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="cosmo parcellfun" href="cosmo_parcellfun.html" />
+    <link rel="prev" title="cosmo overlap" href="cosmo_overlap.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cosmo_parcellfun.html" title="cosmo parcellfun"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_overlap.html" title="cosmo overlap"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex.html" accesskey="U">CoSMoMVPA functions</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo parallel get nproc available</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cosmo-parallel-get-nproc-available">
+<span id="id1"></span><h1>cosmo parallel get nproc available<a class="headerlink" href="#cosmo-parallel-get-nproc-available" title="Link to this heading">¶</a></h1>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>nproc_available<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">cosmo_parallel_get_nproc_available</span><span class="p">(</span>varargin<span class="p">)</span>
+<span class="w">    </span><span class="c">% get number of processes available from Matlab parallel processing pool</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% nproc=cosmo_parallel_get_nproc_available()</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Input:</span>
+<span class="w">    </span><span class="c">%   &#39;nproc&#39;,nproc_wanted            Number of desired processes (optional)</span>
+<span class="w">    </span><span class="c">%                                   If not provided, then the number of</span>
+<span class="w">    </span><span class="c">%                                   available cores is returned.</span>
+<span class="w">    </span><span class="c">%                                   Use &#39;nproc&#39;,inf to get as many</span>
+<span class="w">    </span><span class="c">%                                   cores as there available.</span>
+<span class="w">    </span><span class="c">%   &#39;nproc_available_query_func&#39;,f  Function handle to determine how many</span>
+<span class="w">    </span><span class="c">%                                   processes are available. This function</span>
+<span class="w">    </span><span class="c">%                                   is intended for use by developers only;</span>
+<span class="w">    </span><span class="c">%                                   by default it selects the appropriate</span>
+<span class="w">    </span><span class="c">%                                   function based on the platform (Octave,</span>
+<span class="w">    </span><span class="c">%                                   Matlab &lt;= 2013b, or Matlab &gt; 2013b)</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Output:</span>
+<span class="w">    </span><span class="c">%   nproc_available                 Number of available parallel processes.</span>
+<span class="w">    </span><span class="c">%                                   - On Matlab: this requires the parallel</span>
+<span class="w">    </span><span class="c">%                                     computing toolbox</span>
+<span class="w">    </span><span class="c">%                                   - On Octave: this requires the parallel</span>
+<span class="w">    </span><span class="c">%                                     toolbox</span>
+<span class="w">    </span><span class="c">%                                   If the required toolbox is not</span>
+<span class="w">    </span><span class="c">%                                   available, then nproc_available=1.</span>
+<span class="w">    </span><span class="c">%                                   If there are nproc_available</span>
+<span class="w">    </span><span class="c">%                                   processes available and</span>
+<span class="w">    </span><span class="c">%                                       nproc_available&lt;nproc_wanted</span>
+<span class="w">    </span><span class="c">%                                   then nproc=nproc_available is returned.</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Notes:</span>
+<span class="w">    </span><span class="c">%   - If no parallel processing pool has been started, then this function</span>
+<span class="w">    </span><span class="c">%     will try to start one (with as many parallel processes as possible)</span>
+<span class="w">    </span><span class="c">%     before counting the number of processes available.</span>
+<span class="w">    </span><span class="c">%   - If a parallel processing pool has already been started, then this</span>
+<span class="w">    </span><span class="c">%     function returns the number of processes available it that pool. This</span>
+<span class="w">    </span><span class="c">%     function *does not* close an existing pool and open a new one. This</span>
+<span class="w">    </span><span class="c">%     means that if a user has started a pool with M processes on a machine</span>
+<span class="w">    </span><span class="c">%     with N processes available (i.e. a pool has started with fewer</span>
+<span class="w">    </span><span class="c">%     processes than available), then this function will return M (and not</span>
+<span class="w">    </span><span class="c">%     N if M&lt;N). If you need a fresh pool with</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% See also: parcellfun, matlabpool</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% #   For CoSMoMVPA&#39;s copyright information and license terms,   #</span>
+<span class="w">    </span><span class="c">% #   see the COPYING file distributed with CoSMoMVPA.           #</span>
+
+<span class="w">    </span><span class="n">defaults</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_structjoin</span><span class="p">(</span><span class="n">defaults</span><span class="p">,</span><span class="w"> </span><span class="nb">varargin</span><span class="p">{:});</span>
+<span class="w">    </span><span class="n">check_inputs</span><span class="p">(</span><span class="n">opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="p">[</span><span class="n">has_nproc_wanted</span><span class="p">,</span><span class="w"> </span><span class="n">nproc_wanted</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_nproc_wanted</span><span class="p">(</span><span class="n">opt</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">has_nproc_wanted</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">nproc_wanted</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="n">nproc_available</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">max_nproc_available_query_func</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_max_nproc_available_func</span><span class="p">(</span><span class="n">opt</span><span class="p">);</span>
+<span class="w">    </span><span class="p">[</span><span class="n">max_nproc_available</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">max_nproc_available_query_func</span><span class="p">();</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">has_nproc_wanted</span>
+<span class="w">        </span><span class="n">nproc_available</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">max_nproc_available</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">% getting here it means opt.nproc&gt;1, i.e. the user asked for more than</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="n">nproc_wanted</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">nproc</span><span class="p">;</span>
+<span class="w">    </span><span class="n">nproc_available</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">max_nproc_available</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">nproc_wanted</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">max_nproc_available</span>
+<span class="w">        </span><span class="n">full_msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sprintf</span><span class="p">([</span><span class="s">&#39;&#39;&#39;nproc&#39;&#39;=%d requested, but %s. &#39;</span><span class="k">...</span>
+<span class="w">                            </span><span class="s">&#39;Using &#39;&#39;nproc&#39;&#39;=%d&#39;</span><span class="p">],</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                           </span><span class="n">nproc_wanted</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="n">nproc_available</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isinf</span><span class="p">(</span><span class="n">nproc_wanted</span><span class="p">)</span>
+<span class="w">            </span><span class="c">% do not show warning if nproc_wanted is infinity</span>
+<span class="w">            </span><span class="n">cosmo_warning</span><span class="p">(</span><span class="n">full_msg</span><span class="p">);</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">nproc_wanted</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nproc_available</span>
+<span class="w">        </span><span class="n">nproc_available</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">nproc_wanted</span><span class="p">;</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">[has_nproc_wanted, nproc_wanted] = get_nproc_wanted</span><span class="p">(</span>opt<span class="p">)</span>
+<span class="w">    </span><span class="n">nproc_wanted</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">NaN</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">has_nproc_wanted</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;nproc&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">has_nproc_wanted</span>
+<span class="w">        </span><span class="n">nproc_wanted</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">nproc</span><span class="p">;</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span>func<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">get_max_nproc_available_func</span><span class="p">(</span>opt<span class="p">)</span>
+<span class="w">    </span><span class="n">override_key</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;nproc_available_query_func&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span><span class="w"> </span><span class="n">override_key</span><span class="p">)</span>
+<span class="w">        </span><span class="n">func</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.(</span><span class="n">override_key</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">cosmo_wtf</span><span class="p">(</span><span class="s">&#39;is_matlab&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">v_num</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_wtf</span><span class="p">(</span><span class="s">&#39;version_number&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="c">% Matlab 2013b is version 8.2</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">v_num</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">8</span>
+<span class="w">            </span><span class="n">is_matlab_ge_2013b</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="n">is_matlab_ge_2013b</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">v_num</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">v_num</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">is_matlab_ge_2013b</span>
+<span class="w">            </span><span class="n">func</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@</span><span class="n">matlab_get_max_nproc_available_ge2013b</span><span class="p">;</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="n">func</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@</span><span class="n">matlab_get_max_nproc_available_lt2013b</span><span class="p">;</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">elseif</span><span class="w"> </span><span class="n">cosmo_wtf</span><span class="p">(</span><span class="s">&#39;is_octave&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">func</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@</span><span class="n">octave_get_max_nproc_available</span><span class="p">;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="nb">assert</span><span class="p">(</span><span class="nb">false</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;this should not happen&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">check_inputs</span><span class="p">(</span>opt<span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;nproc&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">nproc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">nproc</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="nb">isnumeric</span><span class="p">(</span><span class="n">nproc</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="k">...</span>
+<span class="w">             </span><span class="nb">isscalar</span><span class="p">(</span><span class="n">nproc</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="k">...</span>
+<span class="w">             </span><span class="n">nproc</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="k">...</span>
+<span class="w">             </span><span class="nb">round</span><span class="p">(</span><span class="n">nproc</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">nproc</span><span class="p">)</span>
+<span class="w">            </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;nproc must be a positive scalar&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">[nproc_available, msg] = matlab_get_max_nproc_available_lt2013b</span><span class="p">()</span>
+<span class="w">    </span><span class="n">nproc_available</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">check_java_and_funcs</span><span class="p">({</span><span class="s">&#39;matlabpool&#39;</span><span class="p">});</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">pool_func</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@</span><span class="n">matlabpool</span><span class="p">;</span>
+<span class="w">    </span><span class="n">open_pool_func</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pool_func</span><span class="p">;</span>
+<span class="w">    </span><span class="n">query_pool_func</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@()</span><span class="n">pool_func</span><span class="p">(</span><span class="s">&#39;size&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% get number of processes</span>
+<span class="w">    </span><span class="k">try</span>
+<span class="w">        </span><span class="n">nproc_available</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">query_pool_func</span><span class="p">();</span>
+<span class="w">        </span><span class="n">pool_is_open</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">nproc_available</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">pool_is_open</span>
+<span class="w">            </span><span class="c">% try to open pool</span>
+<span class="w">            </span><span class="n">open_pool_func</span><span class="p">();</span>
+<span class="w">            </span><span class="n">nproc_available</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">query_pool_func</span><span class="p">();</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">catch</span>
+<span class="w">        </span><span class="n">msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">lasterr</span><span class="p">();</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">% ensure nproc_available&gt;=1</span>
+<span class="w">    </span><span class="n">nproc_available</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">nproc_available</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">[nproc_available, msg] = matlab_get_max_nproc_available_ge2013b</span><span class="p">()</span>
+<span class="w">    </span><span class="n">msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">nproc_available</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">matlab_parallel_functions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;gcp&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;parpool&#39;</span><span class="p">};</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="nb">usejava</span><span class="p">(</span><span class="s">&#39;jvm&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="k">...</span>
+<span class="w">         </span><span class="n">platform_has_functions</span><span class="p">(</span><span class="n">matlab_parallel_functions</span><span class="p">))</span>
+<span class="w">        </span><span class="n">msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;java or parallel functions not available&#39;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">try</span>
+<span class="w">        </span><span class="n">pool</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">gcp</span><span class="p">();</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">pool</span><span class="p">)</span>
+<span class="w">            </span><span class="n">msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;Parallel toolbox is available, but &#39;</span><span class="k">...</span>
+<span class="w">                   </span><span class="s">&#39;unable to open pool&#39;</span><span class="p">];</span>
+<span class="w">            </span><span class="k">return</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">catch</span>
+<span class="w">        </span><span class="n">msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">lasterr</span><span class="p">();</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">nproc_available</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pool</span><span class="p">.</span><span class="n">NumWorkers</span><span class="p">();</span>
+
+<span class="k">function</span><span class="w"> </span>msg<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">check_java_and_funcs</span><span class="p">(</span>function_names<span class="p">)</span>
+<span class="w">    </span><span class="n">msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="nb">usejava</span><span class="p">(</span><span class="s">&#39;jvm&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="k">...</span>
+<span class="w">         </span><span class="n">platform_has_functions</span><span class="p">(</span><span class="n">function_names</span><span class="p">))</span>
+<span class="w">        </span><span class="n">msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;java or parallel functions not available&#39;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="err"> [</span><span class="nf">nproc_available</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">octave_get_max_nproc_available</span>
+<span class="w">    </span><span class="n">msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">nproc_available</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">cosmo_check_external</span><span class="p">(</span><span class="s">&#39;octave_pkg_parallel&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">false</span><span class="p">)</span>
+<span class="w">        </span><span class="n">msg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;parallel toolbox is not available&#39;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">nproc_available</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">nproc</span><span class="p">(</span><span class="s">&#39;overridable&#39;</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span>tf<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">platform_has_functions</span><span class="p">(</span>function_names<span class="p">)</span>
+<span class="w">    </span><span class="n">tf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">all</span><span class="p">(</span><span class="nb">cellfun</span><span class="p">(@(</span><span class="n">x</span><span class="p">)</span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="nb">which</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span><span class="w"> </span><span class="n">function_names</span><span class="p">));</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="cosmo_overlap.html"
+                          title="previous chapter">cosmo overlap</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cosmo_parcellfun.html"
+                          title="next chapter">cosmo parcellfun</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/matlab/cosmo_parallel_get_nproc_available.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cosmo_parcellfun.html" title="cosmo parcellfun"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_overlap.html" title="cosmo overlap"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex.html" >CoSMoMVPA functions</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo parallel get nproc available</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="../_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

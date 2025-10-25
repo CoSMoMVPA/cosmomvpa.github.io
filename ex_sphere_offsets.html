@@ -1,0 +1,155 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Define voxel selection for a searchlight &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=279e0f84" />
+    <script src="_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="Reading material" href="ex_searchlight.html" />
+    <link rel="prev" title="Visualization of DSMs" href="ex_rsa_visualization.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="ex_searchlight.html" title="Reading material"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="ex_rsa_visualization.html" title="Visualization of DSMs"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="cosmo2013.html" >CoSMo 2013 Multivariate Pattern Analysis Workshop</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="cosmo2013_ex_toc.html" accesskey="U">Exercises</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Define voxel selection for a searchlight</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="define-voxel-selection-for-a-searchlight">
+<h1>Define voxel selection for a searchlight<a class="headerlink" href="#define-voxel-selection-for-a-searchlight" title="Link to this heading">¶</a></h1>
+<p>In a searchlight (Kriegeskorte et al 2006) one computes a (spatially) locally constrained measure for each feature in a dataset.</p>
+<p>An important building block for a searchlight is the voxel selection part: for each feature, decide which features are in its neighborhood. Typically the neighborhood is defined as a sphere of a certain radius.</p>
+<section id="compute-voxel-offsets-in-a-sphere">
+<h2>Compute voxel offsets in a sphere<a class="headerlink" href="#compute-voxel-offsets-in-a-sphere" title="Link to this heading">¶</a></h2>
+<p>In turn, computing the relative offsets from a voxel location is a building block for feature selection part. In this exercise, write a function that returns the voxel indices relative to the origin.
+That is, given a radius r, it returns a Px3 array where every row (i,j,k) is unique and it holds that (i,j,k) is at most at distance r from the origin (0,0,0). This function has the following signature:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">[offsets, distances] = cosmo_sphere_offsets</span><span class="p">(</span>radius<span class="p">)</span>
+</pre></div>
+</div>
+<p>Then, for each radius from 2 to 6 in steps of .5, plot the indices and show how many voxels are in a sphere of that raidus.</p>
+<p>Hint: <a class="reference internal" href="matlab/cosmo_sphere_offsets_skl.html#cosmo-sphere-offsets-skl"><span class="std std-ref">cosmo sphere offsets skl</span></a> / <a class="reference internal" href="matlab/run_sphere_offsets_skl.html#run-sphere-offsets-skl"><span class="std std-ref">run sphere offsets skl</span></a></p>
+<p>Solution: <a class="reference internal" href="matlab/cosmo_sphere_offsets.html#cosmo-sphere-offsets"><span class="std std-ref">cosmo sphere offsets</span></a> / <a class="reference internal" href="matlab/run_sphere_offsets.html#run-sphere-offsets"><span class="std std-ref">run sphere offsets</span></a> / <a class="extlink-pb reference external" href="_static/publish/run_sphere_offsets.html">Matlab output: run_sphere_offsets</a></p>
+</section>
+<section id="using-the-sphere-offsets-for-voxel-selection">
+<h2>Using the sphere offsets for voxel selection<a class="headerlink" href="#using-the-sphere-offsets-for-voxel-selection" title="Link to this heading">¶</a></h2>
+<p>If you are up for quite an advanced exercise: write a function that performs voxel selection  (if not, don’t spend your time on this and just look at the answer). It should have the following signature:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>nbrhood<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">cosmo_spherical_neighborhood</span><span class="p">(</span>ds, varargin<span class="p">)</span>
+</pre></div>
+</div>
+<p>As a start you can ignore the requirement that a negative value for radius should select a certain number of voxels; in other words just focus on positive values for radius.</p>
+<p>A more advanced exercise: modify this function so that it also supports negative values for radius, which return neighborhoods of the same size (i.e. same number of voxels) at each location.</p>
+<p>Solution: <a class="reference internal" href="matlab/cosmo_spherical_neighborhood.html#cosmo-spherical-neighborhood"><span class="std std-ref">cosmo spherical neighborhood</span></a></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Define voxel selection for a searchlight</a><ul>
+<li><a class="reference internal" href="#compute-voxel-offsets-in-a-sphere">Compute voxel offsets in a sphere</a></li>
+<li><a class="reference internal" href="#using-the-sphere-offsets-for-voxel-selection">Using the sphere offsets for voxel selection</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="ex_rsa_visualization.html"
+                          title="previous chapter">Visualization of DSMs</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="ex_searchlight.html"
+                          title="next chapter">Reading material</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/ex_sphere_offsets.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="ex_searchlight.html" title="Reading material"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="ex_rsa_visualization.html" title="Visualization of DSMs"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="cosmo2013.html" >CoSMo 2013 Multivariate Pattern Analysis Workshop</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="cosmo2013_ex_toc.html" >Exercises</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Define voxel selection for a searchlight</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>
