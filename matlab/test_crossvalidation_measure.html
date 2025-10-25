@@ -1,0 +1,558 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>test crossvalidation measure &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css?v=279e0f84" />
+    <script src="../_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="test dim find" href="test_dim_find.html" />
+    <link rel="prev" title="test crossvalidate" href="test_crossvalidate.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="test_dim_find.html" title="test dim find"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="test_crossvalidate.html" title="test crossvalidate"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_test.html" accesskey="U">CoSMoMVPA unit tests</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">test crossvalidation measure</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="test-crossvalidation-measure">
+<span id="id1"></span><h1>test crossvalidation measure<a class="headerlink" href="#test-crossvalidation-measure" title="Link to this heading">¶</a></h1>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">test_suite</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">test_crossvalidation_measure</span>
+<span class="w">    </span><span class="c">% tests for cosmo_crossvalidation_measure</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% #   For CoSMoMVPA&#39;s copyright information and license terms,   #</span>
+<span class="w">    </span><span class="c">% #   see the COPYING file distributed with CoSMoMVPA.           #</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="c">% assignment of &#39;localfunctions&#39; is necessary in Matlab &gt;= 2016</span>
+<span class="w">        </span><span class="n">test_functions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">localfunctions</span><span class="p">();</span>
+<span class="w">    </span><span class="k">catch</span><span class="w"> </span><span class="c">% no problem; early Matlab versions can use initTestSuite fine</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">initTestSuite</span><span class="p">;</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">test_crossvalidation_measure_regression</span>
+<span class="w">    </span><span class="n">ds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_synthetic_dataset</span><span class="p">(</span><span class="s">&#39;ntargets&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;nchunks&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">chunks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">chunks</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">partitions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_nfold_partitioner</span><span class="p">(</span><span class="n">ds</span><span class="p">);</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">classifier</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@</span><span class="n">cosmo_classify_lda</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">res</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_crossvalidation_measure</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertElementsAlmostEqual</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="mf">0.6250</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">sa</span><span class="p">,</span><span class="w"> </span><span class="n">cosmo_structjoin</span><span class="p">(</span><span class="s">&#39;labels&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;accuracy&#39;</span><span class="p">}));</span>
+
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">output</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;accuracy&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">res2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_crossvalidation_measure</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">res2</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">output</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;winner_predictions&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">res3</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_crossvalidation_measure</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">res3</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                    </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="o">&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">res3</span><span class="p">.</span><span class="n">sa</span><span class="p">,</span><span class="w"> </span><span class="nb">rmfield</span><span class="p">(</span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;chunks&#39;</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c">% use deprecated output options</span>
+<span class="w">    </span><span class="n">warning_state</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_warning</span><span class="p">();</span>
+<span class="w">    </span><span class="n">warning_state_resetter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">onCleanup</span><span class="p">(@()</span><span class="n">cosmo_warning</span><span class="p">(</span><span class="n">warning_state</span><span class="p">));</span>
+<span class="w">    </span><span class="n">cosmo_warning</span><span class="p">(</span><span class="s">&#39;off&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">output</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;winner_predictions&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">res3a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_crossvalidation_measure</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">res3</span><span class="p">,</span><span class="w"> </span><span class="n">res3a</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">output</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;fold_accuracy&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">res4</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_crossvalidation_measure</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertElementsAlmostEqual</span><span class="p">(</span><span class="n">res4</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mi">5</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">3</span><span class="p">]</span><span class="o">&#39;</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">6</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">res4</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">folds</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">)</span><span class="o">&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% test different classifier</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">classifier</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@</span><span class="n">cosmo_classify_nn</span><span class="p">;</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">partitions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_nfold_partitioner</span><span class="p">(</span><span class="n">ds</span><span class="p">);</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">output</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;winner_predictions&#39;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">res6</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_crossvalidation_measure</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">res6</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                    </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="o">&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="c">% test normalization option</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">normalization</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;zscore&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">res7</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_crossvalidation_measure</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">res7</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                    </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="o">&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% test with averaging samples</span>
+<span class="w">    </span><span class="n">opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">rmfield</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;normalization&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">average_train_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">res8</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_crossvalidation_measure</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">res8</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                    </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="o">&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">average_train_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">average_train_resamplings</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+<span class="w">    </span><span class="n">res9</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_crossvalidation_measure</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">res9</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                    </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="o">&#39;</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">test_fold_accuracy</span><span class="p">()</span>
+<span class="w">    </span><span class="n">randint</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@()</span><span class="nb">ceil</span><span class="p">(</span><span class="nb">rand</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">ntargets</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">randint</span><span class="p">();</span>
+<span class="w">    </span><span class="n">ds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_synthetic_dataset</span><span class="p">(</span><span class="s">&#39;ntargets&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">ntargets</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                 </span><span class="s">&#39;nchunks&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">randint</span><span class="p">(),</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                 </span><span class="s">&#39;nreps&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">randint</span><span class="p">());</span>
+<span class="w">    </span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="p">(:)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">randn</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="p">));</span>
+<span class="w">    </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">chunks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">chunks</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">partitions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_nchoosek_partitioner</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">partitions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">partitions</span><span class="p">;</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">classifier</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@</span><span class="n">cosmo_classify_nn</span><span class="p">;</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">output</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;fold_accuracy&#39;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">nfolds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">opt</span><span class="p">.</span><span class="n">partitions</span><span class="p">.</span><span class="n">train_indices</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">res</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_crossvalidation_measure</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">samples</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="n">nfolds</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">]);</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">folds</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="n">nfolds</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">]);</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">fold</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">nfolds</span>
+<span class="w">        </span><span class="n">f_opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">;</span>
+<span class="w">        </span><span class="n">f_opt</span><span class="p">.</span><span class="n">partitions</span><span class="p">.</span><span class="n">train_indices</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">partitions</span><span class="p">.</span><span class="n">train_indices</span><span class="p">(</span><span class="n">fold</span><span class="p">);</span>
+<span class="w">        </span><span class="n">f_opt</span><span class="p">.</span><span class="n">partitions</span><span class="p">.</span><span class="n">test_indices</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">partitions</span><span class="p">.</span><span class="n">test_indices</span><span class="p">(</span><span class="n">fold</span><span class="p">);</span>
+<span class="w">        </span><span class="n">f_res</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_crossvalidation_measure</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">f_opt</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertElementsAlmostEqual</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">samples</span><span class="p">(</span><span class="n">fold</span><span class="p">),</span><span class="w"> </span><span class="n">f_res</span><span class="p">.</span><span class="n">samples</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">test_fold_predictions</span>
+<span class="w">    </span><span class="n">randint</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@()</span><span class="nb">ceil</span><span class="p">(</span><span class="nb">rand</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">ntargets</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">randint</span><span class="p">();</span>
+<span class="w">    </span><span class="n">targets_offset</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">randint</span><span class="p">();</span>
+<span class="w">    </span><span class="n">nchunks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">randint</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_synthetic_dataset</span><span class="p">(</span><span class="s">&#39;ntargets&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">ntargets</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                 </span><span class="s">&#39;nchunks&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">nchunks</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                 </span><span class="s">&#39;nreps&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">randint</span><span class="p">());</span>
+<span class="w">    </span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="p">(:)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">randn</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="p">));</span>
+<span class="w">    </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">targets_offset</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">chunks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">chunks</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">partitions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_nchoosek_partitioner</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="nb">ceil</span><span class="p">(</span><span class="n">nchunks</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">));</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">classifier</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@</span><span class="n">cosmo_classify_nn</span><span class="p">;</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">output</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;fold_predictions&#39;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">train_idx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">partitions</span><span class="p">.</span><span class="n">train_indices</span><span class="p">;</span>
+<span class="w">    </span><span class="n">test_idx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">partitions</span><span class="p">.</span><span class="n">test_indices</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">nfolds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">train_idx</span><span class="p">);</span>
+<span class="w">    </span><span class="n">nsamples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% using crossvalidation_measure</span>
+<span class="w">    </span><span class="n">res</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_crossvalidation_measure</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% using crossvalidate function</span>
+<span class="w">    </span><span class="p">[</span><span class="n">cv_pred</span><span class="p">,</span><span class="w"> </span><span class="n">acc</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_crossvalidate</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">classifier</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">partitions</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">visited</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">false</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">samples</span><span class="p">));</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">nfolds</span>
+<span class="w">        </span><span class="c">% test crossvalidation_measure</span>
+<span class="w">        </span><span class="n">msk</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">res</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">folds</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">k</span><span class="p">;</span>
+<span class="w">        </span><span class="n">visited</span><span class="p">(</span><span class="n">msk</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">        </span><span class="n">pred</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">res</span><span class="p">.</span><span class="n">samples</span><span class="p">(</span><span class="n">msk</span><span class="p">,</span><span class="w"> </span><span class="p">:);</span>
+<span class="w">        </span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">pred</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="nb">numel</span><span class="p">(</span><span class="n">test_idx</span><span class="p">{</span><span class="n">k</span><span class="p">}),</span><span class="w"> </span><span class="mi">1</span><span class="p">]);</span>
+<span class="w">        </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="p">(</span><span class="n">msk</span><span class="p">),</span><span class="w"> </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="p">(</span><span class="n">test_idx</span><span class="p">{</span><span class="n">k</span><span class="p">}));</span>
+
+<span class="w">        </span><span class="c">% compare with classifier output</span>
+<span class="w">        </span><span class="n">fold_pred</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">classifier</span><span class="p">(</span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="p">(</span><span class="n">train_idx</span><span class="p">{</span><span class="n">k</span><span class="p">},</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                   </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="p">(</span><span class="n">train_idx</span><span class="p">{</span><span class="n">k</span><span class="p">}),</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                   </span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="p">(</span><span class="n">test_idx</span><span class="p">{</span><span class="n">k</span><span class="p">},</span><span class="w"> </span><span class="p">:));</span>
+<span class="w">        </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">fold_pred</span><span class="p">,</span><span class="w"> </span><span class="n">pred</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c">% check comso_crossvalidate output</span>
+<span class="w">        </span><span class="n">nan_msk</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">(</span><span class="n">nsamples</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="n">nan_msk</span><span class="p">(</span><span class="n">test_idx</span><span class="p">{</span><span class="n">k</span><span class="p">})</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">        </span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">isnan</span><span class="p">(</span><span class="n">cv_pred</span><span class="p">(:,</span><span class="w"> </span><span class="n">k</span><span class="p">)),</span><span class="w"> </span><span class="n">nan_msk</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">cv_pred</span><span class="p">(</span><span class="o">~</span><span class="n">nan_msk</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">),</span><span class="w"> </span><span class="n">fold_pred</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="nb">assert</span><span class="p">(</span><span class="nb">all</span><span class="p">(</span><span class="n">visited</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c">% fields should only be targets and folds</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">sort</span><span class="p">(</span><span class="nb">fieldnames</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">sa</span><span class="p">)),</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                </span><span class="nb">sort</span><span class="p">({</span><span class="s">&#39;targets&#39;</span><span class="p">;</span><span class="w"> </span><span class="s">&#39;folds&#39;</span><span class="p">}));</span>
+
+<span class="w">    </span><span class="c">% test accuracy</span>
+<span class="w">    </span><span class="n">pred_msk</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">~</span><span class="nb">isnan</span><span class="p">(</span><span class="n">cv_pred</span><span class="p">);</span>
+<span class="w">    </span><span class="n">correct_pred</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">bsxfun</span><span class="p">(@</span><span class="nb">eq</span><span class="p">,</span><span class="w"> </span><span class="n">cv_pred</span><span class="p">,</span><span class="w"> </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">pred_msk</span><span class="p">;</span>
+<span class="w">    </span><span class="n">assertElementsAlmostEqual</span><span class="p">(</span><span class="n">acc</span><span class="p">,</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="n">correct_pred</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="n">pred_msk</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c">% test with winner_predictions</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">output</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;winner_predictions&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">res</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_crossvalidation_measure</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">samples</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="n">nsamples</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">]);</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">nsamples</span>
+<span class="w">        </span><span class="n">h</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">histc</span><span class="p">(</span><span class="n">cv_pred</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">ntargets</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">targets_offset</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c">% predicted sample is a winner</span>
+<span class="w">        </span><span class="n">row_pred</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">res</span><span class="p">.</span><span class="n">samples</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">targets_offset</span><span class="p">;</span>
+<span class="w">        </span><span class="nb">assert</span><span class="p">(</span><span class="nb">all</span><span class="p">(</span><span class="n">h</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">h</span><span class="p">(</span><span class="n">row_pred</span><span class="p">)));</span>
+
+<span class="w">        </span><span class="c">% correct winner</span>
+<span class="w">        </span><span class="nb">assert</span><span class="p">(</span><span class="n">h</span><span class="p">(</span><span class="n">row_pred</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">h</span><span class="p">));</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">test_crossvalidation_measure_deprecations</span>
+<span class="w">    </span><span class="n">warning_state</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_warning</span><span class="p">();</span>
+<span class="w">    </span><span class="n">state_resetter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">onCleanup</span><span class="p">(@()</span><span class="n">cosmo_warning</span><span class="p">(</span><span class="n">warning_state</span><span class="p">));</span>
+
+<span class="w">    </span><span class="n">deprecated_outputs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;predictions&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;raw&#39;</span><span class="p">};</span>
+
+<span class="w">    </span><span class="n">ds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_synthetic_dataset</span><span class="p">();</span>
+<span class="w">    </span><span class="n">opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">classifier</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@</span><span class="n">cosmo_classify_nn</span><span class="p">;</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">partitions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_nfold_partitioner</span><span class="p">(</span><span class="n">ds</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">i_output</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">deprecated_outputs</span><span class="p">)</span>
+<span class="w">        </span><span class="n">cosmo_warning</span><span class="p">(</span><span class="s">&#39;reset&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">cosmo_warning</span><span class="p">(</span><span class="s">&#39;off&#39;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">output</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">deprecated_outputs</span><span class="p">{</span><span class="n">i_output</span><span class="p">};</span>
+<span class="w">        </span><span class="n">opt</span><span class="p">.</span><span class="n">output</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">output</span><span class="p">;</span>
+
+<span class="w">        </span><span class="c">% run the measure</span>
+<span class="w">        </span><span class="n">cosmo_crossvalidation_measure</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c">% must have shown a warning</span>
+<span class="w">        </span><span class="n">s</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_warning</span><span class="p">();</span>
+<span class="w">        </span><span class="n">w</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">shown_warnings</span><span class="p">;</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">w</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;no warning was shown&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">test_crossvalidation_measure_exceptions</span>
+<span class="w">    </span><span class="n">aet</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@(</span><span class="nb">varargin</span><span class="p">)</span><span class="n">assertExceptionThrown</span><span class="p">(@()</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                           </span><span class="n">cosmo_crossvalidation_measure</span><span class="p">(</span><span class="nb">varargin</span><span class="p">{:}),</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">bad_opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">bad_opt</span><span class="p">.</span><span class="n">partitions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">bad_opt</span><span class="p">.</span><span class="n">classifier</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@</span><span class="nb">abs</span><span class="p">;</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">(</span><span class="nb">struct</span><span class="p">,</span><span class="w"> </span><span class="n">bad_opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">ds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_synthetic_dataset</span><span class="p">();</span>
+<span class="w">    </span><span class="n">opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">partitions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_nfold_partitioner</span><span class="p">(</span><span class="n">ds</span><span class="p">);</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">classifier</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@</span><span class="n">cosmo_classify_lda</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">aet</span><span class="p">(</span><span class="nb">struct</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">bad_opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">;</span>
+<span class="w">    </span><span class="n">bad_opt</span><span class="p">.</span><span class="n">output</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;foo&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">bad_opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">bad_opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">;</span>
+<span class="w">    </span><span class="n">bad_opt</span><span class="p">.</span><span class="n">output</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;accuracy_by_chunk&#39;</span><span class="p">;</span><span class="w"> </span><span class="c">% not supported anymore</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">bad_opt</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">test_balanced_accuracy</span><span class="p">()</span>
+<span class="w">    </span><span class="n">nclasses</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">    </span><span class="n">nchunks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_synthetic_dataset</span><span class="p">(</span><span class="s">&#39;ntargets&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">nclasses</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                 </span><span class="s">&#39;nchunks&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">nchunks</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                 </span><span class="s">&#39;nreps&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% shuffle targets, use random data - assume data is unbalanced</span>
+<span class="w">    </span><span class="c">% afterwards</span>
+<span class="w">    </span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">randn</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="p">));</span>
+
+<span class="w">    </span><span class="n">nsamples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="nb">true</span>
+<span class="w">        </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ceil</span><span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="n">nsamples</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nclasses</span><span class="p">);</span>
+<span class="w">        </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">chunks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ceil</span><span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="n">nsamples</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nchunks</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">h_t</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">histc</span><span class="p">(</span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">nclasses</span><span class="p">);</span>
+<span class="w">        </span><span class="n">h_c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">histc</span><span class="p">(</span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">chunks</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">nchunks</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">h_t</span><span class="p">)</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="n">nclasses</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                </span><span class="nb">numel</span><span class="p">(</span><span class="n">h_c</span><span class="p">)</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="n">nchunks</span>
+<span class="w">            </span><span class="c">% classes or chunsk missing, regenerate</span>
+<span class="w">            </span><span class="k">continue</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="n">h_t</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="n">nclasses</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">any</span><span class="p">(</span><span class="n">h_c</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="n">nchunks</span><span class="p">)</span>
+<span class="w">            </span><span class="c">% imbalance</span>
+<span class="w">            </span><span class="k">break</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">% keep subset of all partitions, so that there are missing predictions</span>
+<span class="w">    </span><span class="c">% for some of the samples</span>
+<span class="w">    </span><span class="n">partitions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_nfold_partitioner</span><span class="p">(</span><span class="n">ds</span><span class="p">);</span>
+<span class="w">    </span><span class="n">nkeep</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ceil</span><span class="p">(</span><span class="mf">.3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nchunks</span><span class="p">);</span>
+<span class="w">    </span><span class="n">partitions</span><span class="p">.</span><span class="n">train_indices</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">partitions</span><span class="p">.</span><span class="n">train_indices</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nkeep</span><span class="p">);</span>
+<span class="w">    </span><span class="n">partitions</span><span class="p">.</span><span class="n">test_indices</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">partitions</span><span class="p">.</span><span class="n">test_indices</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nkeep</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% compute balanced accuracy</span>
+<span class="w">    </span><span class="n">opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">classifier</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@</span><span class="n">cosmo_classify_nn</span><span class="p">;</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">partitions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">partitions</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c">% without check_partitions, an exception should be thrown as the</span>
+<span class="w">    </span><span class="c">% partitions are supposed to be unbalanced</span>
+<span class="w">    </span><span class="n">assertExceptionThrown</span><span class="p">(@()</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                          </span><span class="n">cosmo_check_partitions</span><span class="p">(</span><span class="n">partitions</span><span class="p">,</span><span class="w"> </span><span class="n">ds</span><span class="p">),</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertExceptionThrown</span><span class="p">(@()</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                          </span><span class="n">cosmo_crossvalidation_measure</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">),</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">check_partitions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c">% compute accuracy</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">output</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;balanced_accuracy&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ba_result</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_crossvalidation_measure</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">output</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;winner_predictions&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">pred_result</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_crossvalidation_measure</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">output</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;accuracy&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">acc_result</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_crossvalidation_measure</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% check fields</span>
+<span class="w">    </span><span class="n">result_cell</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="n">ba_result</span><span class="p">,</span><span class="w"> </span><span class="n">acc_result</span><span class="p">};</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">result_cell</span><span class="p">)</span>
+<span class="w">        </span><span class="n">result</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">result_cell</span><span class="p">{</span><span class="n">k</span><span class="p">};</span>
+
+<span class="w">        </span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">sort</span><span class="p">(</span><span class="nb">fieldnames</span><span class="p">(</span><span class="n">result</span><span class="p">)),</span><span class="w"> </span><span class="nb">sort</span><span class="p">({</span><span class="s">&#39;samples&#39;</span><span class="p">;</span><span class="w"> </span><span class="s">&#39;sa&#39;</span><span class="p">}));</span>
+<span class="w">        </span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">fieldnames</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">sa</span><span class="p">),</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;labels&#39;</span><span class="p">});</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">ba_result</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">labels</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;balanced_accuracy&#39;</span><span class="p">});</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">acc_result</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">labels</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;accuracy&#39;</span><span class="p">});</span>
+
+<span class="w">    </span><span class="c">% compute expected result for balanced accuracy</span>
+<span class="w">    </span><span class="p">[</span><span class="n">unused</span><span class="p">,</span><span class="w"> </span><span class="n">unused</span><span class="p">,</span><span class="w"> </span><span class="n">target_idx</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">unique</span><span class="p">(</span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="p">);</span>
+<span class="w">    </span><span class="nb">assert</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">target_idx</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">nclasses</span><span class="p">);</span>
+<span class="w">    </span><span class="n">nfolds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">partitions</span><span class="p">.</span><span class="n">train_indices</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">correct_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="n">nfolds</span><span class="p">,</span><span class="w"> </span><span class="n">nclasses</span><span class="p">);</span>
+<span class="w">    </span><span class="n">class_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nclasses</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">all_pred</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">NaN</span><span class="p">(</span><span class="n">nsamples</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">fold_i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">nfolds</span>
+<span class="w">        </span><span class="n">tr_idx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">partitions</span><span class="p">.</span><span class="n">train_indices</span><span class="p">{</span><span class="n">fold_i</span><span class="p">};</span>
+<span class="w">        </span><span class="n">te_idx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">partitions</span><span class="p">.</span><span class="n">test_indices</span><span class="p">{</span><span class="n">fold_i</span><span class="p">};</span>
+
+<span class="w">        </span><span class="n">ds_tr</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_slice</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">tr_idx</span><span class="p">);</span>
+<span class="w">        </span><span class="n">ds_te</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_slice</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">te_idx</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">target_idx_te</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">target_idx</span><span class="p">(</span><span class="n">te_idx</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">pred</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">classifier</span><span class="p">(</span><span class="n">ds_tr</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                              </span><span class="n">ds_tr</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                              </span><span class="n">ds_te</span><span class="p">.</span><span class="n">samples</span><span class="p">);</span>
+<span class="w">        </span><span class="n">all_pred</span><span class="p">(</span><span class="n">te_idx</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pred</span><span class="p">;</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">class_i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">nclasses</span>
+<span class="w">            </span><span class="n">target_msk</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">target_idx_te</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">class_i</span><span class="p">;</span>
+<span class="w">            </span><span class="n">is_correct</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pred</span><span class="p">(</span><span class="n">target_msk</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">ds_te</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="p">(</span><span class="n">target_msk</span><span class="p">);</span>
+<span class="w">            </span><span class="n">correct_count</span><span class="p">(</span><span class="n">fold_i</span><span class="p">,</span><span class="w"> </span><span class="n">class_i</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="n">is_correct</span><span class="p">);</span>
+<span class="w">            </span><span class="n">class_count</span><span class="p">(</span><span class="n">class_i</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">class_count</span><span class="p">(</span><span class="n">class_i</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">is_correct</span><span class="p">);</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">class_acc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">bsxfun</span><span class="p">(@</span><span class="n">rdivide</span><span class="p">,</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="n">correct_count</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">class_count</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% verify expected result for balanced accuracy</span>
+<span class="w">    </span><span class="n">assertElementsAlmostEqual</span><span class="p">(</span><span class="nb">mean</span><span class="p">(</span><span class="n">class_acc</span><span class="p">),</span><span class="w"> </span><span class="n">ba_result</span><span class="p">.</span><span class="n">samples</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% verify expected result for predictions of each class</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">pred_result</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="n">all_pred</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">pred_result</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="p">,</span><span class="w"> </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">test_pca</span><span class="p">()</span>
+<span class="w">    </span><span class="n">ntargets</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">    </span><span class="n">nchunks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">nfeatures</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ceil</span><span class="p">(</span><span class="nb">rand</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="w">    </span><span class="n">nsamples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ntargets</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nchunks</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nfeatures</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">idxs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nsamples</span><span class="p">)</span><span class="o">&#39;</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">ds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">randn</span><span class="p">(</span><span class="n">nsamples</span><span class="p">,</span><span class="w"> </span><span class="n">nfeatures</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">idxs</span><span class="p">,</span><span class="w"> </span><span class="n">ntargets</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">chunks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="nb">floor</span><span class="p">(</span><span class="n">idxs</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">ntargets</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nchunks</span><span class="p">)),</span><span class="w"> </span><span class="n">nchunks</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">test_msk</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">chunks</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">nchunks</span><span class="p">;</span>
+<span class="w">    </span><span class="n">partitions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">partitions</span><span class="p">.</span><span class="n">train_indices</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="nb">find</span><span class="p">(</span><span class="o">~</span><span class="n">test_msk</span><span class="p">)};</span>
+<span class="w">    </span><span class="n">partitions</span><span class="p">.</span><span class="n">test_indices</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="nb">find</span><span class="p">(</span><span class="n">test_msk</span><span class="p">)};</span>
+
+<span class="w">    </span><span class="n">opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">partitions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">partitions</span><span class="p">;</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">classifier</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@</span><span class="n">cosmo_classify_lda</span><span class="p">;</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">output</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;winner_predictions&#39;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nb">count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="nb">ceil</span><span class="p">(</span><span class="n">nfeatures</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="n">nfeatures</span><span class="w"> </span><span class="nb">ceil</span><span class="p">(</span><span class="nb">rand</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nfeatures</span><span class="p">)]</span>
+<span class="w">        </span><span class="n">opt_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">;</span>
+<span class="w">        </span><span class="n">opt_count</span><span class="p">.</span><span class="n">pca_explained_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">count</span><span class="p">;</span>
+<span class="w">        </span><span class="n">helper_test_pca_count</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt_count</span><span class="p">,</span><span class="w"> </span><span class="nb">count</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">ratio</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mf">.1</span><span class="w"> </span><span class="mf">.5</span><span class="w"> </span><span class="mf">.9</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="nb">rand</span><span class="p">()]</span>
+<span class="w">        </span><span class="n">opt_ratio</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">;</span>
+<span class="w">        </span><span class="n">opt_ratio</span><span class="p">.</span><span class="n">pca_explained_ratio</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ratio</span><span class="p">;</span>
+<span class="w">        </span><span class="n">helper_test_pca_ratio</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt_ratio</span><span class="p">,</span><span class="w"> </span><span class="n">ratio</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">helper_test_pca_count</span><span class="p">(</span>ds, opt, count<span class="p">)</span>
+<span class="w">    </span><span class="n">pred_full</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_crossvalidation_measure</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% compute results manually</span>
+<span class="w">    </span><span class="p">[</span><span class="n">expected_pred</span><span class="p">,</span><span class="w"> </span><span class="n">test_indices</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">helper_pca_crossval_single_fold</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                                                    </span><span class="n">opt</span><span class="p">,</span><span class="w"> </span><span class="nb">count</span><span class="p">);</span>
+<span class="w">    </span><span class="c">% compare results</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">expected_pred</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                </span><span class="n">pred_full</span><span class="p">.</span><span class="n">samples</span><span class="p">(</span><span class="n">test_indices</span><span class="p">));</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">[pred, test_indices] = helper_pca_crossval_single_fold</span><span class="p">(</span>ds, opt, count<span class="p">)</span>
+<span class="w">    </span><span class="n">partitions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">partitions</span><span class="p">;</span>
+<span class="w">    </span><span class="nb">assert</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">partitions</span><span class="p">.</span><span class="n">train_indices</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="nb">assert</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">partitions</span><span class="p">.</span><span class="n">test_indices</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ds_train</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_slice</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">partitions</span><span class="p">.</span><span class="n">train_indices</span><span class="p">{</span><span class="mi">1</span><span class="p">});</span>
+<span class="w">    </span><span class="p">[</span><span class="n">tr_pca</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_pca</span><span class="p">(</span><span class="n">ds_train</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="nb">count</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">test_indices</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">partitions</span><span class="p">.</span><span class="n">test_indices</span><span class="p">{</span><span class="mi">1</span><span class="p">};</span>
+<span class="w">    </span><span class="n">ds_test</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_slice</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">test_indices</span><span class="p">);</span>
+<span class="w">    </span><span class="n">te_pca</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">bsxfun</span><span class="p">(@</span><span class="n">minus</span><span class="p">,</span><span class="w"> </span><span class="n">ds_test</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">mu</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">coef</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">pred</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">classifier</span><span class="p">(</span><span class="n">tr_pca</span><span class="p">,</span><span class="w"> </span><span class="n">ds_train</span><span class="p">.</span><span class="n">sa</span><span class="p">.</span><span class="n">targets</span><span class="p">,</span><span class="w"> </span><span class="n">te_pca</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">helper_test_pca_ratio</span><span class="p">(</span>ds, opt, ratio<span class="p">)</span>
+<span class="w">    </span><span class="n">partitions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">partitions</span><span class="p">;</span>
+<span class="w">    </span><span class="nb">assert</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">partitions</span><span class="p">.</span><span class="n">train_indices</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ds_train</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_slice</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">partitions</span><span class="p">.</span><span class="n">train_indices</span><span class="p">{</span><span class="mi">1</span><span class="p">});</span>
+<span class="w">    </span><span class="p">[</span><span class="n">unused</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_pca</span><span class="p">(</span><span class="n">ds_train</span><span class="p">.</span><span class="n">samples</span><span class="p">);</span>
+
+<span class="w">    </span><span class="nb">count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">find</span><span class="p">(</span><span class="nb">cumsum</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="n">explained</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">ratio</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="nb">count</span><span class="p">)</span>
+<span class="w">        </span><span class="nb">count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="n">explained</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">% delegate to count helepr</span>
+<span class="w">    </span><span class="n">helper_test_pca_count</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">,</span><span class="w"> </span><span class="nb">count</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">test_crossvalidation_measure_pca_exceptions</span>
+<span class="w">    </span><span class="n">aet</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@(</span><span class="nb">varargin</span><span class="p">)</span><span class="n">assertExceptionThrown</span><span class="p">(@()</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                           </span><span class="n">cosmo_crossvalidation_measure</span><span class="p">(</span><span class="nb">varargin</span><span class="p">{:}),</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_synthetic_dataset</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">classifier</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@</span><span class="n">cosmo_classify_lda</span><span class="p">;</span>
+<span class="w">    </span><span class="n">opt</span><span class="p">.</span><span class="n">partitions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_nfold_partitioner</span><span class="p">(</span><span class="n">ds</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% mutually exclusive parameters</span>
+<span class="w">    </span><span class="n">bad_opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">;</span>
+<span class="w">    </span><span class="n">bad_opt</span><span class="p">.</span><span class="n">pca_explained_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">    </span><span class="n">bad_opt</span><span class="p">.</span><span class="n">pca_explained_ratio</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">.5</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">aet</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="n">bad_opt</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="test_crossvalidate.html"
+                          title="previous chapter">test crossvalidate</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="test_dim_find.html"
+                          title="next chapter">test dim find</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/matlab/test_crossvalidation_measure.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="test_dim_find.html" title="test dim find"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="test_crossvalidate.html" title="test crossvalidate"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_test.html" >CoSMoMVPA unit tests</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">test crossvalidation measure</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="../_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

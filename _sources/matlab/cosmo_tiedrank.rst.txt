@@ -1,0 +1,7 @@
+.. _cosmo_tiedrank:
+
+cosmo tiedrank
+==============
+
+.. include :: cosmo_tiedrank.txt
+

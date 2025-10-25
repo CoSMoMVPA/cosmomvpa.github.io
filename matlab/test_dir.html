@@ -1,0 +1,238 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>test dir &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css?v=279e0f84" />
+    <script src="../_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="test disp" href="test_disp.html" />
+    <link rel="prev" title="test dim transpose" href="test_dim_transpose.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="test_disp.html" title="test disp"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="test_dim_transpose.html" title="test dim transpose"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_test.html" accesskey="U">CoSMoMVPA unit tests</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">test dir</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="test-dir">
+<span id="id1"></span><h1>test dir<a class="headerlink" href="#test-dir" title="Link to this heading">¶</a></h1>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">test_suite</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">test_dir</span>
+<span class="w">    </span><span class="c">% tests for cosmo_dir</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% #   For CoSMoMVPA&#39;s copyright information and license terms,   #</span>
+<span class="w">    </span><span class="c">% #   see the COPYING file distributed with CoSMoMVPA.           #</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="c">% assignment of &#39;localfunctions&#39; is necessary in Matlab &gt;= 2016</span>
+<span class="w">        </span><span class="n">test_functions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">localfunctions</span><span class="p">();</span>
+<span class="w">    </span><span class="k">catch</span><span class="w"> </span><span class="c">% no problem; early Matlab versions can use initTestSuite fine</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">initTestSuite</span><span class="p">;</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">test_dir_basics</span><span class="p">()</span>
+<span class="w">    </span><span class="n">tmp_dir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_make_temp_filename</span><span class="p">();</span>
+<span class="w">    </span><span class="n">cleaner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">onCleanup</span><span class="p">(@()</span><span class="n">remove_directory</span><span class="p">(</span><span class="n">tmp_dir</span><span class="p">));</span>
+
+<span class="w">    </span><span class="n">files</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;foo.m&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span><span class="c">          % 1</span>
+<span class="w">             </span><span class="s">&#39;bar/foo.m&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span><span class="c">      % 2</span>
+<span class="w">             </span><span class="s">&#39;bar/bar.txt&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span><span class="c">    % 3</span>
+<span class="w">             </span><span class="s">&#39;bar/foo/x.m&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span><span class="c">    % 4</span>
+<span class="w">             </span><span class="s">&#39;bar/foo/y.m&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span><span class="c">    % 5</span>
+<span class="w">             </span><span class="s">&#39;bar/foo/yx.m&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span><span class="c">   % 6</span>
+<span class="w">             </span><span class="s">&#39;bar/foo/yy.m&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span><span class="c">   % 7</span>
+<span class="w">             </span><span class="s">&#39;foo.txt&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span><span class="c">        % 8</span>
+<span class="w">             </span><span class="s">&#39;fop.txt&#39;</span><span class="p">};</span><span class="w">          </span><span class="c">% 9</span>
+
+<span class="w">    </span><span class="n">files</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">translate_to_platform</span><span class="p">(</span><span class="n">files</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">touch_files</span><span class="p">(</span><span class="n">tmp_dir</span><span class="p">,</span><span class="w"> </span><span class="n">files</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">assert_dir_equal</span><span class="p">(</span><span class="n">files</span><span class="p">,</span><span class="w"> </span><span class="n">tmp_dir</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assert_dir_equal</span><span class="p">(</span><span class="n">files</span><span class="p">,</span><span class="w"> </span><span class="n">tmp_dir</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;*&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assert_dir_equal</span><span class="p">([],</span><span class="w"> </span><span class="n">tmp_dir</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;*.x&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">assert_dir_equal</span><span class="p">(</span><span class="n">files</span><span class="p">([</span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">7</span><span class="p">]),</span><span class="w"> </span><span class="n">tmp_dir</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;*.m&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assert_dir_equal</span><span class="p">(</span><span class="n">files</span><span class="p">([</span><span class="mi">2</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">7</span><span class="p">]),</span><span class="w"> </span><span class="n">tmp_dir</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;bar&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;*.m&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assert_dir_equal</span><span class="p">(</span><span class="n">files</span><span class="p">([</span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">7</span><span class="p">]),</span><span class="w"> </span><span class="n">tmp_dir</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;bar/foo&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;*.m&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assert_dir_equal</span><span class="p">(</span><span class="n">files</span><span class="p">([</span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="p">]),</span><span class="w"> </span><span class="n">tmp_dir</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;bar&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;?.m&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assert_dir_equal</span><span class="p">(</span><span class="n">files</span><span class="p">([</span><span class="mi">6</span><span class="w"> </span><span class="mi">7</span><span class="p">]),</span><span class="w"> </span><span class="n">tmp_dir</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;bar&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;??.m&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assert_dir_equal</span><span class="p">(</span><span class="n">files</span><span class="p">([</span><span class="mi">3</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="mi">9</span><span class="p">]),</span><span class="w"> </span><span class="n">tmp_dir</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;???.txt&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assert_dir_equal</span><span class="p">(</span><span class="n">files</span><span class="p">([</span><span class="mi">8</span><span class="w"> </span><span class="mi">9</span><span class="p">]),</span><span class="w"> </span><span class="n">tmp_dir</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;fo?.txt&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assert_dir_equal</span><span class="p">([],</span><span class="w"> </span><span class="n">tmp_dir</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;fo??.txt&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assert_dir_equal</span><span class="p">([],</span><span class="w"> </span><span class="n">tmp_dir</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assert_dir_equal</span><span class="p">([],</span><span class="w"> </span><span class="n">tmp_dir</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;aa&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% support single argument</span>
+<span class="w">    </span><span class="n">assert_dir_equal</span><span class="p">(</span><span class="n">files</span><span class="p">([</span><span class="mi">2</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">7</span><span class="p">]),</span><span class="w"> </span><span class="n">tmp_dir</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;bar/*.m&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assert_dir_equal</span><span class="p">(</span><span class="n">files</span><span class="p">([</span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">7</span><span class="p">]),</span><span class="w"> </span><span class="n">tmp_dir</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;bar/foo/*.m&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assert_dir_equal</span><span class="p">(</span><span class="n">files</span><span class="p">([</span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="p">]),</span><span class="w"> </span><span class="n">tmp_dir</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;bar/?.m&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assert_dir_equal</span><span class="p">(</span><span class="n">files</span><span class="p">([</span><span class="mi">6</span><span class="w"> </span><span class="mi">7</span><span class="p">]),</span><span class="w"> </span><span class="n">tmp_dir</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;bar/??.m&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% test exceptions</span>
+<span class="w">    </span><span class="n">aet</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@(</span><span class="nb">varargin</span><span class="p">)</span><span class="n">assertExceptionThrown</span><span class="p">(@()</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                           </span><span class="n">run_cosmo_dir</span><span class="p">(</span><span class="nb">varargin</span><span class="p">{:}),</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% directory must exist</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">(</span><span class="n">tmp_dir</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;*&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">(</span><span class="n">tmp_dir</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;xx&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;*&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% arguments must be strings</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">(</span><span class="n">tmp_dir</span><span class="p">,</span><span class="w"> </span><span class="p">[]);</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">(</span><span class="n">tmp_dir</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;&#39;</span><span class="p">});</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">(</span><span class="n">tmp_dir</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;&#39;</span><span class="p">},</span><span class="w"> </span><span class="s">&#39;*&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% cannot have more than two arguments</span>
+<span class="w">    </span><span class="n">aet</span><span class="p">(</span><span class="n">tmp_dir</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;bar&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;*&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;*&#39;</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span>result<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">run_cosmo_dir</span><span class="p">(</span>in_dir, varargin<span class="p">)</span>
+<span class="w">    </span><span class="n">orig_pwd</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">pwd</span><span class="p">();</span>
+<span class="w">    </span><span class="n">cleaner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">onCleanup</span><span class="p">(@()</span><span class="nb">cd</span><span class="p">(</span><span class="n">orig_pwd</span><span class="p">));</span>
+<span class="w">    </span><span class="nb">cd</span><span class="p">(</span><span class="n">in_dir</span><span class="p">);</span>
+<span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_dir</span><span class="p">(</span><span class="nb">varargin</span><span class="p">{:});</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">assert_dir_equal</span><span class="p">(</span>expected, in_dir, varargin<span class="p">)</span>
+<span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">run_cosmo_dir</span><span class="p">(</span><span class="n">in_dir</span><span class="p">,</span><span class="w"> </span><span class="nb">varargin</span><span class="p">{:});</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span>
+<span class="w">        </span><span class="nb">assert</span><span class="p">(</span><span class="nb">isempty</span><span class="p">(</span><span class="n">result</span><span class="p">));</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="n">filenames</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="n">result</span><span class="p">.</span><span class="n">name</span><span class="p">};</span>
+<span class="w">        </span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">sort</span><span class="p">(</span><span class="n">filenames</span><span class="p">(:)),</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                    </span><span class="nb">sort</span><span class="p">(</span><span class="n">translate_to_platform</span><span class="p">(</span><span class="n">expected</span><span class="p">(:))));</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span>result<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">translate_to_platform</span><span class="p">(</span>filenames<span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">iscell</span><span class="p">(</span><span class="n">filenames</span><span class="p">)</span>
+<span class="w">        </span><span class="n">result</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cellfun</span><span class="p">(@</span><span class="n">translate_to_platform</span><span class="p">,</span><span class="w"> </span><span class="n">filenames</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                         </span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">false</span><span class="p">);</span>
+<span class="w">    </span><span class="k">elseif</span><span class="w"> </span><span class="nb">ischar</span><span class="p">(</span><span class="n">filenames</span><span class="p">)</span>
+<span class="w">        </span><span class="n">result</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">strrep</span><span class="p">(</span><span class="n">filenames</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;/&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">filesep</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">touch_files</span><span class="p">(</span>in_dir, filenames<span class="p">)</span>
+<span class="w">    </span><span class="nb">cellfun</span><span class="p">(@(</span><span class="n">fn</span><span class="p">)</span><span class="n">touch_single_file</span><span class="p">(</span><span class="n">in_dir</span><span class="p">,</span><span class="w"> </span><span class="n">fn</span><span class="p">),</span><span class="w"> </span><span class="n">filenames</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span>result<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">touch_single_file</span><span class="p">(</span>in_dir, fn<span class="p">)</span>
+<span class="w">    </span><span class="n">pth_fn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fullfile</span><span class="p">(</span><span class="n">in_dir</span><span class="p">,</span><span class="w"> </span><span class="n">fn</span><span class="p">);</span>
+<span class="w">    </span><span class="n">pth</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fileparts</span><span class="p">(</span><span class="n">pth_fn</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="n">isdir</span><span class="p">(</span><span class="n">pth</span><span class="p">)</span>
+<span class="w">        </span><span class="nb">mkdir</span><span class="p">(</span><span class="n">pth</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">fid</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fopen</span><span class="p">(</span><span class="n">pth_fn</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;w&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="nb">fprintf</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="nb">fclose</span><span class="p">(</span><span class="n">fid</span><span class="p">);</span>
+<span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">remove_directory</span><span class="p">(</span>dir_name<span class="p">)</span>
+<span class="w">    </span><span class="n">is_octave</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_wtf</span><span class="p">(</span><span class="s">&#39;is_octave&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">is_octave</span>
+<span class="w">        </span><span class="c">% do not ask for confirmation</span>
+<span class="w">        </span><span class="n">confirm_val</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">confirm_recursive_rmdir</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+<span class="w">        </span><span class="n">cleaner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">onCleanup</span><span class="p">(@()</span><span class="n">confirm_recursive_rmdir</span><span class="p">(</span><span class="n">confirm_val</span><span class="p">));</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="nb">rmdir</span><span class="p">(</span><span class="n">dir_name</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;s&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="test_dim_transpose.html"
+                          title="previous chapter">test dim transpose</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="test_disp.html"
+                          title="next chapter">test disp</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/matlab/test_dir.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="test_disp.html" title="test disp"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="test_dim_transpose.html" title="test dim transpose"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_test.html" >CoSMoMVPA unit tests</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">test dir</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="../_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

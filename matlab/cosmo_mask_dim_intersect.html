@@ -1,0 +1,278 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>cosmo mask dim intersect &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css?v=279e0f84" />
+    <script src="../_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="cosmo match" href="cosmo_match.html" />
+    <link rel="prev" title="cosmo map pca" href="cosmo_map_pca.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cosmo_match.html" title="cosmo match"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_map_pca.html" title="cosmo map pca"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex.html" accesskey="U">CoSMoMVPA functions</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo mask dim intersect</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cosmo-mask-dim-intersect">
+<span id="id1"></span><h1>cosmo mask dim intersect<a class="headerlink" href="#cosmo-mask-dim-intersect" title="Link to this heading">¶</a></h1>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">[indices_cell, ds_intersect_cell] = cosmo_mask_dim_intersect</span><span class="p">(</span>ds_cell, dim, varargin<span class="p">)</span>
+<span class="w">    </span><span class="c">% find intersection mask across a set of datasets</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% [indices, ds_intersect_cell]=cosmo_mask_dim_intersect(ds_cell[,dim])</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Inputs:</span>
+<span class="w">    </span><span class="c">%   ds_cell                     Kx1 cell with datasets with feature</span>
+<span class="w">    </span><span class="c">%                               [sample] dimensions (for dim==1 [dim==2]),</span>
+<span class="w">    </span><span class="c">%                               with no feature [sample] location repeated</span>
+<span class="w">    </span><span class="c">%   dim                         (optional) dimension along which to form</span>
+<span class="w">    </span><span class="c">%                               the mask (default: 2)</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Output:</span>
+<span class="w">    </span><span class="c">%   indices_cell                Kx1 cell containing maximal sets of indices</span>
+<span class="w">    </span><span class="c">%                               of features [or samples] that can be</span>
+<span class="w">    </span><span class="c">%                               (if dim==1) from ds_cell so that all</span>
+<span class="w">    </span><span class="c">%                               features [or samples] of the  respective</span>
+<span class="w">    </span><span class="c">%                               input datasets are shared</span>
+<span class="w">    </span><span class="c">%                               across all input datasets.</span>
+<span class="w">    </span><span class="c">%   ds_intersect_cell           The result of slicing each of the input</span>
+<span class="w">    </span><span class="c">%                               dataset, i.e.</span>
+<span class="w">    </span><span class="c">%                                   ds_intersect_cell{k}=</span>
+<span class="w">    </span><span class="c">%                                           cosmo_slice(ds_cell{k},dim)</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Example:</span>
+<span class="w">    </span><span class="c">%     %generate full (but tiny) fMRI dataset</span>
+<span class="w">    </span><span class="c">%     ds_full=cosmo_synthetic_dataset(&#39;seed&#39;,1);</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % make two datasets with different subsets of voxels</span>
+<span class="w">    </span><span class="c">%     ds1=cosmo_slice(ds_full,[2 5 3 1],2);</span>
+<span class="w">    </span><span class="c">%     ds2=cosmo_slice(ds_full,[5 1 4 6 2],2);</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % trying to stack these along the sample dimension gives an error,</span>
+<span class="w">    </span><span class="c">%     % because the feature attributes do not match</span>
+<span class="w">    </span><span class="c">%     result=cosmo_stack({ds1,ds2},1);</span>
+<span class="w">    </span><span class="c">%     %|| error(&#39;size mismatch along dimension 2 ...&#39;)</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % find indices for common mask</span>
+<span class="w">    </span><span class="c">%     [idx_cell,ds_int_cell]=cosmo_mask_dim_intersect({ds1,ds2});</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % show slice-arg indices required for each of the two datasets</span>
+<span class="w">    </span><span class="c">%     % to select features (voxels) common across the two datasets;</span>
+<span class="w">    </span><span class="c">%     % in this case there are 3 voxels in common</span>
+<span class="w">    </span><span class="c">%     cosmo_disp(idx_cell);</span>
+<span class="w">    </span><span class="c">%     %|| { [ 4 1 2 ]</span>
+<span class="w">    </span><span class="c">%     %||   [ 2 5 1 ] }</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % when slicing using the indices, the dimension feature attributes</span>
+<span class="w">    </span><span class="c">%     % (here: voxel coordinates) are identical</span>
+<span class="w">    </span><span class="c">%     % note: ds_int_cell is equivalent to ds1_sel and ds2_cell</span>
+<span class="w">    </span><span class="c">%     ds1_sel=cosmo_slice(ds1,idx_cell{1},2);</span>
+<span class="w">    </span><span class="c">%     ds2_sel=cosmo_slice(ds2,idx_cell{2},2);</span>
+<span class="w">    </span><span class="c">%     % show voxel coordinates for the two datasets</span>
+<span class="w">    </span><span class="c">%     cosmo_disp({ds1_sel.fa,ds2_sel.fa});</span>
+<span class="w">    </span><span class="c">%     %|| { .i               .i</span>
+<span class="w">    </span><span class="c">%     %||     [ 1 2 2 ]        [ 1 2 2 ]</span>
+<span class="w">    </span><span class="c">%     %||   .j               .j</span>
+<span class="w">    </span><span class="c">%     %||     [ 1 1 2 ]        [ 1 1 2 ]</span>
+<span class="w">    </span><span class="c">%     %||   .k               .k</span>
+<span class="w">    </span><span class="c">%     %||     [ 1 1 1 ]        [ 1 1 1 ] }</span>
+<span class="w">    </span><span class="c">%     %</span>
+<span class="w">    </span><span class="c">%     % because the feature attributes match, they can now be stacked</span>
+<span class="w">    </span><span class="c">%     result=cosmo_stack(ds_int_cell,1);</span>
+<span class="w">    </span><span class="c">%     disp(size(result.samples))</span>
+<span class="w">    </span><span class="c">%     %|| [12,3]</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Notes:</span>
+<span class="w">    </span><span class="c">%     - A typical use case is finding an intersection mask between</span>
+<span class="w">    </span><span class="c">%       volumetric fMRI datasets that have most, but not all, voxels in</span>
+<span class="w">    </span><span class="c">%       common - for example, through using individual brain masks.</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% See also: cosmo_slice</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% #   For CoSMoMVPA&#39;s copyright information and license terms,   #</span>
+<span class="w">    </span><span class="c">% #   see the COPYING file distributed with CoSMoMVPA.           #</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">nargin</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">        </span><span class="n">dim</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">check_inputs</span><span class="p">(</span><span class="n">ds_cell</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">other_dim</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dim</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c">% record indices in each dataset</span>
+<span class="w">    </span><span class="n">ds_indices_cell</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_dataset_indices</span><span class="p">(</span><span class="n">ds_cell</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="nb">varargin</span><span class="p">{:});</span>
+
+<span class="w">    </span><span class="c">% see where each index occurs in each dataset</span>
+<span class="w">    </span><span class="n">each_index</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cellfun</span><span class="p">(@(</span><span class="n">x</span><span class="p">)</span><span class="n">x</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="n">ds_indices_cell</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                         </span><span class="s">&#39;UniformOutput&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">false</span><span class="p">);</span>
+<span class="w">    </span><span class="n">all2some</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cat</span><span class="p">(</span><span class="n">other_dim</span><span class="p">,</span><span class="w"> </span><span class="n">each_index</span><span class="p">{:});</span>
+
+<span class="w">    </span><span class="n">keep_msk</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">all</span><span class="p">(</span><span class="o">~</span><span class="nb">isnan</span><span class="p">(</span><span class="n">all2some</span><span class="p">),</span><span class="w"> </span><span class="n">other_dim</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">n_ds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">all2some</span><span class="p">,</span><span class="w"> </span><span class="n">other_dim</span><span class="p">);</span>
+<span class="w">    </span><span class="n">indices_cell</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="n">n_ds</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">n_ds</span>
+<span class="w">        </span><span class="n">idx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">each_index</span><span class="p">{</span><span class="n">k</span><span class="p">};</span>
+<span class="w">        </span><span class="n">idx</span><span class="p">(</span><span class="o">~</span><span class="n">keep_msk</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">NaN</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">idx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">idx</span><span class="p">(</span><span class="nb">isfinite</span><span class="p">(</span><span class="n">idx</span><span class="p">));</span>
+
+<span class="w">        </span><span class="n">indices_cell</span><span class="p">{</span><span class="n">k</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">idx</span><span class="p">;</span>
+<span class="w">        </span><span class="nb">assert</span><span class="p">(</span><span class="nb">all</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">        </span><span class="nb">assert</span><span class="p">(</span><span class="nb">all</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">idx</span><span class="p">));</span>
+<span class="w">        </span><span class="nb">assert</span><span class="p">(</span><span class="nb">all</span><span class="p">(</span><span class="nb">isfinite</span><span class="p">(</span><span class="n">idx</span><span class="p">)));</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="nb">assert</span><span class="p">(</span><span class="nb">all</span><span class="p">(</span><span class="o">~</span><span class="nb">isempty</span><span class="p">(</span><span class="n">indices_cell</span><span class="p">)));</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">nargout</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="n">ds_intersect_cell</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="n">n_ds</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">n_ds</span>
+<span class="w">            </span><span class="n">ds_intersect_cell</span><span class="p">{</span><span class="n">k</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_slice</span><span class="p">(</span><span class="n">ds_cell</span><span class="p">{</span><span class="n">k</span><span class="p">},</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                               </span><span class="n">indices_cell</span><span class="p">{</span><span class="n">k</span><span class="p">},</span><span class="w"> </span><span class="n">dim</span><span class="p">);</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span>ds_indices_cell<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">get_dataset_indices</span><span class="p">(</span>ds_cell, dim, varargin<span class="p">)</span>
+<span class="w">    </span><span class="c">% for each of the inputs</span>
+<span class="w">    </span><span class="c">% .fa or .sa indices in ds_indices_cell are ordered</span>
+<span class="w">    </span><span class="n">n_ds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">ds_cell</span><span class="p">);</span>
+<span class="w">    </span><span class="n">other_dim</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dim</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">ds_indices_cell</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="n">n_ds</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">n_ds</span>
+<span class="w">        </span><span class="n">ds1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_slice</span><span class="p">(</span><span class="n">ds_cell</span><span class="p">{</span><span class="n">k</span><span class="p">},</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">other_dim</span><span class="p">);</span>
+<span class="w">        </span><span class="n">n_elem</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">ds1</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="p">);</span>
+<span class="w">        </span><span class="n">ds1</span><span class="p">.</span><span class="n">samples</span><span class="p">(:)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">n_elem</span><span class="p">;</span>
+
+<span class="w">        </span><span class="p">[</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="n">labels</span><span class="p">,</span><span class="w"> </span><span class="nb">values</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_unflatten</span><span class="p">(</span><span class="n">ds1</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="nb">varargin</span><span class="p">{:},</span><span class="w"> </span><span class="s">&#39;set_missing_to&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">NaN</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="n">first_labels</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">labels</span><span class="p">;</span>
+<span class="w">            </span><span class="n">first_values</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">values</span><span class="p">;</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isequal</span><span class="p">(</span><span class="n">first_labels</span><span class="p">,</span><span class="w"> </span><span class="n">labels</span><span class="p">)</span>
+<span class="w">                </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;dim label mismatch between dataset 1 and %d&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">);</span>
+<span class="w">            </span><span class="k">end</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isequal</span><span class="p">(</span><span class="n">first_values</span><span class="p">,</span><span class="w"> </span><span class="nb">values</span><span class="p">)</span>
+<span class="w">                </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;dim value mismatch between dataset 1 and %d&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">);</span>
+<span class="w">            </span><span class="k">end</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">        </span><span class="n">ds_indices_cell</span><span class="p">{</span><span class="n">k</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_flatten</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="n">labels</span><span class="p">,</span><span class="w"> </span><span class="nb">values</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="nb">varargin</span><span class="p">{:});</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">check_inputs</span><span class="p">(</span>ds_cell, dim<span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">iscell</span><span class="p">(</span><span class="n">ds_cell</span><span class="p">)</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;first argument must be a cell&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="nb">isequal</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">isequal</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">))</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;second argument must be 1 or 2&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="cosmo_map_pca.html"
+                          title="previous chapter">cosmo map pca</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cosmo_match.html"
+                          title="next chapter">cosmo match</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/matlab/cosmo_mask_dim_intersect.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cosmo_match.html" title="cosmo match"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_map_pca.html" title="cosmo map pca"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex.html" >CoSMoMVPA functions</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo mask dim intersect</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="../_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

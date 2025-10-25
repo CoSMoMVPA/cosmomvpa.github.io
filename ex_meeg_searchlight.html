@@ -1,0 +1,173 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>General MEEG analysis toolboxes &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=279e0f84" />
+    <script src="_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="MEEG time generalization" href="ex_meeg_time_generalization.html" />
+    <link rel="prev" title="Use the searchlight with a neighborhood and a measure" href="ex_searchlight_measure.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="ex_meeg_time_generalization.html" title="MEEG time generalization"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="ex_searchlight_measure.html" title="Use the searchlight with a neighborhood and a measure"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="nmsm2019_ex_toc.html" accesskey="U">Exercises</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">General MEEG analysis toolboxes</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="general-meeg-analysis-toolboxes">
+<span id="ex-meeg-searchlight"></span><h1>General MEEG analysis toolboxes<a class="headerlink" href="#general-meeg-analysis-toolboxes" title="Link to this heading">¶</a></h1>
+<p>On the matlab platform:
+- <span id="id1">[<a class="reference internal" href="references.html#id6" title="Delorme, A. and Makeig, S. EEGLAB: an open source toolbox for analysis of single-trial EEG dynamics including independent component analysis. Journal of Neuroscience Methods, 134(1):9–21, March 2004.">DM04</a>]</span>: EEGLAB
+- <span id="id2">[<a class="reference internal" href="references.html#id23" title="Oostenveld, R., Fries, P., Maris, E., and Schoffelen, J.-M. FieldTrip: Open source software for advanced analysis of MEG, EEG, and invasive electrophysiological data. Computational Intelligence and Neuroscience, 2011:156869, 2011.">OFMS11</a>]</span>: FieldTrip</p>
+</section>
+<section id="meeg-searchlights">
+<h1>MEEG Searchlights<a class="headerlink" href="#meeg-searchlights" title="Link to this heading">¶</a></h1>
+<p>This exercise requires a separate dataset named <cite>meg_obj6</cite>; see <a class="reference internal" href="download.html#download"><span class="std std-ref">download</span></a> section.
+It also requires a working installation of <a class="reference external" href="http://fieldtrip.fcdonders.nl">FieldTrip</a>.</p>
+<p>Before starting this exercise, please make sure you have read about:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="tips.html#matlab-octave-function-handles"><span class="std std-ref">Function handles</span></a></p></li>
+<li><p><a class="reference internal" href="cosmomvpa_concepts.html#cosmomvpa-measure"><span class="std std-ref">Measure</span></a></p></li>
+<li><p><a class="reference internal" href="cosmomvpa_concepts.html#cosmomvpa-neighborhood"><span class="std std-ref">Neighborhood</span></a></p></li>
+</ul>
+<section id="part-1-meeg-univariate-contrast">
+<h2>Part 1: MEEG univariate contrast<a class="headerlink" href="#part-1-meeg-univariate-contrast" title="Link to this heading">¶</a></h2>
+<p>Load the MEEG obj6 data for subject <cite>s00</cite>. Read the README file to understand how the data is represented.
+Use <a class="reference internal" href="matlab/cosmo_meeg_dataset.html#cosmo-meeg-dataset"><span class="std std-ref">cosmo meeg dataset</span></a> to convert the dataset to a CoSMoMVPA dataset structure. How many sensors, time points and trials are in this dataset? Then compute, for each time point and sensor, the difference between face and scene stimuli. Visualize the results in FieldTrip for the magnetometers.</p>
+</section>
+<section id="part-2-meeg-time-course-searchlight-with-classifier-and-cross-validation">
+<h2>Part 2: MEEG time-course searchlight with classifier and cross-validation<a class="headerlink" href="#part-2-meeg-time-course-searchlight-with-classifier-and-cross-validation" title="Link to this heading">¶</a></h2>
+<p>Using the same data as above, define a <cite>time</cite> neighborhood for magnetometer sensors in the posterior part of the brain.
+Then, for each time point, use a classifier with cross-validation discriminating the six categories using data for the selected sensors, and plot a classification accuracy time course.</p>
+</section>
+<section id="part-3-meeg-time-course-searchlight-with-split-half-correlation-measure">
+<h2>Part 3: MEEG time-course searchlight with split-half correlation measure<a class="headerlink" href="#part-3-meeg-time-course-searchlight-with-split-half-correlation-measure" title="Link to this heading">¶</a></h2>
+<p>Using the same data as above, define <cite>chan</cite> (channel) and <cite>time</cite> neighborhoods; then cross these neighborhood for a <em>space-time</em> <cite>chan</cite>-by-<cite>time</cite> neighborhood. Using <a class="reference internal" href="matlab/cosmo_correlation_measure.html#cosmo-correlation-measure"><span class="std std-ref">cosmo correlation measure</span></a>, compute split-half correlation differences for each combination of time points and sensors.</p>
+<p>Hint: <a class="reference internal" href="matlab/run_meeg_timelock_measures_skl.html#run-meeg-timelock-measures-skl"><span class="std std-ref">run meeg timelock measures skl</span></a></p>
+<p>Solution: <a class="reference internal" href="matlab/run_meeg_timelock_measures.html#run-meeg-timelock-measures"><span class="std std-ref">run meeg timelock measures</span></a> / <a class="extlink-pb reference external" href="_static/publish/run_meeg_timelock_measures.html">Matlab output: run_meeg_timelock_measures</a></p>
+</section>
+<section id="part-4-meeg-channel-time-frequency-searchlight-with-naive-bayes-classifier">
+<h2>Part 4: MEEG channel-time-frequency searchlight with Naive Bayes classifier<a class="headerlink" href="#part-4-meeg-channel-time-frequency-searchlight-with-naive-bayes-classifier" title="Link to this heading">¶</a></h2>
+<p>This exercise requires a separate dataset named <cite>meg_20hz</cite>, part of the full tutorial data; see <a class="reference internal" href="download.html#download"><span class="std std-ref">download</span></a> section.</p>
+<p>Certain questions in MEEG concern oscillations. For such analysis data is typically transformed into a time-frequency representation (for each channel) through a procedure called Fourier analysis. One question one can answer is whether power in a particular frequency band shows a different pattern across conditions.</p>
+<p>In the exercise presented here, we use a dataset with somatosensory stimulation of the hand versus no stimulation. To localize when in time, in which frequency band, and in which channel this shows a difference in the neural patterns, use a searchlight over channels, time points and frequency bands.</p>
+<p>Hint: <a class="reference internal" href="matlab/run_meeg_timefreq_measures_skl.html#run-meeg-timefreq-measures-skl"><span class="std std-ref">run meeg timefreq measures skl</span></a></p>
+<p>Solution: <a class="reference internal" href="matlab/run_meeg_timefreq_measures.html#run-meeg-timefreq-measures"><span class="std std-ref">run meeg timefreq measures</span></a> / <a class="extlink-pb reference external" href="_static/publish/run_meeg_timefreq_measures.html">Matlab output: run_meeg_timefreq_measures</a></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">General MEEG analysis toolboxes</a></li>
+<li><a class="reference internal" href="#meeg-searchlights">MEEG Searchlights</a><ul>
+<li><a class="reference internal" href="#part-1-meeg-univariate-contrast">Part 1: MEEG univariate contrast</a></li>
+<li><a class="reference internal" href="#part-2-meeg-time-course-searchlight-with-classifier-and-cross-validation">Part 2: MEEG time-course searchlight with classifier and cross-validation</a></li>
+<li><a class="reference internal" href="#part-3-meeg-time-course-searchlight-with-split-half-correlation-measure">Part 3: MEEG time-course searchlight with split-half correlation measure</a></li>
+<li><a class="reference internal" href="#part-4-meeg-channel-time-frequency-searchlight-with-naive-bayes-classifier">Part 4: MEEG channel-time-frequency searchlight with Naive Bayes classifier</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="ex_searchlight_measure.html"
+                          title="previous chapter">Use the searchlight with a neighborhood and a measure</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="ex_meeg_time_generalization.html"
+                          title="next chapter">MEEG time generalization</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/ex_meeg_searchlight.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="ex_meeg_time_generalization.html" title="MEEG time generalization"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="ex_searchlight_measure.html" title="Use the searchlight with a neighborhood and a measure"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="nmsm2019_ex_toc.html" >Exercises</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">General MEEG analysis toolboxes</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

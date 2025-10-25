@@ -1,0 +1,9 @@
+.. _run_meeg_time_generalization_mcc:
+
+run meeg time generalization mcc
+================================
+
+:run_up: run_meeg_time_generalization_mcc 
+
+.. include :: run_meeg_time_generalization_mcc.txt
+

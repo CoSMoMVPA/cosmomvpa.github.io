@@ -1,0 +1,306 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>cosmo map pca skl &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css?v=279e0f84" />
+    <script src="../_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="cosmo mask dim intersect skl" href="cosmo_mask_dim_intersect_skl.html" />
+    <link rel="prev" title="cosmo map2surface skl" href="cosmo_map2surface_skl.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cosmo_mask_dim_intersect_skl.html" title="cosmo mask dim intersect skl"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_map2surface_skl.html" title="cosmo map2surface skl"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_skl.html" accesskey="U">CoSMoMVPA functions - skeleton files</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo map pca skl</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cosmo-map-pca-skl">
+<span id="id1"></span><h1>cosmo map pca skl<a class="headerlink" href="#cosmo-map-pca-skl" title="Link to this heading">¶</a></h1>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">[pca_ds, pca_params] = cosmo_map_pca</span><span class="p">(</span>ds, varargin<span class="p">)</span>
+<span class="w">    </span><span class="c">% normalize dataset either by estimating or applying estimated parameters</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% [pca_ds, pca_params]=cosmo_map_pca(ds[, ...])</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Inputs</span>
+<span class="w">    </span><span class="c">%   ds                          a dataset struct with field .samples of</span>
+<span class="w">    </span><span class="c">%                               numeric array of size PxQ, or a</span>
+<span class="w">    </span><span class="c">%                               numeric array of that size</span>
+<span class="w">    </span><span class="c">%   &#39;pca_params&#39;,p              previously estimated pca parameters using</span>
+<span class="w">    </span><span class="c">%                               the &#39;pca_params&#39; output result from a</span>
+<span class="w">    </span><span class="c">%                               previous call to this function</span>
+<span class="w">    </span><span class="c">%   &#39;pca_explained_count&#39;,c     retain only the first components</span>
+<span class="w">    </span><span class="c">%   &#39;pca_explained_ratio&#39;,r     retain the first components that explain</span>
+<span class="w">    </span><span class="c">%                               (r * 100)% of the</span>
+<span class="w">    </span><span class="c">%                               variance (value between 0 and 1, where 1</span>
+<span class="w">    </span><span class="c">%                               retains all components)</span>
+<span class="w">    </span><span class="c">%   &#39;max_feature_count&#39;,mx      Raise an error if Q&gt;mx (default: mx=1000).</span>
+<span class="w">    </span><span class="c">%                               This protects against possible computations</span>
+<span class="w">    </span><span class="c">%                               that require much memory and/or time when</span>
+<span class="w">    </span><span class="c">%                               computing singular value decompositions</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% Output</span>
+<span class="w">    </span><span class="c">%   pca_ds                      a dataset struct similar to ds, but</span>
+<span class="w">    </span><span class="c">%                               with .samples data transformed using pca.</span>
+<span class="w">    </span><span class="c">%                               If the input was a numeric array, then</span>
+<span class="w">    </span><span class="c">%                               pca_ds is numeric as well</span>
+<span class="w">    </span><span class="c">%   params                      estimated parameters for pca. These can be</span>
+<span class="w">    </span><span class="c">%                               reused for a second pca step of an</span>
+<span class="w">    </span><span class="c">%                               independent dataset. For example,</span>
+<span class="w">    </span><span class="c">%                               parameters can be estimated from a</span>
+<span class="w">    </span><span class="c">%                               training dataset and then applied to a</span>
+<span class="w">    </span><span class="c">%                               testing dataset</span>
+<span class="w">    </span><span class="c">%</span>
+<span class="w">    </span><span class="c">% #   For CoSMoMVPA&#39;s copyright information and license terms,   #</span>
+<span class="w">    </span><span class="c">% #   see the COPYING file distributed with CoSMoMVPA.           #</span>
+
+<span class="w">    </span><span class="n">defaults</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">    </span><span class="n">defaults</span><span class="p">.</span><span class="n">max_feature_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">opt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_structjoin</span><span class="p">(</span><span class="n">defaults</span><span class="p">,</span><span class="w"> </span><span class="nb">varargin</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">apply_params</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;pca_params&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">pca_explained_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;pca_explained_count&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">pca_explained_ratio</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;pca_explained_ratio&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c">% they are mutually exclusive</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">sum</span><span class="p">([</span><span class="n">apply_params</span><span class="p">,</span><span class="w"> </span><span class="n">pca_explained_count</span><span class="p">,</span><span class="w"> </span><span class="n">pca_explained_ratio</span><span class="p">])</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;apply_params, pca_explained_count, pca_explained_ratio &#39;</span><span class="k">...</span>
+<span class="w">               </span><span class="s">&#39;are mutually exclusive.&#39;</span><span class="p">]);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">is_ds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">isstruct</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;samples&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">is_ds</span>
+<span class="w">        </span><span class="n">samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">.</span><span class="n">samples</span><span class="p">;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="n">samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds</span><span class="p">;</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">max_feature_count</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;A large number of features (%d) was found, &#39;</span><span class="k">...</span>
+<span class="w">               </span><span class="s">&#39;exceeding the safety limit max_feature_count=%d &#39;</span><span class="k">...</span>
+<span class="w">               </span><span class="s">&#39;for the %s function.\n&#39;</span><span class="k">...</span>
+<span class="w">               </span><span class="s">&#39;This limit is imposed because computing the &#39;</span><span class="k">...</span>
+<span class="w">               </span><span class="s">&#39;singular value decomposition may require lots &#39;</span><span class="k">...</span>
+<span class="w">               </span><span class="s">&#39;of time and/or memory&#39;</span><span class="k">...</span>
+<span class="w">               </span><span class="s">&#39;The safety limit can be changed by setting &#39;</span><span class="k">...</span>
+<span class="w">               </span><span class="s">&#39;the &#39;&#39;max_feature_count&#39;&#39; option to another &#39;</span><span class="k">...</span>
+<span class="w">               </span><span class="s">&#39;value, but large values ***may freeze or crash &#39;</span><span class="k">...</span>
+<span class="w">               </span><span class="s">&#39;the machine***.&#39;</span><span class="p">],</span><span class="w"> </span><span class="k">...</span>
+<span class="w">              </span><span class="nb">size</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">max_feature_count</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">% estimate or apply parameters</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">apply_params</span>
+<span class="w">        </span><span class="p">[</span><span class="n">full_samples</span><span class="p">,</span><span class="w"> </span><span class="n">pca_params</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pca_apply</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="p">[</span><span class="n">full_samples</span><span class="p">,</span><span class="w"> </span><span class="n">pca_params</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pca_estimate</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="p">);</span>
+<span class="w">        </span><span class="n">full_samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">full_samples</span><span class="p">(:,</span><span class="w"> </span><span class="n">pca_params</span><span class="p">.</span><span class="n">retain</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">% set output</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">is_ds</span>
+<span class="w">        </span><span class="n">pca_ds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">        </span><span class="n">pca_ds</span><span class="p">.</span><span class="n">samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">full_samples</span><span class="p">;</span>
+<span class="w">        </span><span class="n">pca_ds</span><span class="p">.</span><span class="n">fa</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">struct</span><span class="p">();</span>
+<span class="w">        </span><span class="n">pca_ds</span><span class="p">.</span><span class="n">fa</span><span class="p">.</span><span class="n">comp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">size</span><span class="p">(</span><span class="n">full_samples</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+<span class="w">        </span><span class="n">pca_ds</span><span class="p">.</span><span class="n">a</span><span class="p">.</span><span class="n">fdim</span><span class="p">.</span><span class="n">labels</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;comp&#39;</span><span class="p">};</span>
+<span class="w">        </span><span class="n">pca_ds</span><span class="p">.</span><span class="n">a</span><span class="p">.</span><span class="n">fdim</span><span class="p">.</span><span class="n">values</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="nb">size</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)};</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="n">pca_ds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">full_samples</span><span class="p">;</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">[full_samples, pca_params] = pca_apply</span><span class="p">(</span>samples, opt<span class="p">)</span>
+<span class="w">    </span><span class="n">verify_samples</span><span class="p">(</span><span class="n">samples</span><span class="p">);</span>
+<span class="w">    </span><span class="n">apply_verify_opt</span><span class="p">(</span><span class="n">opt</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">pca_params</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">pca_params</span><span class="p">;</span>
+<span class="w">    </span><span class="n">coef</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pca_params</span><span class="p">.</span><span class="n">coef</span><span class="p">;</span>
+<span class="w">    </span><span class="n">mu</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pca_params</span><span class="p">.</span><span class="n">mu</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;Expecting &#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">num2str</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)),</span><span class="w"> </span><span class="s">&#39; features for the &#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">               </span><span class="s">&#39;PCA transformation, but &#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">num2str</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)),</span><span class="w"> </span><span class="k">...</span>
+<span class="w">               </span><span class="s">&#39; features were provided.&#39;</span><span class="p">]);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">% de-mean and multiply with previously computed coefficients</span>
+
+<span class="w">    </span><span class="n">full_samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">bsxfun</span><span class="p">(@</span><span class="n">minus</span><span class="p">,</span><span class="w"> </span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="n">mu</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">coef</span><span class="p">;</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">verify_samples</span><span class="p">(</span>samples<span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isnumeric</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;samples must be numeric&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">samples</span><span class="p">))</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;samples must be a matrix&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">apply_verify_opt</span><span class="p">(</span>opt<span class="p">)</span>
+<span class="w">    </span><span class="nb">assert</span><span class="p">(</span><span class="nb">isstruct</span><span class="p">(</span><span class="n">opt</span><span class="p">));</span>
+<span class="w">    </span><span class="nb">assert</span><span class="p">(</span><span class="nb">isfield</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;pca_params&#39;</span><span class="p">));</span>
+<span class="w">    </span><span class="n">pca_params</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">pca_params</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">raise_error</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cosmo_isfield</span><span class="p">(</span><span class="n">pca_params</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;coef&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;mu&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;retain&#39;</span><span class="p">},</span><span class="w"> </span><span class="n">raise_error</span><span class="p">);</span>
+
+<span class="k">function</span><span class="w"> </span><span class="nf">[full_samples, pca_params] = pca_estimate</span><span class="p">(</span>samples, opt<span class="p">)</span>
+<span class="w">    </span><span class="n">verify_samples</span><span class="p">(</span><span class="n">samples</span><span class="p">);</span>
+
+<span class="w">    </span><span class="p">[</span><span class="n">full_samples</span><span class="p">,</span><span class="w"> </span><span class="n">pca_params</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_pca</span><span class="p">(</span><span class="n">samples</span><span class="p">);</span>
+<span class="w">    </span><span class="n">explained</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pca_params</span><span class="p">.</span><span class="n">explained</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">has_pca_explained_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;pca_explained_count&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">has_pca_explained_ratio</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">isfield</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;pca_explained_ratio&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">ndim</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">full_samples</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">has_pca_explained_count</span>
+<span class="w">        </span><span class="n">pca_explained_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">pca_explained_count</span><span class="p">;</span>
+<span class="w">        </span><span class="c">% check for valid values</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">pca_explained_count</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;pca_explained_count should be greater than 0&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">elseif</span><span class="w"> </span><span class="nb">round</span><span class="p">(</span><span class="n">pca_explained_count</span><span class="p">)</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="n">pca_explained_count</span>
+<span class="w">            </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;pca_explained_count must be an integer&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">elseif</span><span class="w"> </span><span class="n">pca_explained_count</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nb">length</span><span class="p">(</span><span class="n">pca_params</span><span class="p">.</span><span class="n">explained</span><span class="p">)</span>
+<span class="w">            </span><span class="nb">error</span><span class="p">([</span><span class="s">&#39;pca_explained_count should be smaller than &#39;</span><span class="k">...</span>
+<span class="w">                   </span><span class="s">&#39;or equal to than the &#39;</span><span class="k">...</span>
+<span class="w">                   </span><span class="s">&#39;number of features&#39;</span><span class="p">]);</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">        </span><span class="c">% retain the first ndim components</span>
+<span class="w">        </span><span class="n">nretain</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pca_explained_count</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">elseif</span><span class="w"> </span><span class="n">has_pca_explained_ratio</span>
+<span class="w">        </span><span class="n">pca_explained_ratio</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">opt</span><span class="p">.</span><span class="n">pca_explained_ratio</span><span class="p">;</span>
+<span class="w">        </span><span class="c">% check for valid values</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">pca_explained_ratio</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;pca_explained_ratio should be greater than 0&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">elseif</span><span class="w"> </span><span class="n">pca_explained_ratio</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;pca_explained_ratio should not be greater than 1&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">        </span><span class="c">% retain the first components that explain the amount of variance</span>
+<span class="w">        </span><span class="n">cum_explained</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cumsum</span><span class="p">(</span><span class="n">explained</span><span class="p">);</span>
+<span class="w">        </span><span class="n">nretain</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">find</span><span class="p">(</span><span class="n">cum_explained</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">pca_explained_ratio</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;first&#39;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nb">isempty</span><span class="p">(</span><span class="n">nretain</span><span class="p">)</span>
+<span class="w">            </span><span class="c">% deal with rounding error</span>
+<span class="w">            </span><span class="nb">assert</span><span class="p">(</span><span class="mi">100</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">cum_explained</span><span class="p">(</span><span class="k">end</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1e-4</span><span class="p">);</span>
+<span class="w">            </span><span class="n">nretain</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ndim</span><span class="p">;</span>
+<span class="w">        </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="c">% retain everything</span>
+<span class="w">        </span><span class="n">nretain</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ndim</span><span class="p">;</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="n">retain</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="nb">true</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nretain</span><span class="p">),</span><span class="w"> </span><span class="nb">false</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ndim</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">nretain</span><span class="p">)];</span>
+
+<span class="w">    </span><span class="n">pca_params</span><span class="p">.</span><span class="n">retain</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">retain</span><span class="p">;</span>
+<span class="w">    </span><span class="n">pca_params</span><span class="p">.</span><span class="n">coef</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pca_params</span><span class="p">.</span><span class="n">coef</span><span class="p">(:,</span><span class="w"> </span><span class="n">retain</span><span class="p">);</span>
+<span class="w">    </span><span class="n">pca_params</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">rmfield</span><span class="p">(</span><span class="n">pca_params</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;explained&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="cosmo_map2surface_skl.html"
+                          title="previous chapter">cosmo map2surface skl</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cosmo_mask_dim_intersect_skl.html"
+                          title="next chapter">cosmo mask dim intersect skl</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/matlab/cosmo_map_pca_skl.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cosmo_mask_dim_intersect_skl.html" title="cosmo mask dim intersect skl"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cosmo_map2surface_skl.html" title="cosmo map2surface skl"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../matindex_skl.html" >CoSMoMVPA functions - skeleton files</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cosmo map pca skl</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="../_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

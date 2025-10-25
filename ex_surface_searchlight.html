@@ -1,0 +1,171 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Surface-based fMRI searchlight &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=279e0f84" />
+    <script src="_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="Using CoSMoMVPA multiple-comparison correction" href="ex_multiple_comparisons.html" />
+    <link rel="prev" title="Representational similarity analysis" href="ex_rsa_tutorial.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="ex_multiple_comparisons.html" title="Using CoSMoMVPA multiple-comparison correction"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="ex_rsa_tutorial.html" title="Representational similarity analysis"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="nmsm2019_ex_toc.html" accesskey="U">Exercises</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Surface-based fMRI searchlight</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="surface-based-fmri-searchlight">
+<span id="ex-surface-searchlight"></span><h1>Surface-based fMRI searchlight<a class="headerlink" href="#surface-based-fmri-searchlight" title="Link to this heading">¶</a></h1>
+<section id="reading-material">
+<h2>Reading material<a class="headerlink" href="#reading-material" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><span id="id1">[<a class="reference internal" href="references.html#id20" title="Oosterhof, N. N., Wiestler, T., Downing, P. E., and Diedrichsen, J. A comparison of volume-based and surface-based multi-voxel pattern analysis. NeuroImage, 56(2):593–600, May 2011.">OWDD11</a>]</span>: One of the early papers using a surface-based searchlight, with comparison between volumetric and surface-based searchlight.</p></li>
+</ul>
+</section>
+<section id="required-toolboxes">
+<h2>Required toolboxes<a class="headerlink" href="#required-toolboxes" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>surfing toolbox: <a class="reference external" href="https://github.com/nno/surfing">https://github.com/nno/surfing</a></p></li>
+<li><p>AFNI Matlab toolbox: <a class="reference external" href="https://sscc.nimh.nih.gov/pub/dist/tgz/afni_matlab.tgz">https://sscc.nimh.nih.gov/pub/dist/tgz/afni_matlab.tgz</a> (or part of the full AFNI distribution in the <code class="docutils literal notranslate"><span class="pre">src/matlab</span></code> directory, see <a class="reference external" href="https://github.com/afni/afni">https://github.com/afni/afni</a>)</p></li>
+</ul>
+<section id="background">
+<h3>Background<a class="headerlink" href="#background" title="Link to this heading">¶</a></h3>
+<p>In this exercise, data is analyzed from one participant who pressed buttons with either the index or middle finger in blocks. We try to infer where in the brain
+Surface-models were reconstructed using FreeSurfer’s <code class="docutils literal notranslate"><span class="pre">recon-all</span></code>; further processing was done using AFNI and the script <code class="docutils literal notranslate"><span class="pre">prep_afni_surf.py</span></code> that is part of PyMVPA. Surfaces representing the left and right hemispheres were merged as described in the FAQ.</p>
+</section>
+<section id="exercise">
+<h3>Exercise<a class="headerlink" href="#exercise" title="Link to this heading">¶</a></h3>
+<p>For this exercise use the <cite>digit</cite> dataset.</p>
+</section>
+</section>
+<section id="part-1-cortical-thickness">
+<h2>Part 1 (cortical thickness)<a class="headerlink" href="#part-1-cortical-thickness" title="Link to this heading">¶</a></h2>
+<p>Load the anatomical surface models for the outer (pial) and inner (white) surfaces that separate the grey matter from non-gray matter. Compute, for each node on the surface, the cortical thickness, and then plot the thickness on a 3D surface model.</p>
+</section>
+<section id="part-2-classification-analysis">
+<h2>Part 2 (Classification analysis)<a class="headerlink" href="#part-2-classification-analysis" title="Link to this heading">¶</a></h2>
+<p>Load the anatomical surface models and the functional data.
+Define a surface-based neighborhood with approximately 100 voxels per searchlight center. Then run the searchlight with a classifier to distinguish between the different digit presses and visualize the results.</p>
+<p>Hint: <a class="reference internal" href="matlab/run_surface_searchlight_skl.html#run-surface-searchlight-skl"><span class="std std-ref">run surface searchlight skl</span></a></p>
+<p>Solution: <a class="reference internal" href="matlab/run_surface_searchlight.html#run-surface-searchlight"><span class="std std-ref">run surface searchlight</span></a> / <a class="extlink-pb reference external" href="_static/publish/run_surface_searchlight.html">Matlab output: run_surface_searchlight</a></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Surface-based fMRI searchlight</a><ul>
+<li><a class="reference internal" href="#reading-material">Reading material</a></li>
+<li><a class="reference internal" href="#required-toolboxes">Required toolboxes</a><ul>
+<li><a class="reference internal" href="#background">Background</a></li>
+<li><a class="reference internal" href="#exercise">Exercise</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#part-1-cortical-thickness">Part 1 (cortical thickness)</a></li>
+<li><a class="reference internal" href="#part-2-classification-analysis">Part 2 (Classification analysis)</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="ex_rsa_tutorial.html"
+                          title="previous chapter">Representational similarity analysis</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="ex_multiple_comparisons.html"
+                          title="next chapter">Using CoSMoMVPA multiple-comparison correction</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/ex_surface_searchlight.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="ex_multiple_comparisons.html" title="Using CoSMoMVPA multiple-comparison correction"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="ex_rsa_tutorial.html" title="Representational similarity analysis"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="nmsm2019.html" >NMSM 2019, Noesselt’s lab 3rd Modelling Symposium, University of Magdeburg</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="nmsm2019_ex_toc.html" >Exercises</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Surface-based fMRI searchlight</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

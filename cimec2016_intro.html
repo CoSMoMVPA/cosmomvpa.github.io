@@ -1,0 +1,811 @@
+    <!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Introduction &#8212; CoSMo Multivariate Pattern Analysis toolbox 1.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=83e35b93" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=279e0f84" />
+    <script src="_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="Exercises" href="cimec2016_ex_toc.html" />
+    <link rel="prev" title="CIMeC hands-on methods course, part 1 (6 April-2 May 2016)" href="cimec2016.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cimec2016_ex_toc.html" title="Exercises"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cimec2016.html" title="CIMeC hands-on methods course, part 1 (6 April-2 May 2016)"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="cimec2016.html" accesskey="U">CIMeC hands-on methods course, part 1 (6 April-2 May 2016)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Introduction</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="introduction">
+<span id="exercises-intro"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h1>
+<section id="parts">
+<h2>Parts<a class="headerlink" href="#parts" title="Link to this heading">¶</a></h2>
+<p>Part 1, 6 April – 2 May 2016: MVPA for fMRI and MEEG data using CoSMoMVPA, taught by Nikolaas Oosterhof and James Haxby.
+Part 2, between 4 May and 11 May 2016: analysis of MEG data using FieldTrip, taught by Christoph Braun.</p>
+</section>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>Matlab / Octave <a class="reference internal" href="matlab_experience.html#matlab-experience"><span class="std std-ref">Advanced beginner level</span></a>.</p></li>
+<li><p>fMRI analysis <a class="reference internal" href="cogneuro_experience.html#cogneuro-experience"><span class="std std-ref">advanced beginner level</span></a>.</p></li>
+<li><p>Working <a class="reference external" href="http://www.mathworks.com/products/matlab/">Matlab</a> or <a class="reference external" href="https://www.gnu.org/software/octave/">Octave</a> installation.</p></li>
+<li><p><a class="reference internal" href="download.html#get-code-and-example-data"><span class="std std-ref">CoSMoMVPA source code and tutorial data</span></a>.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="goals-of-the-fmri-mvpa-part-of-the-course">
+<h2>Goals of the fMRI / MVPA part of the course<a class="headerlink" href="#goals-of-the-fmri-mvpa-part-of-the-course" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>For fMRI data, describe the typical MVPA approaches (correlation analysis, classification analysis, representational similarity analysis) applied to both regions of interest and across the whole brain in a <em>searchlight</em> approach.</p></li>
+<li><p>For MEEG data, learn basic spatio-temporal MVPA approaches.</p></li>
+<li><p>If necessary, learn enough Matlab to use CoSMoMVPA.</p></li>
+<li><dl class="simple">
+<dt>Learn how to use CoSMoMVPA to perform these analyses:</dt><dd><ul>
+<li><p>Understand the dataset structure to represent both the data itself (e.g. raw measurements or summary statistics) and its attributes (e.g. labels of conditions (<em>targets</em>), data acquisition run (<em>chunks</em>).</p></li>
+<li><p>See how parts of the data can be selected using <em>slicing</em> and <em>splitting</em>, and combined using <em>stacking</em>.</p></li>
+<li><p>Introduce <em>measures</em> that compute summaries of the data (such as correlation differences, classification accuracies, similarity to an <em>a prior</em> defined representational similarity matrix) that can be applied to both a single ROI or in a searchlight.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Make yourself an independent user, so that you can apply the techniques learnt here to your own datasets.</p></li>
+</ul>
+</div></blockquote>
+<section id="not-covered-in-this-course">
+<h3>Not covered in this course<a class="headerlink" href="#not-covered-in-this-course" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>Preprocessing of fMRI or MEEG data</p></li>
+<li><p>Advanced topics in Matlab / GNU Octave</p></li>
+<li><p>Connectivity analysis</p></li>
+<li><p>How to become a CoSMoMVPA developer</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+<section id="sample-datasets">
+<h2>Sample Datasets<a class="headerlink" href="#sample-datasets" title="Link to this heading">¶</a></h2>
+<section id="ak6-dataset">
+<h3>AK6 dataset<a class="headerlink" href="#ak6-dataset" title="Link to this heading">¶</a></h3>
+<p>This dataset is used for exercises shown on the website (with answers), and you can use it to learn MVPA. It contains preprocessed data for 8 subjects from <span id="id1">[<a class="reference internal" href="references.html#id4" title="Connolly, A. C., Guntupalli, J. S., Gors, J., Hanke, M., Halchenko, Y. O., Wu, Y. C., Abdi, H., and Haxby, J. V. The Representation of Biological Classes in the Human Brain. Journal of Neuroscience, 32(8):2608–2618, February 2012.">CGG+12</a>]</span>. In this experiment, participants were presented with categories of six animals: 2 primates: monkeys and lemurs; 2 birds: mallard ducks and yellow-throated warblers; and 2 bugs: ladybugs and luna moths.</p>
+<p>Download link: <a class="extlink-datadb reference external" href="https://github.com/CoSMoMVPA/CoSMoMVPA/releases/latest/download//datadb-ak6-v0.3.zip">tutorial data: datadb-ak6-v0.3.zip</a>.</p>
+<a class="reference internal image-reference" href="_images/fmri_design.png"><img alt="_images/fmri_design.png" src="_images/fmri_design.png" style="width: 400px;" />
+</a>
+<p>For each participant, the following data is present in the <code class="docutils literal notranslate"><span class="pre">ak6</span></code> (for Animal Kingdom, 6 species) directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">s0</span><span class="p">[</span><span class="mi">1</span><span class="o">-</span><span class="mi">8</span><span class="p">]</span><span class="o">/</span>                  <span class="n">This</span> <span class="n">directory</span> <span class="n">contains</span> <span class="n">fMRI</span> <span class="n">data</span> <span class="kn">from</span> <span class="mi">8</span> <span class="n">of</span> <span class="n">the</span> <span class="mi">12</span>
+                            <span class="n">participants</span> <span class="n">studied</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">experiment</span> <span class="n">reported</span> <span class="ow">in</span>
+                            <span class="n">Connolly</span> <span class="n">et</span> <span class="n">al</span><span class="o">.</span> <span class="mi">2012</span> <span class="p">(</span><span class="n">Code</span><span class="o">-</span><span class="n">named</span> <span class="s1">&#39;AK6&#39;</span> <span class="k">for</span> <span class="n">animal</span>
+                            <span class="n">kingdom</span><span class="p">,</span> <span class="mi">6</span><span class="o">-</span><span class="n">species</span><span class="p">)</span><span class="o">.</span> <span class="n">Each</span> <span class="n">subject</span><span class="s1">&#39;s subdirectory</span>
+                            <span class="n">contains</span> <span class="n">the</span> <span class="n">following</span> <span class="n">data</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">glm_T_stats_perrun</span><span class="o">.</span><span class="n">nii</span> <span class="n">A</span> <span class="mi">60</span><span class="o">-</span><span class="n">volume</span> <span class="n">file</span> <span class="n">of</span> <span class="n">EPI</span><span class="o">-</span><span class="n">data</span> <span class="n">preprocessed</span> <span class="n">using</span>
+                            <span class="n">AFNI</span> <span class="n">up</span> <span class="n">to</span> <span class="ow">and</span> <span class="n">including</span> <span class="n">fitting</span> <span class="n">a</span> <span class="n">general</span> <span class="n">linear</span>
+                            <span class="n">model</span> <span class="n">using</span> <span class="mi">3</span><span class="n">dDeconvolve</span><span class="o">.</span> <span class="n">Each</span> <span class="n">volume</span> <span class="n">contains</span> <span class="n">the</span>
+                            <span class="n">t</span><span class="o">-</span><span class="n">statistics</span> <span class="k">for</span> <span class="n">the</span> <span class="n">estimated</span> <span class="n">response</span> <span class="n">to</span> <span class="n">a</span> <span class="n">one</span>
+                            <span class="n">of</span> <span class="n">the</span> <span class="mi">6</span> <span class="n">stimulus</span> <span class="n">categories</span><span class="o">.</span> <span class="n">These</span> <span class="n">estimates</span> <span class="n">were</span>
+                            <span class="n">calculated</span> <span class="n">independently</span> <span class="k">for</span> <span class="n">each</span> <span class="n">of</span> <span class="n">the</span> <span class="mi">10</span> <span class="n">runs</span>
+                            <span class="ow">in</span> <span class="n">the</span> <span class="n">experiment</span><span class="o">.</span>
+   <span class="o">-</span> <span class="n">glm_T_stats_even</span><span class="o">.</span><span class="n">nii</span>   <span class="n">Data</span> <span class="n">derived</span> <span class="kn">from</span> <span class="nn">glm_T_stats_perrun.nii.</span>
+   <span class="o">-</span> <span class="n">glm_T_stats_odd</span><span class="o">.</span><span class="n">nii</span>    <span class="n">Each</span> <span class="ow">is</span> <span class="n">a</span> <span class="mi">6</span><span class="o">-</span><span class="n">volume</span> <span class="n">file</span> <span class="k">with</span> <span class="n">the</span> <span class="n">T</span><span class="o">-</span><span class="n">values</span> <span class="n">averaged</span>
+                            <span class="n">across</span> <span class="n">even</span> <span class="ow">and</span> <span class="n">odd</span> <span class="n">runs</span> <span class="k">for</span> <span class="n">each</span> <span class="n">category</span><span class="o">.</span>
+   <span class="o">-</span> <span class="n">brain</span><span class="o">.</span><span class="n">nii</span>              <span class="n">Skull</span><span class="o">-</span><span class="n">stripped</span> <span class="n">T1</span><span class="o">-</span><span class="n">weighted</span> <span class="n">anatomical</span> <span class="n">brain</span> <span class="n">image</span><span class="o">.</span>
+   <span class="o">-</span> <span class="n">brain_mask</span><span class="o">.</span><span class="n">nii</span>         <span class="n">Whole</span><span class="o">-</span><span class="n">brain</span> <span class="n">mask</span> <span class="ow">in</span> <span class="n">EPI</span><span class="o">-</span><span class="n">space</span><span class="o">/</span><span class="n">resolution</span><span class="o">.</span>
+   <span class="o">-</span> <span class="n">vt_mask</span><span class="o">.</span><span class="n">nii</span>            <span class="n">Bilateral</span> <span class="n">ventral</span> <span class="n">temporal</span> <span class="n">cortex</span> <span class="n">mask</span> <span class="n">similar</span> <span class="n">to</span>
+                            <span class="n">that</span> <span class="n">used</span> <span class="ow">in</span> <span class="n">Connolly</span> <span class="n">et</span> <span class="n">al</span><span class="o">.</span> <span class="mf">2012.</span>
+   <span class="o">-</span> <span class="n">ev_mask</span><span class="o">.</span><span class="n">nii</span>            <span class="n">Bilateral</span> <span class="n">early</span> <span class="n">visual</span> <span class="n">cortex</span> <span class="n">mask</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>Also present are model similarity structures, which you can see here:</p>
+<a class="reference internal image-reference" href="_images/sim_sl.png"><img alt="_images/sim_sl.png" src="_images/sim_sl.png" style="width: 600px;" />
+</a>
+<p>This data is stored in the <code class="docutils literal notranslate"><span class="pre">models</span></code> directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">models</span>
+   <span class="o">-</span> <span class="n">behav_sim</span><span class="o">.</span><span class="n">mat</span>          <span class="n">Matlab</span> <span class="n">file</span> <span class="k">with</span> <span class="n">behavioural</span> <span class="n">similarity</span> <span class="n">ratings</span><span class="o">.</span>
+   <span class="o">-</span> <span class="n">v1_model</span><span class="o">.</span><span class="n">mat</span>           <span class="n">Matlab</span> <span class="n">file</span> <span class="k">with</span> <span class="n">similarity</span> <span class="n">values</span> <span class="n">based</span> <span class="n">on</span>
+                            <span class="n">low</span><span class="o">-</span><span class="n">level</span> <span class="n">visual</span> <span class="n">properties</span> <span class="n">of</span> <span class="n">the</span> <span class="n">stimuli</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+<section id="haxby2001-dataset">
+<h3>Haxby2001 dataset<a class="headerlink" href="#haxby2001-dataset" title="Link to this heading">¶</a></h3>
+<p>This dataset is used for assignments which will count towards the student’s grade for the course.</p>
+<p>It contains data from five participants in the original study by Haxby et al (<span id="id2">[<a class="reference internal" href="references.html#id11" title="Haxby, J. V., Gobbini, M. I., Furey, M. L., Ishai, A., Schouten, J. L., and Pietrini, P. Distributed and overlapping representations of faces and objects in ventral temporal cortex. Science, 293(5539):2425–2430, September 2001.">HGF+01</a>]</span>); for details see the README file.</p>
+<p>Download link: <a class="reference external" href="haxby2001-glm-v0.2.zip">Haxby 2001 et al data GLM data</a>.</p>
+</section>
+<section id="meg-obj6-dataset">
+<h3>MEG obj6 dataset<a class="headerlink" href="#meg-obj6-dataset" title="Link to this heading">¶</a></h3>
+<p>This dataset is used for both the tutorial and for the assignments.</p>
+<p>It contains MEG data from a single participant viewing images of six categories; for details see the README file.</p>
+<p>Download link: <cite>tutorial data with MEEG obj6 data only :datadb:</cite>-meg_obj6-<a href="#id3"><span class="problematic" id="id4">`</span></a>.</p>
+</section>
+<section id="meg-tac-dataset-with-anatomical-scan">
+<span id="cimec2016-intro-links"></span><h3>MEG TAC dataset with anatomical scan<a class="headerlink" href="#meg-tac-dataset-with-anatomical-scan" title="Link to this heading">¶</a></h3>
+<p>This dataset contains the files <code class="docutils literal notranslate"><span class="pre">sub24_block02_TAC.fif</span></code> and <code class="docutils literal notranslate"><span class="pre">02_MPRAGE_GRAPPA3_900.zip</span></code>. Contact Christoph Braun (see below for contact information) to obtain this data.</p>
+<p>It was created in an experiment in which sham (event 1), near-threshold (event 3), and supra-threshold tactile stimuli (event 5) were presented. Depending on whether stimuli were detected or not detected or whether there was no response the following response events were created. The trigger information is coded in channel <code class="docutils literal notranslate"><span class="pre">STI101</span></code>.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Stimulus condition</p></th>
+<th class="head"><p>Event</p></th>
+<th class="head" colspan="3"><p>Response Events</p></th>
+</tr>
+<tr class="row-even"><th class="head"><div class="line-block">
+<div class="line"><br /></div>
+</div>
+</th>
+<th class="head"><div class="line-block">
+<div class="line"><br /></div>
+</div>
+</th>
+<th class="head"><p>Not detected</p></th>
+<th class="head"><p>Detected</p></th>
+<th class="head"><p>No response</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-odd"><td><p>Sham</p></td>
+<td><p>1</p></td>
+<td><p>12</p></td>
+<td><p>14</p></td>
+<td><p>16</p></td>
+</tr>
+<tr class="row-even"><td><p>Near Threshold</p></td>
+<td><p>3</p></td>
+<td><p>32</p></td>
+<td><p>34</p></td>
+<td><p>36</p></td>
+</tr>
+<tr class="row-odd"><td><p>Supra Threshold</p></td>
+<td><p>5</p></td>
+<td><p>52</p></td>
+<td><p>54</p></td>
+<td><p>56</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="links">
+<h2>Links<a class="headerlink" href="#links" title="Link to this heading">¶</a></h2>
+<p>Official website: <a class="reference external" href="http://cosmomvpa.org">http://cosmomvpa.org</a>. This is the up-to-date authoritative source.</p>
+<p>Internal backup mirror (CIMeC-only): <a class="reference external" href="http://mat-storage-weisz.unitn.it/cosmomvpa/">http://mat-storage-weisz.unitn.it/cosmomvpa/</a>. This website may be out of date, but can be used for downloading example data.</p>
+<p>Part 2, MEG slides:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="_static/external_contrib/HandsOnMEG-01.pdf">Hands on MEG 01</a></p></li>
+<li><p><a class="reference external" href="_static/external_contrib/HandsOnMEG-02.pdf">Hands on MEG 02</a></p></li>
+<li><p><a class="reference external" href="_static/external_contrib/HandsOnMEG-03.pdf">Hands on MEG 03</a></p></li>
+<li><p><a class="reference external" href="_static/external_contrib/HandsOnMEG-04.pdf">Hands on MEG 04</a></p></li>
+</ul>
+</div></blockquote>
+<p>More information about MEG analysis: <a class="reference external" href="http://www.fieldtriptoolbox.org/tutorial">FieldTrip tutorial</a>.</p>
+</section>
+<section id="assignments">
+<h2>Assignments<a class="headerlink" href="#assignments" title="Link to this heading">¶</a></h2>
+<p>In the first part (MVPA for fMRI and MEEG using CoSMoMVPA; before May 3), we plan one assignment per week; each assignment will involve MVPA using CoSMoMVPA.
+In the second part (MEEG analysis using FieldTrip; after May 3) there will be three assignments. At least two assignments have to be completed  to pass the second part, but to get a higher (maximal) grade all three assignments must be completed.</p>
+<p>Notes:</p>
+<ul class="simple">
+<li><p>You can use PyMVPA for all fMRI MVPA exercises (instead of CoSMoMVPA), but you will be more or less on your own; PyMVPA is not part of the course.</p></li>
+<li><p>Using PyMVPA for the MEEG exercises is currently rather challenging, as there is little support for MEEG in PyMVPA.</p></li>
+</ul>
+<section id="preparation">
+<h3>Preparation<a class="headerlink" href="#preparation" title="Link to this heading">¶</a></h3>
+<ul>
+<li><p>Download the Haxby2001 GLM dataset and store it at a location of your preference.</p></li>
+<li><p>Download the MEG obj6 dataset and add it to the location of the tutorial data.</p></li>
+<li><p>Update your <code class="docutils literal notranslate"><span class="pre">.cosmomvpa.cfg</span></code> file, so that it contains a new line with a <code class="docutils literal notranslate"><span class="pre">haxby2001_data_path</span></code> key; for example the contents could be as follows:</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>tutorial_data_path=/Users/karen/datasets/CoSMoMVPA/datadb/tutorial_data
+output_data_path=/Users/karen/tmp/CoSMoMVPA_output
+haxby2001_data_path=/Users/karen/datasets/CoSMoMVPA/haxby2001-glm-v0.1
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="format">
+<h3>Format<a class="headerlink" href="#format" title="Link to this heading">¶</a></h3>
+<p>Please write a matlab <code class="docutils literal notranslate"><span class="pre">.m</span></code> file that can be executed. Use the following as a template for the beginning of the file:</p>
+<blockquote>
+<div><div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% CIMEC 2016 hands-on method class</span>
+<span class="c">% Assignment 1</span>
+<span class="c">%</span>
+<span class="c">% Name:           karen</span>
+<span class="c">% Student number: 654321</span>
+<span class="c">% Email address:  karen@studenti.unitn.it</span>
+<span class="c">% Date:           08 Apr 2016</span>
+<span class="c">%</span>
+<span class="c">% I, karen, declare that the work included is my own work; that I did not</span>
+<span class="c">% copy from others (unless I indicated otherwise); that I did not</span>
+<span class="c">% let others copy my work; and that the source of any code obtained</span>
+<span class="c">% from elsewhere is properly attributed / cited.</span>
+
+<span class="n">config</span><span class="p">=</span><span class="n">cosmo_config</span><span class="p">();</span>
+<span class="n">data_path</span><span class="p">=</span><span class="n">config</span><span class="p">.</span><span class="n">haxby2001_data_path</span><span class="p">;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>with the name (<code class="docutils literal notranslate"><span class="pre">karen</span></code>) and other information replaced by your details. Please make sure that your solution can be run on other computers where the data is stored in a different directory. Note that you must only include the declaration (the paragraph starting with “I […] declare that the work assignment are my own work;”) if this statement is true.</p>
+</section>
+<section id="assignments-must-be-your-own-work">
+<h3>Assignments must be your own work<a class="headerlink" href="#assignments-must-be-your-own-work" title="Link to this heading">¶</a></h3>
+<p>Your solution will be rated not only on correctness and completeness of the implementation, but also on readability and understandibility. Please indent your code, add comments where necessary, and use reasonable variable names. For details, see <a class="reference internal" href="contribute.html#matlab-code-guidelines"><span class="std std-ref">Matlab code guidelines</span></a>. You can include images or screenshots if that is asked in the exercise.</p>
+<p>We attempt to assign interesting programs that will help you learn the topics discussed in the course, and grade the assignments quickly and fairly. If you need more clarification or help, please let us know - we will try to help. If you are unable to meet a deadline and need more time, please contact us and, most likely, an extension can probably be arranged if the cause for the delay seems reasonable.</p>
+<p>You should write your own code and comments. It is acceptable to use code from the CoSMoMVPA website, the CoSMoMVPA code-base, or from other internet sources, but if you do so, indicate (through comments in the code) where you have used (segments of) code from elsewhere. It is also acceptable to discuss the problem and algorithm with others; if you do so, indicate for which parts this is the case (through comments in the code). You can help debug other people’s code, or compare the output (the result of running the code), as long as this does not involve copying code from yourself or third parties. It is not acceptable to collaborate on writing code together, to copy parts of the implementation (code) from others, or make available your code to other participants in the course. Neither plagiarism nor the faclitation of plagariarism (by letting others copy your work) is acceptable. If non-acceptable behaviour is detected, this may result in serious consequences including but not limited to a reduced grade, failing the class, notification of the program director, and/or expulsion from your program. If you have any questions, please let us know.</p>
+<p>Please send your solution before the deadline to James Haxby and Nikolaas Oosterhof (MVPA part), and Christoph Braun (MEG part) and use the subject line <code class="docutils literal notranslate"><span class="pre">CIMEC</span> <span class="pre">hands-on</span> <span class="pre">-</span> <span class="pre">exercise</span> <span class="pre">X</span></code>, with <code class="docutils literal notranslate"><span class="pre">X</span></code> the appropriate value.</p>
+</section>
+<section id="exercise-1-deadline-23-59-19-april-2016">
+<h3>Exercise 1 - deadline 23:59, 19 April 2016<a class="headerlink" href="#exercise-1-deadline-23-59-19-april-2016" title="Link to this heading">¶</a></h3>
+<p>Use the Haxby 2001 GLM dataset (see above) for the following analyses:</p>
+<ul>
+<li><p>single subject pattern similarity visualization. Load GLM data from subject <code class="docutils literal notranslate"><span class="pre">s01</span></code> from two thirds of the data, <code class="docutils literal notranslate"><span class="pre">glm_t1_8cond-tstat.nii</span></code> and <code class="docutils literal notranslate"><span class="pre">glm_t2_8cond-tstat.nii</span></code>. Use the <code class="docutils literal notranslate"><span class="pre">vt</span></code> mask and load the data for eight conditions from these two halves. Now compute all <code class="docutils literal notranslate"><span class="pre">8</span> <span class="pre">*</span> <span class="pre">8</span> <span class="pre">=</span> <span class="pre">64</span></code> pair-wise correlations of the patterns across the first and second half. Quantify the presence of reliable patterns through a <em>split-half information score</em> that discriminates between conditiosn by computing the average on-diagonal values minus the average of the off-diagonal values in the correlation matrix. Visualize the correlations using <code class="docutils literal notranslate"><span class="pre">imagesc</span></code>. (Note: since the single subject results are not very strong, do not worry if the matrix does not show clearly higher values on the diagonal than off the diagonal)</p>
+<blockquote>
+<div><p>Suggested functions:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="matlab/cosmo_fmri_dataset.html#cosmo-fmri-dataset"><span class="std std-ref">cosmo fmri dataset</span></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">corr</span></code> / <a class="reference internal" href="matlab/cosmo_corr.html#cosmo-corr"><span class="std std-ref">cosmo corr</span></a> (or <a class="reference internal" href="matlab/cosmo_correlation_measure.html#cosmo-correlation-measure"><span class="std std-ref">cosmo correlation measure</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mean</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">imagesc</span></code></p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>single subject significance testing. Using the data loaded for subject <code class="docutils literal notranslate"><span class="pre">s01</span></code> as described above, estimate how significant the <em>split-half correlation score</em> is different from zero. Generate a null dataset by reshuffling the labels in one half of the data, and then compute the <em>split-half correlation score</em> for this null dataset. Using a <code class="docutils literal notranslate"><span class="pre">for</span></code>-loop, repeat this process 1000 times (i.e., use 1000 iterations) to get 1000 split-half null data correlation scores. Finally, compute the significance of the original split-half correlation score by dividing the number of times the original split-half correlation score is less than the null-data correlation scores by the number of iterations (1000). Show a histogram with the 1000 null data correlation scores, and a vertical line showing the correlation score in the original data.</p>
+<blockquote>
+<div><p>Suggested functions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">randperm</span></code> (or <a class="reference internal" href="matlab/cosmo_randomize_targets.html#cosmo-randomize-targets"><span class="std std-ref">cosmo randomize targets</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hist</span></code></p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>group analysis. Load the same data as in the single subject analysis, but now for each of the five participants. Do a group analysis in areas <code class="docutils literal notranslate"><span class="pre">vt</span></code> and <code class="docutils literal notranslate"><span class="pre">ev</span></code> using a one-sample t-test to estimate how reliable the split-half correlation score is different from zero across the five participants.</p>
+<blockquote>
+<div><p>Suggested functions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ttest</span></code> (or <a class="reference internal" href="matlab/cosmo_stat.html#cosmo-stat"><span class="std std-ref">cosmo stat</span></a>)</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="exercise-2-deadline-23-59-26-april-2016">
+<h3>Exercise 2 - deadline 23:59, 26 April 2016<a class="headerlink" href="#exercise-2-deadline-23-59-26-april-2016" title="Link to this heading">¶</a></h3>
+<p>Use the Haxby 2001 GLM dataset (see above) for the following analyses:</p>
+<ul>
+<li><p><em>Single subject pattern classification</em>. Load data from each run for each of the eight conditions <code class="docutils literal notranslate"><span class="pre">glm_t12-perrun_8cond-tstat.nii</span></code>. Using take-one-run-out cross-validation, use both the LDA and NN classifier to compute classificationa accuracies in the <code class="docutils literal notranslate"><span class="pre">vt</span></code> region. Do the same for the <code class="docutils literal notranslate"><span class="pre">ev</span></code> region. Compute classification accuracies and show classification confusion matrices for each of the two ROIs and each of the classifiers.</p>
+<blockquote>
+<div><p>Suggested functions:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="matlab/cosmo_classify_lda.html#cosmo-classify-lda"><span class="std std-ref">cosmo classify lda</span></a>, <a class="reference internal" href="matlab/cosmo_classify_nn.html#cosmo-classify-nn"><span class="std std-ref">cosmo classify nn</span></a></p></li>
+<li><p>(Optional) <a class="reference internal" href="matlab/cosmo_confusion_matrix.html#cosmo-confusion-matrix"><span class="std std-ref">cosmo confusion matrix</span></a>.</p></li>
+<li><p>(Optional) <a class="reference internal" href="matlab/cosmo_crossvalidation_measure.html#cosmo-crossvalidation-measure"><span class="std std-ref">cosmo crossvalidation measure</span></a>.</p></li>
+<li><p>(Optional) <a class="reference internal" href="matlab/cosmo_nfold_partitioner.html#cosmo-nfold-partitioner"><span class="std std-ref">cosmo nfold partitioner</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">imagesc</span></code>.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><em>Custom classifier</em>. Implement a maximum correlation classifier (c.f. <span id="id5">[<a class="reference internal" href="references.html#id11" title="Haxby, J. V., Gobbini, M. I., Furey, M. L., Ishai, A., Schouten, J. L., and Pietrini, P. Distributed and overlapping representations of faces and objects in ventral temporal cortex. Science, 293(5539):2425–2430, September 2001.">HGF+01</a>]</span>). Given a test pattern, the maximum correlation classifier should return the class corresponding to the train patterns that has the highest (Pearson) correlation with the test pattern. Then use it to classify patterns of the eight categories using the <code class="docutils literal notranslate"><span class="pre">glm_t12-perrun_8cond-tstat.nii</span></code> data in the <code class="docutils literal notranslate"><span class="pre">vt</span></code> region. Your solution should start as follows:</p>
+<blockquote>
+<div><div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>pred<span class="p">=</span><span class="nf">my_corr_classify</span><span class="p">(</span>samples_train,targets_train,samples_test,opt<span class="p">)</span>
+<span class="c">% maximum correlation classifier</span>
+<span class="c">%</span>
+<span class="c">%   predicted=my_max_corr_classify(samples_train, targets_train, samples_test[,opt])</span>
+<span class="c">%</span>
+<span class="c">%   Inputs:</span>
+<span class="c">%     samples_train       PxR training data for P samples and R features</span>
+<span class="c">%     targets_train       Px1 training data classes</span>
+<span class="c">%     samples_test        QxR test data</span>
+<span class="c">%     opt                 Optional struct, unused.</span>
+<span class="c">%</span>
+<span class="c">%   Output:</span>
+<span class="c">%     predicted           Qx1 predicted data classes for samples_test. For</span>
+<span class="c">%                         all values of k in the range (1:Q):</span>
+<span class="c">%                           if r is the row for which tr_samples(r,:) shows</span>
+<span class="c">%                           the highest with samples_train(k,:), then</span>
+<span class="c">%                           pred(k)==targets_train(r)</span>
+<span class="c">%</span>
+
+
+<span class="w">    </span><span class="p">[</span><span class="n">nsamples_train</span><span class="p">,</span><span class="w"> </span><span class="n">nfeatures</span><span class="p">]=</span><span class="nb">size</span><span class="p">(</span><span class="n">samples_train</span><span class="p">);</span>
+<span class="w">    </span><span class="p">[</span><span class="n">ntargets</span><span class="p">,</span><span class="w"> </span><span class="n">one_check</span><span class="p">]=</span><span class="nb">size</span><span class="p">(</span><span class="n">targets_train</span><span class="p">);</span>
+<span class="w">    </span><span class="p">[</span><span class="n">nsamples_test</span><span class="p">,</span><span class="w"> </span><span class="n">nfeatures_check</span><span class="p">]=</span><span class="nb">size</span><span class="p">(</span><span class="n">te_samples</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">nsamples_train</span><span class="o">~=</span><span class="n">ntargets</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;Samples (%d) and targets (%d) size mismatch&#39;</span><span class="p">,</span><span class="k">...</span>
+<span class="w">                    </span><span class="n">nsamples_train</span><span class="p">,</span><span class="w"> </span><span class="n">ntargets</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">one_check</span><span class="o">~=</span><span class="mi">1</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;targets must be a column vector&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">nfeatures</span><span class="o">~=</span><span class="n">nfeatures_check</span>
+<span class="w">        </span><span class="nb">error</span><span class="p">(</span><span class="s">&#39;feature count mismatch in train (%d) and test (%d) set&#39;</span><span class="p">,</span><span class="k">...</span>
+<span class="w">                </span><span class="n">nfeatures</span><span class="p">,</span><span class="w"> </span><span class="n">nfeatures_check</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">%%%% Your code comes here %%%%</span>
+</pre></div>
+</div>
+<p>Suggested functions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">corr</span></code> (or <a class="reference internal" href="matlab/cosmo_corr.html#cosmo-corr"><span class="std std-ref">cosmo corr</span></a>)</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><em>Group analysis</em>. Load the same data as in the single subject analysis, but now for each of the five participants. Using the LDA classifier, do a group analysis in areas <code class="docutils literal notranslate"><span class="pre">vt</span></code> and <code class="docutils literal notranslate"><span class="pre">ev</span></code> using a one-sample t-test to estimate how reliable classification accuracies are different from chance level (<code class="docutils literal notranslate"><span class="pre">1/8</span></code>) across the five participants.</p>
+<p>Suggested functions:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ttest</span></code> (or <a class="reference internal" href="matlab/cosmo_stat.html#cosmo-stat"><span class="std std-ref">cosmo stat</span></a>)</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="exercise-3-deadline-23-59-03-may-2016">
+<h3>Exercise 3 - deadline 23:59, 03 May 2016<a class="headerlink" href="#exercise-3-deadline-23-59-03-may-2016" title="Link to this heading">¶</a></h3>
+<p><em>update 30 April 2016: in version 0.1 of the dataset, ``common/brain_mask.nii`` had the value 1 for all voxels. The dataset has been updated to version 0.2. The mask is also available as a separate `nifti mask file &lt;haxby2001-mask_brain.nii&gt;`_</em></p>
+<p>Use the Haxby 2001 GLM dataset (see above) for the following analyses:</p>
+<ul>
+<li><p><em>Classification searchlight</em>. Use an LDA classifier with take-one-out crossvalidation to classify the 8 conditions for participant <code class="docutils literal notranslate"><span class="pre">s01</span></code>. Use the common brain mask in <code class="docutils literal notranslate"><span class="pre">common/mask_brain.nii</span></code> and the data from <code class="docutils literal notranslate"><span class="pre">s01/glm_t12-perrun_8cond-tstat.nii</span></code>; for the searchlight, use a spherical neighborhood with approximately 100 voxels in each searchlight. Show a map with classification accuracies using <a class="reference internal" href="matlab/cosmo_plot_slices.html#cosmo-plot-slices"><span class="std std-ref">cosmo plot slices</span></a>.</p>
+<p>Suggested functions:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="matlab/cosmo_searchlight.html#cosmo-searchlight"><span class="std std-ref">cosmo searchlight</span></a></p></li>
+<li><p><a class="reference internal" href="matlab/cosmo_classify_lda.html#cosmo-classify-lda"><span class="std std-ref">cosmo classify lda</span></a></p></li>
+<li><p><a class="reference internal" href="matlab/cosmo_crossvalidation_measure.html#cosmo-crossvalidation-measure"><span class="std std-ref">cosmo crossvalidation measure</span></a></p></li>
+<li><p><a class="reference internal" href="matlab/cosmo_plot_slices.html#cosmo-plot-slices"><span class="std std-ref">cosmo plot slices</span></a></p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><em>RSA target similarity searchlight measure</em>. Use the behavioural similarity ratings from <code class="docutils literal notranslate"><span class="pre">models/haxby2001_behav.mat</span></code> and the data in <code class="docutils literal notranslate"><span class="pre">glm_t12-average_8cond-tstat.nii</span></code> from participant <code class="docutils literal notranslate"><span class="pre">s01</span></code>. Then run a searchlight to localize regions in the brain where the neural similarity is similar to the behavioural similarity ratings. Show a map with representational similarities using <a class="reference internal" href="matlab/cosmo_plot_slices.html#cosmo-plot-slices"><span class="std std-ref">cosmo plot slices</span></a>.</p>
+<p>Suggested functions:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="matlab/cosmo_searchlight.html#cosmo-searchlight"><span class="std std-ref">cosmo searchlight</span></a></p></li>
+<li><p><a class="reference internal" href="matlab/cosmo_target_dsm_corr_measure.html#cosmo-target-dsm-corr-measure"><span class="std std-ref">cosmo target dsm corr measure</span></a></p></li>
+<li><p><a class="reference internal" href="matlab/cosmo_plot_slices.html#cosmo-plot-slices"><span class="std std-ref">cosmo plot slices</span></a></p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><em>RSA between-participant reliabillity searchlight</em>. Using data from participants <cite>s01</cite> and <cite>s02</cite>, load the <code class="docutils literal notranslate"><span class="pre">glm_t12-average_8cond-tstat.nii</span></code> data from each of the two participants. Then run two searchlights (one for each participant) with about 100 voxels per searchlight: use the <a class="reference internal" href="matlab/cosmo_dissimilarity_matrix_measure.html#cosmo-dissimilarity-matrix-measure"><span class="std std-ref">cosmo dissimilarity matrix measure</span></a> to store the vector form (a vector with the elements of the lower diagonal) of dissimilarity matrices at each voxel location. . Then use a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop over the features (voxels) to compute, for each voxel (i.e. feature, searchlight location), the correlation between the vector form between the two participants. Show a map using <a class="reference internal" href="matlab/cosmo_plot_slices.html#cosmo-plot-slices"><span class="std std-ref">cosmo plot slices</span></a>. (Note: it is not uncommon for this exercise to take 10 minutes, or even longer, to run on a standard PC).</p>
+<p>Suggested functions:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="matlab/cosmo_searchlight.html#cosmo-searchlight"><span class="std std-ref">cosmo searchlight</span></a></p></li>
+<li><p><a class="reference internal" href="matlab/cosmo_dissimilarity_matrix_measure.html#cosmo-dissimilarity-matrix-measure"><span class="std std-ref">cosmo dissimilarity matrix measure</span></a></p></li>
+<li><p><a class="reference internal" href="matlab/cosmo_plot_slices.html#cosmo-plot-slices"><span class="std std-ref">cosmo plot slices</span></a></p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="exercise-4-deadline-23-59-17-may-2016">
+<h3>Exercise 4 - deadline 23:59, 17 May 2016<a class="headerlink" href="#exercise-4-deadline-23-59-17-may-2016" title="Link to this heading">¶</a></h3>
+<ul>
+<li><p>Use the MEG object 6 dataset (see <a class="reference internal" href="download.html#download"><span class="std std-ref">Download instructions</span></a>) to show an animation of the classification confusion matrices over time. Load the <code class="docutils literal notranslate"><span class="pre">meg_obj6_s00.mat</span></code> file, then select data from all trials from the following sensors:</p>
+<blockquote>
+<div><div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">sensors</span><span class="p">={</span><span class="s">&#39;MEG1632&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;MEG1642&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;MEG1732&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;MEG1842&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">         </span><span class="s">&#39;MEG1912&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;MEG1922&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;MEG1942&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;MEG2232&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">         </span><span class="s">&#39;MEG2312&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;MEG2322&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;MEG2342&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;MEG2432&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">         </span><span class="s">&#39;MEG2442&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;MEG2512&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;MEG2532&#39;</span><span class="p">,</span><span class="k">...</span>
+<span class="w">         </span><span class="s">&#39;MEG1633&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;MEG1643&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;MEG1733&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;MEG1843&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">         </span><span class="s">&#39;MEG1913&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;MEG1923&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;MEG1943&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;MEG2233&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">         </span><span class="s">&#39;MEG2313&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;MEG2323&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;MEG2343&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;MEG2433&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">         </span><span class="s">&#39;MEG2443&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;MEG2513&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;MEG2533&#39;</span><span class="p">};</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Re-assign chunks into two values, with approximately an equal amount of trials in each chunk. Define a time neighborhood for each time point with a radius of two time points. Use an odd-even partitioning scheme. Then, for each element (time point) in the neighborhood, use the LDA classifier to compute predictions for each test sample in the balanced partitioning scheme (you can use either a <code class="docutils literal notranslate"><span class="pre">for</span></code>-loop, or the <a class="reference internal" href="matlab/cosmo_searchlight.html#cosmo-searchlight"><span class="std std-ref">cosmo searchlight</span></a> function for this). Using a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop, show the confusion matrices (use <code class="docutils literal notranslate"><span class="pre">drawnow</span></code> to draw a new frame) to see an animation of classification confusion matrices over time. How would you interpret this animation?</p>
+<p>Suggested functions:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="matlab/cosmo_slice.html#cosmo-slice"><span class="std std-ref">cosmo slice</span></a></p></li>
+<li><p><a class="reference internal" href="matlab/cosmo_dim_prune.html#cosmo-dim-prune"><span class="std std-ref">cosmo dim prune</span></a></p></li>
+<li><p><a class="reference internal" href="matlab/cosmo_crossvalidation_measure.html#cosmo-crossvalidation-measure"><span class="std std-ref">cosmo crossvalidation measure</span></a></p></li>
+<li><p><a class="reference internal" href="matlab/cosmo_nfold_partitioner.html#cosmo-nfold-partitioner"><span class="std std-ref">cosmo nfold partitioner</span></a></p></li>
+<li><p><a class="reference internal" href="matlab/cosmo_balance_partitions.html#cosmo-balance-partitions"><span class="std std-ref">cosmo balance partitions</span></a></p></li>
+<li><p><a class="reference internal" href="matlab/cosmo_confusion_matrix.html#cosmo-confusion-matrix"><span class="std std-ref">cosmo confusion matrix</span></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">imagesc</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">drawnow</span></code></p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Use the Haxby 2001 GLM dataset (see above) to run a Naive Bayes classifier with a searchlight analysis with 100 voxels per searchlight, on all 5 subjects using their <code class="docutils literal notranslate"><span class="pre">glm_t12-perrun_8cond-tstat.nii</span></code> files. Use the common mask found in the <code class="docutils literal notranslate"><span class="pre">common</span></code> directory, and for faster execution, use the fast Naive Bayes searchlight and odd-even partitioning scheme. Assign targets and chunks for a second level analysis, then compute two maps. The first is an t-test map against the null hypothesis of chance classification (<code class="docutils literal notranslate"><span class="pre">1/8</span></code>), using <a class="reference internal" href="matlab/cosmo_stat.html#cosmo-stat"><span class="std std-ref">cosmo stat</span></a> (subtract chance level from <code class="docutils literal notranslate"><span class="pre">samples</span></code> first). The second is a Threshold-Free Cluster Enhancement z-score map, corrected for multiple comparisons, using <a class="reference internal" href="matlab/cosmo_montecarlo_cluster_stat.html#cosmo-montecarlo-cluster-stat"><span class="std std-ref">cosmo montecarlo cluster stat</span></a> (make sure to set the <code class="docutils literal notranslate"><span class="pre">h0_mean</span></code> option appropriately, and use <code class="docutils literal notranslate"><span class="pre">500</span></code> iterations). Visualize both maps. Briefly explain how you would interpret the two maps.</p>
+<p>Suggested functions:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="matlab/cosmo_naive_bayes_classifier_searchlight.html#cosmo-naive-bayes-classifier-searchlight"><span class="std std-ref">cosmo naive bayes classifier searchlight</span></a></p></li>
+<li><p><a class="reference internal" href="matlab/cosmo_stat.html#cosmo-stat"><span class="std std-ref">cosmo stat</span></a></p></li>
+<li><p><a class="reference internal" href="matlab/cosmo_stack.html#cosmo-stack"><span class="std std-ref">cosmo stack</span></a></p></li>
+<li><p><a class="reference internal" href="matlab/cosmo_cluster_neighborhood.html#cosmo-cluster-neighborhood"><span class="std std-ref">cosmo cluster neighborhood</span></a></p></li>
+<li><p><a class="reference internal" href="matlab/cosmo_montecarlo_cluster_stat.html#cosmo-montecarlo-cluster-stat"><span class="std std-ref">cosmo montecarlo cluster stat</span></a></p></li>
+<li><p><a class="reference internal" href="matlab/cosmo_plot_slices.html#cosmo-plot-slices"><span class="std std-ref">cosmo plot slices</span></a></p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="meg-exercises-deadline-23-59-15-june-2016">
+<h3>MEG Exercises - deadline 23:59, 15 June 2016<a class="headerlink" href="#meg-exercises-deadline-23-59-15-june-2016" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p><em>Please send your solutions to Christoph Braun</em></p></li>
+<li><p><em>You are asked to complete at least two of the three assignments below to pass the class; for a higher (and maximal) grade you will have to complete all three exercises</em>.</p></li>
+<li><p><em>Hand in your commented code and the results of your analysis. Comment on and interpret your results. Present figures in your report and  mention possible difficulties in your report.</em></p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic">
+<li><p>Time-lock analysis</p>
+<blockquote>
+<div><p>Use the dataset in <code class="docutils literal notranslate"><span class="pre">sub24_block02_TAC.fif</span></code> for the following analysis:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Define trials with a prestimulus interval and a poststimulus interval of 2 s each.</p></li>
+<li><p>Lowpass filter the raw data with a cut-off frequency of 40 Hz.</p></li>
+<li><p>Reject trials and/or channels that show artifacts (use ft_rejectvisual). Comment what you see and how you decided to remove trials/channels. Although magnetometers show higher magnetic activity than gradiometers the amplitudes are lower because the magnetic flux is divided by the distance of the two gradiometer coils. Therefore gradiometer values are 25 times higher than magnetometer values. Using ft_visualreject, set cfg.magscale to 25.</p></li>
+<li><p>Do the time-locked analysis with respect to stimulus presentation for all the different conditions. Plot the evoked responses summarized across all channels for the different conditions. In particular, plot the different stimulation conditions in different subplots. In each subplot, the evoked responses for detected and not-detected stimuli.</p></li>
+<li><p>Plot the topography at different peak latencies. For the different stimuli</p></li>
+</ol>
+</div></blockquote>
+</div></blockquote>
+</li>
+<li><p>Time-frequency analysis</p>
+<blockquote>
+<div><p>Use the dataset in <code class="docutils literal notranslate"><span class="pre">sub24_block02_TAC.fif</span></code> for the following analysis:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Define trials with a prestimulus interval and a poststimulus interval of 2 s each.</p></li>
+<li><p>Lowpass filter the raw data with a cutoff frequency at 40 Hz.</p></li>
+<li><p>Reject trials and/or channels that show artifacts (use ft_rejectvisual). Comment what you see and how you decided to remove trials/channels.</p></li>
+<li><p>Although magnetometers show higher magnetic activity than gradiometers the amplitudes are lower because the magnetic flux is divided by the distance of the two gradiometer coils. Therefore gradiometer values are 25 times higher than magnetometer values. Using ft_visualreject, set cfg.magscale to 25.</p></li>
+<li><p>Perform two different analyses:  first a time-frequency analysis and then a spectral analysis. Focus on the baseline period.</p></li>
+<li><p>Compare detected stimuli versus not-detected stimuli. Since the number of trials is critical for the power make sure that you analyze the same number of trials for both conditions.</p></li>
+</ol>
+</div></blockquote>
+</div></blockquote>
+</li>
+<li><p>Source analysis</p>
+<blockquote>
+<div><p>The zip file <code class="docutils literal notranslate"><span class="pre">02_MPRAGE_GRAPPA3_900.zip</span></code> contains an anatomical MRI of a subject. Use this together with the dataset in <code class="docutils literal notranslate"><span class="pre">sub24_block02_TAC.fif</span></code> for the following analysis:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Load the MRI file and coregister the anatomy to the functional data (either to the timelock-analysis or the timefrequency analysis).</p></li>
+<li><p>Create a headmodel and a sourcemodel (rectangular equally spaced grid)</p></li>
+<li><p>Localize either a condition of the timefrequency analysis or the timelock analysis.</p></li>
+<li><p>Display results overlaid on to the subject’s head.</p></li>
+</ol>
+</div></blockquote>
+<p>Extra task in case you want to do a more challenging task</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Load the MRI file and coregister the anatomy to the functional data (either to the timelock-analysis or the timefrequency analysis).</p></li>
+<li><p>Create a head model for the subject’s MRI</p></li>
+<li><p>Create a equidistant, rectangular sourcemodel in the MNI-template brain (provided by fieldtrip)</p></li>
+<li><p>Warp the template sourcemodel grid to the individual subject’s head.</p></li>
+<li><p>Do the sourcelocalization either oft he timefrequency analysis or the timelock analysis.</p></li>
+<li><p>Display results on the template brain.</p></li>
+</ol>
+</div></blockquote>
+</div></blockquote>
+</li>
+</ol>
+</section>
+</section>
+<section id="faq">
+<h2>FAQ<a class="headerlink" href="#faq" title="Link to this heading">¶</a></h2>
+<ul>
+<li><p>For the assignments, can I use / adapt existing CoSMoMVPA code from the exercises or demonstrations?</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>yes, as long as you indicate that you copied the code from elsewhere, and indicate <em>where</em> you copied it from.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Are there slides available?</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>For part 1 (MVPA) we try to provide all necessary information on the website.</p></li>
+<li><p>For part 2 (MEG), see the <a class="reference external" href="cimec2016_intro_links">links</a> section.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>For assignment 2, I have a sort of “conceptual” doubt with part 2: is the custom classifier supposed to work on a 8x8 correlation matrix?</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>No, the classifier is supposed to correlate every pattern in the training set with every pattern in the test set. Your function should support both training sets and test with multiple samples (rows in <code class="docutils literal notranslate"><span class="pre">samples_train</span></code> and <code class="docutils literal notranslate"><span class="pre">samples_test</span></code>).</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>For assignment 3, all values in the common mask are 1. Is my file corrupt?</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>No, an earlier version of the dataset contained the wrong mask (sorry for that). In version 0.2 (30 April 2016), this has been corrected. As indicated above, the new mask can also be downloaded separately.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>From the Haxby2001 glm dataset, when computing the average for each category in the <code class="docutils literal notranslate"><span class="pre">glm_t12-perrun_8cond-tstat.nii</span></code> file, I get different numbers than the values in <code class="docutils literal notranslate"><span class="pre">glm_t12-average_8cond-tstat.nii</span></code>. How is this possible?</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">glm_t12-perrun_8cond-tstat.nii</span></code> and <code class="docutils literal notranslate"><span class="pre">glm_t12-average_8cond-tstat.nii</span></code> both contain t-test statistics. The t-test statistics are however based on different residuals. In the <code class="docutils literal notranslate"><span class="pre">perrun</span></code> file, residuals are based on each run separately; in the <code class="docutils literal notranslate"><span class="pre">average</span></code> file, residuals are based on all eight runs combined.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>In assignment 3, last part (between-subject reliability), I have an array with two elements, each a dataset corresponding to a subject:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">all_dsm</span><span class="w"> </span><span class="o">=</span>
+
+<span class="w">    </span><span class="o">[</span>1x1<span class="w"> </span>struct<span class="o">]</span><span class="w">    </span><span class="o">[</span>1x1<span class="w"> </span>struct<span class="o">]</span>
+</pre></div>
+</div>
+<p>Then, I compute my correlation for each voxel across these 2 subjects and store the result in a 1 x num_of_voxels array (‘corr’).
+To plot these results, I copy one of the two ds I worked on, and I substitute the .samples with my ‘corr’ array:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">ds_corr</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ds_dsm</span><span class="p">;</span>
+<span class="n">ds_corr</span><span class="p">.</span><span class="n">samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">corr</span><span class="p">;</span>
+
+<span class="n">cosmo_plot_slices</span><span class="p">(</span><span class="n">ds_corr</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>If i do just this, the error is the following:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>Error<span class="w"> </span>using<span class="w"> </span>cosmo_plot_slices<span class="w"> </span><span class="o">(</span>line<span class="w"> </span><span class="m">72</span><span class="o">)</span>
+expected<span class="w"> </span>3D<span class="w"> </span>image<span class="w"> </span>-<span class="w"> </span>did<span class="w"> </span>you<span class="w"> </span><span class="k">select</span><span class="w"> </span>a<span class="w"> </span>single<span class="w"> </span>volume?
+</pre></div>
+</div>
+<p>But if I transpose the targets in my ds_corr, everything works… or at least the image appears and to my ‘naive’ eye seems correct.</p>
+<p>I’m sure I just miss something in the logics of cosmo_plot_slices: could it be that having a 1 x n samples array, if I don’t transpose the targets into an horizontal vector the dimensions simply mismatch, then the code doesn’t work?</p>
+</div></blockquote>
+<ul>
+<li><p>The issue is how you substitud the .samples in the ‘corr’ array. <code class="docutils literal notranslate"><span class="pre">ds_dsm</span></code> has 28 (=8*(8-1)/2) rows (samples), and the samples attributes each must have the same number of rows. One way to deal with this is to do:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">ds_corr</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cosmo_slice</span><span class="p">(</span><span class="n">ds_dsm</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">ds_corr</span><span class="p">.</span><span class="n">samples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">corr</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>to select, in both <code class="docutils literal notranslate"><span class="pre">.samples</span></code> and each field in <code class="docutils literal notranslate"><span class="pre">.sa</span></code>, only the first row.
+The reason why transposing <code class="docutils literal notranslate"><span class="pre">.sa.targets</span></code> works is that it then becomes a <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">x</span> <span class="pre">28</span></code> row vector, and the number of rows (=1) matches the number of rows in the correlation row vector.</p>
+<p>Also note that your use of <code class="docutils literal notranslate"><span class="pre">corr</span></code> as a variable is not recommended, as it is a builtin function in the matlab statistics toolbox. Using the same name for builtin functions and for variables may lead to confusion.</p>
+</li>
+</ul>
+</li>
+<li><p>In assignment 4 (description 9 May 2016), last part (classification with Naive Bayes) I am confused about using  <code class="docutils literal notranslate"><span class="pre">glm_t12-average_8cond-tstat.nii</span></code> (averaged data). How can I used cross-validation using this data?</p>
+<ul class="simple">
+<li><p>Indeed the dataset instructed to use was not compatible with using a cross-validation experiment, which made it difficult if not impossible to do the assignment (sorry for that). Please use  <code class="docutils literal notranslate"><span class="pre">glm_t12-perrun_8cond-tstat.nii</span></code>  (for each participant separately) instead; then run a searchlight with cross-validation for each subject separately. To support students with the confusing instructions, the deadline for this assignment has been extended for a week.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="schedule">
+<h2>Schedule<a class="headerlink" href="#schedule" title="Link to this heading">¶</a></h2>
+<p>Location: Pallazina Fedrigotti, computer room at the ground floor.</p>
+<p>6 Apr - 2 May: taught by Nikolaas Oosterhof, James Haxby
+4 Apr - 13 May: taught by Christoph Braun</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Date</p></th>
+<th class="head"><p>Time</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>We  6 Apr</p></td>
+<td><p>09:00-10:45</p></td>
+<td><p>General intro: Get your computer ready to run CoSMoMVPA and use the tutorial dataset</p></td>
+</tr>
+<tr class="row-odd"><td><p>Th  7 Apr</p></td>
+<td><p>14:00-15:45</p></td>
+<td><p>Practical exercises: Basic dataset operations</p></td>
+</tr>
+<tr class="row-even"><td><p>Fr  8 Apr</p></td>
+<td><p>14:00-15:45</p></td>
+<td><p>Practical exercises: Basic dataset operations, split-half correlation analysis</p></td>
+</tr>
+<tr class="row-odd"><td><p>We 13 Apr</p></td>
+<td><p>09:00-10:45</p></td>
+<td><p>Practical exercises: Split-half correlation analysis</p></td>
+</tr>
+<tr class="row-even"><td><p>Th 14 Apr</p></td>
+<td><p>14:00-15:45</p></td>
+<td><p>Practical exercises: Split-half correlation analysis, single-fold classification</p></td>
+</tr>
+<tr class="row-odd"><td><p>Fr 15 Apr</p></td>
+<td><p>14:00-15:45</p></td>
+<td><p>Practical exercises: Classification with cross-validation</p></td>
+</tr>
+<tr class="row-even"><td><p>We 20 Apr</p></td>
+<td><p>09:00-10:45</p></td>
+<td><p>Practical exercises: Measures, neighborhoods, searchlight</p></td>
+</tr>
+<tr class="row-odd"><td><p>Th 21 Apr</p></td>
+<td><p>14:00-15:45</p></td>
+<td><p>Practical exercises: Basic RSA</p></td>
+</tr>
+<tr class="row-even"><td><p>Fr 22 Apr</p></td>
+<td><p>14:00-15:45</p></td>
+<td><p>Practical exercises: Basic RSA, searchlight RSA</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tu 26 Apr</p></td>
+<td><p>14:00-15:45</p></td>
+<td><p>Practical exercises: searchlight RSA, MEEG basics, classification</p></td>
+</tr>
+<tr class="row-even"><td><p>We 27 Apr</p></td>
+<td><p>09:00-10:45</p></td>
+<td><p>Practical exercises: MEEG searchlight, MEEG time generalization</p></td>
+</tr>
+<tr class="row-odd"><td><p>Mo  2 May</p></td>
+<td><p>14:00-15:45</p></td>
+<td><p>Practical exercises: MEEG time generalization, multiple comparison correction; Concluding remarks</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>We  4 May</p></td>
+<td><p>09:00-10:45</p></td>
+<td><p>Trigger, Segmentation, Filtering</p></td>
+</tr>
+<tr class="row-even"><td><p>Th  5 May</p></td>
+<td><p>14:00-15:45</p></td>
+<td><p>Artifact rejection, Time locked analysis</p></td>
+</tr>
+<tr class="row-odd"><td><p>Fr  6 May</p></td>
+<td><p>14:00-15:45</p></td>
+<td><p>Time frequency analysis</p></td>
+</tr>
+<tr class="row-even"><td><p>We 11 May</p></td>
+<td><p>09:00-10:45</p></td>
+<td><p>Functional connectivity</p></td>
+</tr>
+<tr class="row-odd"><td><p>Th 12 May</p></td>
+<td><p>14:00-15:45</p></td>
+<td><p>Preparation of source localization</p></td>
+</tr>
+<tr class="row-even"><td><p>Fr 13 May</p></td>
+<td><p>14:00-15:45</p></td>
+<td><p>Source localization, review</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="contact">
+<h2>Contact<a class="headerlink" href="#contact" title="Link to this heading">¶</a></h2>
+<p>Please send an email to a&#64;d, b&#64;d, or c&#64;e, a=nikolaas.oosterhof, b=james.haxby, c=christoph.braun, d=unitn.it, e=uni-tuebingen.de.</p>
+<p><a class="reference internal" href="cimec2016.html#cimec2016"><span class="std std-ref">Back to index</span></a></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/cosmomvpa_logo.png" alt="Logo of CoSMo Multivariate Pattern Analysis toolbox"/>
+            </a></p>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Introduction</a><ul>
+<li><a class="reference internal" href="#parts">Parts</a></li>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#goals-of-the-fmri-mvpa-part-of-the-course">Goals of the fMRI / MVPA part of the course</a><ul>
+<li><a class="reference internal" href="#not-covered-in-this-course">Not covered in this course</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sample-datasets">Sample Datasets</a><ul>
+<li><a class="reference internal" href="#ak6-dataset">AK6 dataset</a></li>
+<li><a class="reference internal" href="#haxby2001-dataset">Haxby2001 dataset</a></li>
+<li><a class="reference internal" href="#meg-obj6-dataset">MEG obj6 dataset</a></li>
+<li><a class="reference internal" href="#meg-tac-dataset-with-anatomical-scan">MEG TAC dataset with anatomical scan</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#links">Links</a></li>
+<li><a class="reference internal" href="#assignments">Assignments</a><ul>
+<li><a class="reference internal" href="#preparation">Preparation</a></li>
+<li><a class="reference internal" href="#format">Format</a></li>
+<li><a class="reference internal" href="#assignments-must-be-your-own-work">Assignments must be your own work</a></li>
+<li><a class="reference internal" href="#exercise-1-deadline-23-59-19-april-2016">Exercise 1 - deadline 23:59, 19 April 2016</a></li>
+<li><a class="reference internal" href="#exercise-2-deadline-23-59-26-april-2016">Exercise 2 - deadline 23:59, 26 April 2016</a></li>
+<li><a class="reference internal" href="#exercise-3-deadline-23-59-03-may-2016">Exercise 3 - deadline 23:59, 03 May 2016</a></li>
+<li><a class="reference internal" href="#exercise-4-deadline-23-59-17-may-2016">Exercise 4 - deadline 23:59, 17 May 2016</a></li>
+<li><a class="reference internal" href="#meg-exercises-deadline-23-59-15-june-2016">MEG Exercises - deadline 23:59, 15 June 2016</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#faq">FAQ</a></li>
+<li><a class="reference internal" href="#schedule">Schedule</a></li>
+<li><a class="reference internal" href="#contact">Contact</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="cimec2016.html"
+                          title="previous chapter">CIMeC hands-on methods course, part 1 (6 April-2 May 2016)</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cimec2016_ex_toc.html"
+                          title="next chapter">Exercises</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/cimec2016_intro.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cimec2016_ex_toc.html" title="Exercises"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cimec2016.html" title="CIMeC hands-on methods course, part 1 (6 April-2 May 2016)"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CoSMoMVPA</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="documentation.html" >Documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="cimec2016.html" >CIMeC hands-on methods course, part 1 (6 April-2 May 2016)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Introduction</a></li> 
+      </ul>
+    </div>
+      <div class="footer">
+       <span class="creativecommons">
+          <a href="http://opensource.org/licenses/MIT" >
+          <img src="_static/mit-license_logo.png"
+               border="0" alt="Creative Commons License"/>
+         </a> 
+         
+        <a href="copyright.html">Copyright 2013-2021 Nikolaas N. Oosterhof, Andrew C. Connolly, CoSMoMVPA contributors</a>.
+        CoSMoMVPA is licensed under an <a href="http://opensource.org/licenses/MIT">Expat (MIT) License</a>.
+       </span>
+      </div>
+  </body>
+</html>

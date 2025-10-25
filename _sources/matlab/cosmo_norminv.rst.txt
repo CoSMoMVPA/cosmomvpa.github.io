@@ -1,0 +1,7 @@
+.. _cosmo_norminv:
+
+cosmo norminv
+=============
+
+.. include :: cosmo_norminv.txt
+

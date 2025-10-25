@@ -1,0 +1,7 @@
+.. _test_tiedrank:
+
+test tiedrank
+=============
+
+.. include :: test_tiedrank.txt
+

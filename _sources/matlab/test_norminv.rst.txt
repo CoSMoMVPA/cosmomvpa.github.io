@@ -1,0 +1,7 @@
+.. _test_norminv:
+
+test norminv
+============
+
+.. include :: test_norminv.txt
+
